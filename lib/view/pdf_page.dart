@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/api/multipart_api.dart';
+import 'package:resume_critiquer_app/model/file_upload_response.dart';
 
 class PDFUploadPage extends StatefulWidget {
   const PDFUploadPage({super.key});
@@ -14,6 +15,7 @@ class PDFUploadPage extends StatefulWidget {
 class _PDFUploadPageState extends State<PDFUploadPage> {
   bool isFileUploaded = false;
   PlatformFile? file;
+  FileUploadResponse response = FileUploadResponse(message: '');
 
   void _fileUploader() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -24,18 +26,19 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
     if (result != null) {
       isFileUploaded = true;
       file = result.files.first;
+      setState(() {});
     } else {
       isFileUploaded = false;
     }
-    setState(() {});
   }
 
-  void _submitResume() {
+  void _submitResume() async {
     if (isFileUploaded) {
-      MultipartApi().fileUploadMultipart(
+      response = await MultipartApi().fileUploadMultipart(
         file: File(file!.path!),
         jobTtile: 'Sample Job Title',
       );
+      setState(() {});
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please upload a PDF file before submitting.')),
@@ -55,6 +58,8 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
           Text('No File Uploaded Yet! Try Again.'),
 
         TextButton(onPressed: _submitResume, child: Text('Submit')),
+
+        Text('Response: ${response.message}'),
       ],
     );
   }
