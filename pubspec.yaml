@@ -15,7 +15,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   json_annotation: ^4.9.0
   build_runner: ^2.5.4
-  syncfusion_flutter_gauges: ^31.1.19
+  syncfusion_flutter_charts: ^31.1.19
 
 dev_dependencies:
   flutter_test:
