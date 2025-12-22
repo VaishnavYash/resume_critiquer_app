@@ -2,7 +2,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/api/multipart_api.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/view/test.dart';
 import 'package:resume_critiquer_app/view/widget/ats_score_widget.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class PDFUploadPage extends StatefulWidget {
   const PDFUploadPage({super.key});
@@ -77,7 +79,8 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
             TextButton(onPressed: _submitResume, child: Text('Submit')),
 
             Divider(),
-            AtsScoreWidget(atsScore: response.atsScore ?? 0),
+            AtsScoreWidget(atsScore: response.atsScore?.toDouble() ?? 0.0),
+
             // ListView.builder(
             //   itemBuilder: (context, index) {
             //     return ListTile(title: Text(data[index]));
