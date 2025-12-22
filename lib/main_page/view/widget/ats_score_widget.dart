@@ -12,12 +12,19 @@ class ChartData {
 }
 
 class AtsScoreWidget extends StatelessWidget {
-  const AtsScoreWidget({this.atsScore, super.key});
+  const AtsScoreWidget({required this.atsScore, super.key});
 
-  final double? atsScore;
+  final double atsScore;
 
   @override
   Widget build(BuildContext context) {
+    var colorCode = Colors.red;
+    if (atsScore >= 80) {
+      colorCode = Colors.green;
+    } else if (atsScore >= 60) {
+      colorCode = Colors.amber;
+    }
+
     return SfRadialGauge(
       axes: [
         RadialAxis(
@@ -28,7 +35,7 @@ class AtsScoreWidget extends StatelessWidget {
           startAngle: 180,
           pointers: [
             MarkerPointer(
-              value: atsScore ?? 0,
+              value: atsScore,
               markerType: MarkerType.invertedTriangle,
               color: const Color.fromARGB(255, 215, 86, 35),
               markerHeight: 20.0.dp,
@@ -41,14 +48,15 @@ class AtsScoreWidget extends StatelessWidget {
               animationType: AnimationType.ease,
             ),
           ],
-          
+
           canScaleToFit: true,
           annotations: [
             GaugeAnnotation(
               widget: TextWidget(
-                text: atsScore == null ? '0' : atsScore!.toStringAsFixed(1),
+                text: atsScore.toStringAsFixed(1),
                 fontWeight: FontWeight.bold,
-                size: 100.0.sp,
+                size: 28.0.sp,
+                color: colorCode,
               ),
             ),
             GaugeAnnotation(
@@ -57,11 +65,12 @@ class AtsScoreWidget extends StatelessWidget {
               widget: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 24.0.dp),
+                  SizedBox(height: 18.0.dp),
                   TextWidget(
                     text: '0',
-                    size: 60.0.sp,
+                    size: 16.0.sp,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ],
               ),
@@ -72,11 +81,12 @@ class AtsScoreWidget extends StatelessWidget {
               widget: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 24.0.dp),
+                  SizedBox(height: 18.0.dp),
                   TextWidget(
                     text: '100',
-                    size: 60.0.sp,
+                    size: 16.0.sp,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ],
               ),

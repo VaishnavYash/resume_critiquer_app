@@ -1,10 +1,11 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/framework/constants/color.dart';
+import 'package:resume_critiquer_app/framework/digital/sizer.dart';
+import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
-import 'package:resume_critiquer_app/main_page/view/test.dart';
 import 'package:resume_critiquer_app/main_page/view/widget/ats_score_widget.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class PDFUploadPage extends StatefulWidget {
   const PDFUploadPage({super.key});
@@ -64,32 +65,47 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
     setState(() {});
   }
 
-  // ChartData(this.category, this.value, this.color);
-
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('PDF Upload Page'),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text('PDF Upload Page'),
 
-            TextButton(onPressed: _submitResume, child: Text('Submit')),
+          TextButton(onPressed: _submitResume, child: Text('Submit')),
 
-            Divider(),
-            AtsScoreWidget(atsScore: response.atsScore?.toDouble() ?? 0.0),
+          Divider(),
+          SizedBox(
+            width: 300.0.dp,
+            height: 300.0.dp,
+            child: AtsScoreWidget(
+              atsScore: response.atsScore?.toDouble() ?? 0.0,
+            ),
+          ),
 
-            // ListView.builder(
-            //   itemBuilder: (context, index) {
-            //     return ListTile(title: Text(data[index]));
-            //   },
-            //   itemCount: data.length,
-            //   shrinkWrap: true,
-            // ),
-          ],
-        ),
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width,
+            child: Card(
+              elevation: 3.5,
+              margin: EdgeInsets.symmetric(horizontal: 40.0.dp),
+              child: Column(
+                children: [
+                  TextWidget(
+                    text: 'Resume Summary:',
+                    color: CustomColors.mainTextColor,
+                    size: 25.0.sp,
+                  ),
+                  TextWidget(
+                    text: 'Resume Summary:',
+                    color: CustomColors.mainTextColor,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

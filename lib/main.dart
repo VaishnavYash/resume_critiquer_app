@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/framework/constants/color.dart';
 import 'package:resume_critiquer_app/framework/digital/device.dart';
 import 'package:resume_critiquer_app/main_page/view/pdf_page.dart';
 
@@ -11,8 +12,13 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Device.init(context);
-    return const MaterialApp(
-      home: Scaffold(body: SafeArea(child: PDFUploadPage())),
+    return MaterialApp(
+      // color: CustomColors.blue01,
+      darkTheme: ThemeData.dark(),
+      home: Scaffold(
+        body: SafeArea(child: PDFUploadPage()),
+        backgroundColor: CustomColors.mainBackgroundColor161513,
+      ),
     );
   }
 }
