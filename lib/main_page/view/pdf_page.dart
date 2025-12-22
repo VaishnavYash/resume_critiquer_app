@@ -1,9 +1,9 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/api/multipart_api.dart';
+import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
-import 'package:resume_critiquer_app/view/test.dart';
-import 'package:resume_critiquer_app/view/widget/ats_score_widget.dart';
+import 'package:resume_critiquer_app/main_page/view/test.dart';
+import 'package:resume_critiquer_app/main_page/view/widget/ats_score_widget.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class PDFUploadPage extends StatefulWidget {

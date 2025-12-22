@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/framework/digital/sizer.dart';
+import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class ChartData {
@@ -29,8 +31,8 @@ class AtsScoreWidget extends StatelessWidget {
               value: atsScore ?? 0,
               markerType: MarkerType.invertedTriangle,
               color: const Color.fromARGB(255, 215, 86, 35),
-              markerHeight: 20,
-              markerWidth: 15,
+              markerHeight: 20.0.dp,
+              markerWidth: 15.0.dp,
               elevation: 10,
               borderColor: Colors.white,
               animationDuration: 3000,
@@ -39,21 +41,14 @@ class AtsScoreWidget extends StatelessWidget {
               animationType: AnimationType.ease,
             ),
           ],
-
-          onLabelCreated: (value) {
-            value.text = '200%';
-            value.labelStyle = GaugeTextStyle(
-              fontSize: 12,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            );
-          },
+          
           canScaleToFit: true,
           annotations: [
             GaugeAnnotation(
-              widget: Text(
-                atsScore == null ? '0' : atsScore!.toStringAsFixed(1),
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              widget: TextWidget(
+                text: atsScore == null ? '0' : atsScore!.toStringAsFixed(1),
+                fontWeight: FontWeight.bold,
+                size: 100.0.sp,
               ),
             ),
             GaugeAnnotation(
@@ -62,10 +57,11 @@ class AtsScoreWidget extends StatelessWidget {
               widget: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 24),
-                  Text(
-                    '0',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  SizedBox(height: 24.0.dp),
+                  TextWidget(
+                    text: '0',
+                    size: 60.0.sp,
+                    fontWeight: FontWeight.bold,
                   ),
                 ],
               ),
@@ -76,10 +72,11 @@ class AtsScoreWidget extends StatelessWidget {
               widget: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 24),
-                  Text(
-                    '100',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  SizedBox(height: 24.0.dp),
+                  TextWidget(
+                    text: '100',
+                    size: 60.0.sp,
+                    fontWeight: FontWeight.bold,
                   ),
                 ],
               ),
@@ -102,11 +99,6 @@ class AtsScoreWidget extends StatelessWidget {
           ),
         ),
       ],
-      title: GaugeTitle(
-        text: 'ATS Score',
-        textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-
       enableLoadingAnimation: true,
       animationDuration: 1500,
     );
