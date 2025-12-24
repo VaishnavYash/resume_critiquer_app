@@ -1,9 +1,8 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/framework/constants/color.dart';
 import 'package:resume_critiquer_app/framework/digital/sizer.dart';
-import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
+import 'package:resume_critiquer_app/main_page/view/widget/type_one_card_widget.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
 import 'package:resume_critiquer_app/main_page/view/widget/ats_score_widget.dart';
 
@@ -67,6 +66,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = ScrollController();
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -84,27 +84,37 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
               atsScore: response.atsScore?.toDouble() ?? 0.0,
             ),
           ),
-
-          SizedBox(
-            width: MediaQuery.sizeOf(context).width,
-            child: Card(
-              elevation: 3.5,
-              margin: EdgeInsets.symmetric(horizontal: 40.0.dp),
-              child: Column(
-                children: [
-                  TextWidget(
-                    text: 'Resume Summary:',
-                    color: CustomColors.mainTextColor,
-                    size: 25.0.sp,
-                  ),
-                  TextWidget(
-                    text: 'Resume Summary:',
-                    color: CustomColors.mainTextColor,
-                  ),
-                ],
-              ),
+          if (response.analysis?.isNotEmpty ?? false)
+            TypeOneCardWidget(
+              // title: response.analysis!.first.entries.first.key ?? '',
+              data: response.analysis!.entries.first,
             ),
-          ),
+            
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
+          Text('PDF Upload Page'),
         ],
       ),
     );

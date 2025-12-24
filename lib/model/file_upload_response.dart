@@ -7,7 +7,7 @@ class FileUploadResponse {
   @JsonKey(name: 'ats_score')
   int? atsScore;
   String? summary;
-  List<Map<String, dynamic>>? analysis;
+  Map<String, Map<String, List<String>>>? analysis;
   FileUploadResponse({this.atsScore, this.summary, this.analysis});
 
   factory FileUploadResponse.fromJson(Map<String, dynamic> json) =>

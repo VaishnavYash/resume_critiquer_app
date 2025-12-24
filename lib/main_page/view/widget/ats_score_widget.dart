@@ -54,9 +54,11 @@ class AtsScoreWidget extends StatelessWidget {
             GaugeAnnotation(
               widget: TextWidget(
                 text: atsScore.toStringAsFixed(1),
-                fontWeight: FontWeight.bold,
-                size: 28.0.sp,
-                color: colorCode,
+                style: TextStyle().copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28.0.sp,
+                  color: colorCode,
+                ),
               ),
             ),
             GaugeAnnotation(
@@ -68,9 +70,11 @@ class AtsScoreWidget extends StatelessWidget {
                   SizedBox(height: 18.0.dp),
                   TextWidget(
                     text: '0',
-                    size: 16.0.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    style: TextStyle().copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0.sp,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -84,9 +88,11 @@ class AtsScoreWidget extends StatelessWidget {
                   SizedBox(height: 18.0.dp),
                   TextWidget(
                     text: '100',
-                    size: 16.0.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    style: TextStyle().copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0.sp,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),

@@ -3,10 +3,7 @@ import 'package:resume_critiquer_app/framework/widgets/icon_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/framework/digital/sizer.dart';
 
-enum TextFieldTheme {
-  light,
-  dark,
-}
+enum TextFieldTheme { light, dark }
 
 class TextFieldWidget extends StatelessWidget {
   final String label;
@@ -63,107 +60,100 @@ class TextFieldWidget extends StatelessWidget {
   }
 
   Widget _lightThemeField() => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextWidget(
-            text: label,
-            size: labelSize ?? 16.0.sp,
-            fontWeight: FontWeight.bold,
-            color: labelColor ?? Colors.white,
-            highlightColor: highlightColor,
-            highlightWords: highlightWords,
-            highlightFontWeight: highlightFontWeight,
-          ),
-          SizedBox(height: 10.0.dp),
-          Container(
-            padding: EdgeInsets.only(right: 20.0.dp),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
-              color: bgColor,
-            ),
-            child: TextFormField(
-              maxLength: maxLength,
-              controller: controller,
-              keyboardType: keyboardType,
-              style: TextStyle(color: fieldTextColor ?? Colors.black),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: bgColor,
-                prefixIcon: (prefixSize != null && prefixIcon != null)
-                    ? IconWidget(
-                        path: prefixIcon!,
-                        size: prefixSize!,
-                      )
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      TextWidget(
+        text: label,
+        style: TextStyle().copyWith(
+          fontSize: labelSize,
+          fontWeight: FontWeight.bold,
+          color: labelColor,
+        ),
+        highlightColor: highlightColor,
+        highlightWords: highlightWords,
+        highlightFontWeight: highlightFontWeight,
+      ),
+      SizedBox(height: 10.0.dp),
+      Container(
+        padding: EdgeInsets.only(right: 20.0.dp),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
+          color: bgColor,
+        ),
+        child: TextFormField(
+          maxLength: maxLength,
+          controller: controller,
+          keyboardType: keyboardType,
+          style: TextStyle(color: fieldTextColor ?? Colors.black),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: bgColor,
+            prefixIcon:
+                (prefixSize != null && prefixIcon != null)
+                    ? IconWidget(path: prefixIcon!, size: prefixSize!)
                     : null,
-                hintText: hintText,
-                hintStyle: TextStyle(
-                  color: hintColor,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(radius ?? 15.0.sp),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              validator: validator,
+            hintText: hintText,
+            hintStyle: TextStyle(color: hintColor),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
+              borderSide: BorderSide.none,
             ),
           ),
-        ],
-      );
+          validator: validator,
+        ),
+      ),
+    ],
+  );
 
   Widget _darkThemeField() => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextWidget(
-            text: label,
-            size: labelSize ?? 16.0.sp,
-            fontWeight: FontWeight.bold,
-            color: labelColor,
-          ),
-          SizedBox(height: 10.0.dp),
-          Container(
-            padding: EdgeInsets.only(right: 20.0.dp),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
-              color: bgColor,
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: controller,
-                    keyboardType: keyboardType,
-                    style: TextStyle(
-                      color: fieldTextColor ,
-                    ),
-                    maxLength: maxLength,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor:
-                          bgColor,
-                      hintText: hintText,
-                      hintStyle: TextStyle(
-                        color: hintColor ,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius:
-                            BorderRadius.circular(radius ?? 15.0.sp),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    validator: validator,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      TextWidget(
+        text: label,
+        style: TextStyle().copyWith(
+          fontSize: labelSize,
+          fontWeight: FontWeight.bold,
+          color: labelColor,
+        ),
+      ),
+      SizedBox(height: 10.0.dp),
+      Container(
+        padding: EdgeInsets.only(right: 20.0.dp),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
+          color: bgColor,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
+                controller: controller,
+                keyboardType: keyboardType,
+                style: TextStyle(color: fieldTextColor),
+                maxLength: maxLength,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: bgColor,
+                  hintText: hintText,
+                  hintStyle: TextStyle(color: hintColor),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
+                    borderSide: BorderSide.none,
                   ),
                 ),
-                if (prefixIcon != null) _prefixIconWidget(),
-              ],
+                validator: validator,
+              ),
             ),
-          ),
-        ],
-      );
+            if (prefixIcon != null) _prefixIconWidget(),
+          ],
+        ),
+      ),
+    ],
+  );
 
   Widget _prefixIconWidget() => IconWidget(
-        path: prefixIcon!,
-        size: prefixSize ?? 20.0.sp,
-        color: prefixIconColor,
-      );
+    path: prefixIcon!,
+    size: prefixSize ?? 20.0.sp,
+    color: prefixIconColor,
+  );
 }

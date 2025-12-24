@@ -8,12 +8,19 @@ part of 'file_upload_response.dart';
 
 FileUploadResponse _$FileUploadResponseFromJson(Map<String, dynamic> json) =>
     FileUploadResponse(
-      atsScore: json['ats_score'] as int?,
+      atsScore: (json['ats_score'] as num?)?.toInt(),
       summary: json['summary'] as String?,
-      analysis:
-          (json['analysis'] as List<dynamic>?)
-              ?.map((e) => e as Map<String, dynamic>)
-              .toList(),
+      analysis: (json['analysis'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(
+          k,
+          (e as Map<String, dynamic>).map(
+            (k, e) => MapEntry(
+              k,
+              (e as List<dynamic>).map((e) => e as String).toList(),
+            ),
+          ),
+        ),
+      ),
     );
 
 Map<String, dynamic> _$FileUploadResponseToJson(FileUploadResponse instance) =>

@@ -57,7 +57,10 @@ class _NormalTextFieldWidgetState extends State<NormalTextFieldWidget> {
         fillColor: widget.bgColor,
         label:
             widget.label != null
-                ? TextWidget(text: widget.label!, color: widget.fieldTextColor)
+                ? TextWidget(
+                  text: widget.label!,
+                  style: TextStyle().copyWith(color: widget.fieldTextColor),
+                )
                 : null,
         hintText: widget.hintText,
         hintStyle: TextStyle(
