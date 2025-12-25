@@ -73,9 +73,9 @@ class TextFieldWidget extends StatelessWidget {
         highlightWords: highlightWords,
         highlightFontWeight: highlightFontWeight,
       ),
-      SizedBox(height: 10.0.dp),
+      SizedBox(height: 10),
       Container(
-        padding: EdgeInsets.only(right: 20.0.dp),
+        padding: EdgeInsets.only(right: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
           color: bgColor,
@@ -116,9 +116,9 @@ class TextFieldWidget extends StatelessWidget {
           color: labelColor,
         ),
       ),
-      SizedBox(height: 10.0.dp),
+      SizedBox(height: 10),
       Container(
-        padding: EdgeInsets.only(right: 20.0.dp),
+        padding: EdgeInsets.only(right: 20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
           color: bgColor,

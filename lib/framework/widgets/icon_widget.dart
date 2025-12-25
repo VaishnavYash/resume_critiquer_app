@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/framework/digital/sizer.dart';
 
 class IconWidget extends StatelessWidget {
   const IconWidget({
@@ -19,8 +18,8 @@ class IconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        height: size ?? 24.0.dp,
-        width: size ?? 24.0.dp,
+        height: size ?? 24,
+        width: size ?? 24,
         child: Image.asset(
                 path,
                 fit: fit ?? BoxFit.cover,

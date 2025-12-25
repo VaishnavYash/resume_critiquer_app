@@ -22,13 +22,16 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
   final titles = <Widget>[];
   final postTapWidget = <Widget>[];
 
-  TextWidget _getTitleWidget(final String value) => TextWidget(
-    text: value,
-    style: Theme.of(context).textTheme.displaySmall?.copyWith(
-      fontWeight: FontWeight.bold,
-      color: _color.primary,
+  Widget _getTitleWidget(final String value) => Padding(
+    padding: EdgeInsets.all(8.0),
+    child: TextWidget(
+      text: value,
+      style: Theme.of(context).textTheme.displaySmall?.copyWith(
+        fontWeight: FontWeight.bold,
+        color: _color.primary,
+      ),
+      alignment: TextAlign.center,
     ),
-    alignment: TextAlign.center,
   );
 
   void _organizeData() {
@@ -55,7 +58,7 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
     _color = Theme.of(context).colorScheme;
     _organizeData();
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0.dp),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +71,7 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
           Column(
             children: [
               SizedBox(
-                height: 400.0.dp,
+                height: 400,
                 child: VerticalCardPager(
                   width: MediaQuery.sizeOf(context).width,
                   titles: titles,

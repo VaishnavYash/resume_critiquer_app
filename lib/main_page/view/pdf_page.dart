@@ -77,8 +77,8 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
 
           Divider(),
           SizedBox(
-            width: 300.0.dp,
-            height: 300.0.dp,
+            width: 300,
+            height: 300,
             child: AtsScoreWidget(
               atsScore: response.atsScore?.toDouble() ?? 0.0,
             ),

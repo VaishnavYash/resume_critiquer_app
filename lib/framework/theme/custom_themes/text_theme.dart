@@ -1,130 +1,132 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:resume_critiquer_app/framework/digital/sizer.dart';
 
 class ThTextTheme {
   static TextTheme temp = GoogleFonts.robotoMonoTextTheme();
 
   static TextTheme lightTextTheme = GoogleFonts.robotoMonoTextTheme(
-    const TextTheme(
+    TextTheme(
       displayLarge: TextStyle(
-        fontSize: 34,
+        fontSize: 34.0.sp,
         fontWeight: FontWeight.w700,
-        color: Color(0xFF0F172A), // Slate-900
+        color: Color(0xFF0F172A),
       ),
       displayMedium: TextStyle(
-        fontSize: 28,
+        fontSize: 28.0.sp,
         fontWeight: FontWeight.w600,
         color: Color(0xFF0F172A),
       ),
       displaySmall: TextStyle(
-        fontSize: 24,
+        fontSize: 24.0.sp,
         fontWeight: FontWeight.w600,
         color: Color(0xFF1E293B),
       ),
 
       headlineLarge: TextStyle(
-        fontSize: 22,
+        fontSize: 22.0.sp,
         fontWeight: FontWeight.w600,
         color: Color(0xFF1E293B),
       ),
       headlineMedium: TextStyle(
-        fontSize: 20,
+        fontSize: 20.0.sp,
         fontWeight: FontWeight.w500,
         color: Color(0xFF334155),
       ),
 
       titleLarge: TextStyle(
-        fontSize: 18,
+        fontSize: 18.0.sp,
         fontWeight: FontWeight.w600,
         color: Color(0xFF334155),
       ),
       titleMedium: TextStyle(
-        fontSize: 16,
+        fontSize: 16.0.sp,
         fontWeight: FontWeight.w500,
         color: Color(0xFF475569),
       ),
 
       bodyLarge: TextStyle(
-        fontSize: 16,
+        fontSize: 16.0.sp,
         fontWeight: FontWeight.w400,
         color: Color(0xFF475569),
       ),
       bodyMedium: TextStyle(
-        fontSize: 14,
+        fontSize: 14.0.sp,
         fontWeight: FontWeight.w400,
         color: Color(0xFF64748B),
       ),
 
       labelLarge: TextStyle(
-        fontSize: 14,
+        fontSize: 14.0.sp,
         fontWeight: FontWeight.w600,
-        color: Color(0xFF2563EB), // Seed blue
+        color: Color(0xFF2563EB),
       ),
       labelSmall: TextStyle(
-        fontSize: 12,
+        fontSize: 12.0.sp,
         fontWeight: FontWeight.w400,
         color: Color(0xFF94A3B8),
       ),
     ),
   );
+
   static TextTheme darkTextTheme = GoogleFonts.robotoMonoTextTheme(
-    const TextTheme().copyWith(
+    TextTheme().copyWith(
       displayLarge: TextStyle(
-        fontSize: 34,
+        fontSize: 34.0.sp,
         fontWeight: FontWeight.w700,
         color: Color(0xFFF8FAFC),
       ),
       displayMedium: TextStyle(
-        fontSize: 28,
+        fontSize: 28.0.sp,
         fontWeight: FontWeight.w600,
         color: Color(0xFFF8FAFC),
       ),
       displaySmall: TextStyle(
-        fontSize: 24,
+        fontSize: 24.0.sp,
         fontWeight: FontWeight.w600,
         color: Color(0xFFE2E8F0),
       ),
 
       headlineLarge: TextStyle(
-        fontSize: 22,
+        fontSize: 22.0.sp,
         fontWeight: FontWeight.w600,
         color: Color(0xFFE2E8F0),
       ),
       headlineMedium: TextStyle(
-        fontSize: 20,
+        fontSize: 20.0.sp,
         fontWeight: FontWeight.w500,
         color: Color(0xFFCBD5E1),
       ),
 
       titleLarge: TextStyle(
-        fontSize: 18,
+        fontSize: 18.0.sp,
         fontWeight: FontWeight.w600,
         color: Color(0xFFCBD5E1),
       ),
       titleMedium: TextStyle(
-        fontSize: 16,
+        fontSize: 16.0.sp,
         fontWeight: FontWeight.w500,
         color: Color(0xFF94A3B8),
       ),
 
       bodyLarge: TextStyle(
-        fontSize: 16,
+        fontSize: 16.0.sp,
         fontWeight: FontWeight.w400,
         color: Color(0xFF94A3B8),
       ),
       bodyMedium: TextStyle(
-        fontSize: 14,
+        fontSize: 14.0.sp,
         fontWeight: FontWeight.w400,
         color: Color(0xFF64748B),
       ),
 
       labelLarge: TextStyle(
-        fontSize: 14,
+        fontSize: 14.0.sp,
         fontWeight: FontWeight.w600,
-        color: Color(0xFF60A5FA), // Softer blue for dark
+        color: Color(0xFF60A5FA),
       ),
       labelSmall: TextStyle(
-        fontSize: 12,
+        fontSize: 12.0.sp,
         fontWeight: FontWeight.w400,
         color: Color(0xFF64748B),
       ),

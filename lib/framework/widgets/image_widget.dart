@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/framework/digital/sizer.dart';
 
 class ImageWidget extends StatelessWidget {
   const ImageWidget({
@@ -22,7 +21,7 @@ class ImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(radius ?? 0.0.dp),
+      borderRadius: BorderRadius.circular(radius ?? 0.0),
       child: Image.asset(
         height: height,
         width: width,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/constants/enums.dart';
-import 'package:resume_critiquer_app/framework/digital/sizer.dart';
 
 class NormalButton extends StatelessWidget {
   const NormalButton({
@@ -104,10 +103,10 @@ class NormalButton extends StatelessWidget {
     return InkWell(
       onTap: onPress,
       child: Container(
-        padding: EdgeInsets.all(padding ?? 0.0.dp),
+        padding: EdgeInsets.all(padding ?? 0),
         decoration: BoxDecoration(
           color: bgColor,
-          borderRadius: BorderRadius.circular(radius ?? 0.0.dp),
+          borderRadius: BorderRadius.circular(radius ?? 0),
         ),
         child: Center(child: label),
       ),

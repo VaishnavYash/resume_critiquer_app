@@ -38,8 +38,8 @@ class AtsScoreWidget extends StatelessWidget {
               value: atsScore,
               markerType: MarkerType.invertedTriangle,
               color: const Color.fromARGB(255, 215, 86, 35),
-              markerHeight: 20.0.dp,
-              markerWidth: 15.0.dp,
+              markerHeight: 20,
+              markerWidth: 15,
               elevation: 10,
               borderColor: Colors.white,
               animationDuration: 3000,
@@ -67,7 +67,7 @@ class AtsScoreWidget extends StatelessWidget {
               widget: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 18.0.dp),
+                  SizedBox(height: 18),
                   TextWidget(
                     text: '0',
                     style: TextStyle().copyWith(
@@ -85,7 +85,7 @@ class AtsScoreWidget extends StatelessWidget {
               widget: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 18.0.dp),
+                  SizedBox(height: 18),
                   TextWidget(
                     text: '100',
                     style: TextStyle().copyWith(
