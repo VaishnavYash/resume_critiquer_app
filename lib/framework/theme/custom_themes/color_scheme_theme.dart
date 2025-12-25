@@ -4,6 +4,8 @@ class TColorScheme {
   static ColorScheme lightColorScheme = ColorScheme(
     brightness: Brightness.light,
 
+    inversePrimary: Color(0xFFD0BCFF),
+
     primary: Color(0xFF381E72),
     onPrimary: Color(0xFFFFFFFF),
 
@@ -46,6 +48,8 @@ class TColorScheme {
 
   static ColorScheme darkColorScheme = const ColorScheme(
     brightness: Brightness.dark,
+
+    inversePrimary: Color(0xFF381E72),
 
     primary: Color(0xFFF6EDFF),
     onPrimary: Color(0xFF000000),

@@ -16,18 +16,15 @@ class VerticalCardPager extends StatefulWidget {
   final ScrollPhysics? physics;
   final int initialPage;
   final ALIGN align;
-  final double width;
   final bool unfocusIndexShouldBeSmaller;
 
   const VerticalCardPager({
     super.key,
     required this.titles,
-    // required this.extraWidget,
     this.onPageChanged,
     this.onSelectedItem,
     this.physics,
     this.initialPage = 0,
-    required this.width,
     this.unfocusIndexShouldBeSmaller = false,
     this.align = ALIGN.center,
   });
@@ -67,7 +64,7 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
                   currentPage: currentPage,
                   viewHeight: constraints.maxHeight,
                   viewWidth: constraints.maxWidth,
-                  cardWidth: widget.width,
+                  cardWidth: MediaQuery.of(context).size.width,
                   align: widget.align,
                 );
               },
@@ -114,7 +111,6 @@ class CardStack extends StatelessWidget {
     required this.viewWidth,
     required this.cardWidth,
     required this.align,
-    // required this.extraWidget,
   });
 
   double get baseCardHeight => viewHeight * 0.4;
@@ -124,14 +120,16 @@ class CardStack extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: List.generate(titles.length, (index) {
-        final diff = (currentPage - index).clamp(-3.0, 3.0);
+        final rawDiff = currentPage - index;
 
+        final diff = rawDiff.clamp(-1.0, 1.0);
         final absDiff = diff.abs();
 
-        final scale = max(0.85, 1 - absDiff * 0.12);
-        final opacity = (1 - absDiff * 0.7).clamp(0.0, 1.0);
-        final translateY = diff * baseCardHeight * 0.30; // Stack Tightness
+        final scale = max(0.9, 1 - absDiff * 0.1);
+        final opacity =
+            rawDiff.abs() >= 1.1 ? 0.0 : (1 - absDiff * 0.8).clamp(0.0, 1.0);
 
+        final translateY = diff * baseCardHeight * 0.30; // Stack Tightness
         return Positioned(
           top: viewHeight / 4 - baseCardHeight / 4 + translateY,
           left: getStartPosition(),
@@ -141,7 +139,6 @@ class CardStack extends StatelessWidget {
               opacity: opacity,
               child: SizedBox(
                 width: cardWidth,
-                // height: diff == 0 ? null : baseCardHeight,
                 child: _buildCard(context, index, diff),
               ),
             ),
@@ -156,7 +153,7 @@ class CardStack extends StatelessWidget {
       text: value.title,
       style: Theme.of(context).textTheme.displaySmall?.copyWith(
         fontWeight: FontWeight.bold,
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
       alignment: TextAlign.center,
     );
@@ -176,7 +173,7 @@ class CardStack extends StatelessWidget {
           (final context, final index) => TextWidget(
             text: '\u2022 ${list[index]}',
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              color: isFocused ? color.onSecondary : Colors.transparent,
+              color: isFocused ? color.onPrimaryContainer : Colors.transparent,
             ),
           ),
     );
@@ -186,6 +183,7 @@ class CardStack extends StatelessWidget {
     final isFocused = (currentPage - index).abs() < 0.5;
     return Card(
       elevation: isFocused ? 12 : 4,
+      color: Theme.of(context).colorScheme.primaryContainer,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(12.0),

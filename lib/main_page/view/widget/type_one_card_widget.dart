@@ -48,9 +48,8 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
           Column(
             children: [
               SizedBox(
-                height: 400,
+                height: 360,
                 child: VerticalCardPager(
-                  width: MediaQuery.sizeOf(context).width,
                   titles: titles,
                   initialPage: 0,
                   physics: const ClampingScrollPhysics(),
