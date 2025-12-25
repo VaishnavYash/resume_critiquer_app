@@ -1,6 +1,8 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
+import 'package:resume_critiquer_app/main_page/widget/horizontal_scroller/horizontal_carousel_widget.dart';
 import 'package:resume_critiquer_app/main_page/widget/vertical_scroller/type_one_card_widget.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
 import 'package:resume_critiquer_app/main_page/widget/score_gauge/ats_score_widget.dart';
@@ -85,45 +87,60 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
           if (response.analysis?.isNotEmpty ?? false)
             TypeOneCardWidget(
               data: response.analysis!.entries.first,
-              // data: MapEntry('Content Clarity and Impact', {
-              //   "Strengths": [
-              //     "Professional summary succinctly outlines key skills and achievements.",
-              //     "Experience section provides quantifiable results that demonstrate impact.",
-              //   ],
-              //   "Areas of Improvement": [
-              //     "Clarify the role and contributions in academic projects and experiences.",
-              //     "Use more action-oriented language to enhance engagement.",
-              //   ],
-              // }),
             ),
 
+          // SizedBox(
+          //   height: 200,
 
+          //   child: CarouselView(
+          //     scrollDirection: Axis.horizontal,
 
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
-          Text('PDF Upload Page'),
+          //     itemExtent: double.infinity,
+          //     children: List<Widget>.generate(10, (int index) {
+          //       return Center(child: Text('Item $index'));
+          //     }),
+          //   ),
+          // ),
+          HorizontalCarouselWidget(
+              // data: response.analysis!.entries.first,
+            
+              data: MapEntry('Content Clarity and Impact', {
+                "Strengths": [
+                  "Professional summary succinctly outlines key skills and achievements.",
+                  "Experience section provides quantifiable results that demonstrate impact.",
+                ],
+                "Areas of Improvement": [
+                  "Clarify the role and contributions in academic projects and experiences.",
+                  "Use more action-oriented language to enhance engagement.",
+                ],
+              }),
+          ),
+
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
+          TextWidget(text: 'PDF Upload Page'),
         ],
       ),
     );

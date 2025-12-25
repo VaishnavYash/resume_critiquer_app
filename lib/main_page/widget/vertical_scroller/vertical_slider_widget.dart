@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/main_page/widget/vertical_scroller/type_one_card_widget.dart';
+import 'package:resume_critiquer_app/model/card_content.dart';
 
 typedef PageChangedCallback = void Function(double page);
 typedef PageSelectedCallback = void Function(int index);
@@ -36,6 +36,12 @@ class VerticalCardPager extends StatefulWidget {
 class _VerticalCardPagerState extends State<VerticalCardPager> {
   late final PageController controller;
   double currentPage = 0;
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -170,10 +176,14 @@ class CardStack extends StatelessWidget {
       shrinkWrap: true,
       itemCount: list.length,
       itemBuilder:
-          (final context, final index) => TextWidget(
-            text: '\u2022 ${list[index]}',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              color: isFocused ? color.onPrimaryContainer : Colors.transparent,
+          (final context, final index) => Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: TextWidget(
+              text: '\u2022 ${list[index]}',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                color:
+                    isFocused ? color.onPrimaryContainer : Colors.transparent,
+              ),
             ),
           ),
     );
@@ -198,7 +208,7 @@ class CardStack extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.only(top: 10, bottom: 12),
                 child: _getBulletPoints(context, isFocused, titles[index]),
               ),
             ],

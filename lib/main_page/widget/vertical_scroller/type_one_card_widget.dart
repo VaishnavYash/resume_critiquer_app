@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/widget/vertical_scroller/vertical_slider_widget.dart';
-
-class CardContent {
-  CardContent({required this.title, required this.points});
-
-  final String title;
-  final List<String> points;
-}
+import 'package:resume_critiquer_app/model/card_content.dart';
 
 class TypeOneCardWidget extends StatefulWidget {
   const TypeOneCardWidget({super.key, required this.data});
@@ -32,7 +26,14 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
   }
 
   @override
+  void dispose() {
+    titles.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    titles.clear();
     _organizeData();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
