@@ -66,7 +66,6 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ScrollController();
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +88,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
               // title: response.analysis!.first.entries.first.key ?? '',
               data: response.analysis!.entries.first,
             ),
-            
+
           Text('PDF Upload Page'),
           Text('PDF Upload Page'),
           Text('PDF Upload Page'),

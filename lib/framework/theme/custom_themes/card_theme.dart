@@ -4,7 +4,7 @@ class TCardTheme {
   static CardTheme lightCardTheme = CardTheme().copyWith(
     elevation: 1.5,
     shadowColor: Colors.black.withOpacity(0.08),
-    color: const Color(0xFFFFFFFF),
+    color: const Color.fromARGB(255, 35, 35, 35),
     surfaceTintColor: Colors.transparent,
     margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
     shape: RoundedRectangleBorder(

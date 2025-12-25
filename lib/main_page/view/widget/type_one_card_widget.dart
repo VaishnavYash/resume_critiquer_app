@@ -33,7 +33,9 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
         itemBuilder:
             (final context, final index) => TextWidget(
               text: value[index],
-              style: Theme.of(context).textTheme.titleSmall,
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(color: Colors.amber),
             ),
       );
 
@@ -44,68 +46,33 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
   @override
   Widget build(BuildContext context) {
     _organizeData();
-    _organizeData();
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         TextWidget(
           text: widget.data.key,
           style: Theme.of(context).textTheme.displayLarge,
         ),
 
-        SizedBox(
-          height: 300.0.dp,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0.dp),
-            child: VerticalCardPager(
-              width: MediaQuery.sizeOf(context).width,
-              titles: titles,
-              images: preTapWidget,
-              extraWidget: postTapWidget,
-              onPageChanged: (final page) {},
-              onSelectedItem: (final index) {},
-              initialPage: 0,
-              physics: const ClampingScrollPhysics(),
-            ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.0.dp),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 400.0.dp,
+                child: VerticalCardPager(
+                  width: MediaQuery.sizeOf(context).width,
+                  titles: titles,
+                  extraWidget: postTapWidget,
+                  onPageChanged: (final page) {},
+                  onSelectedItem: (final index) {},
+                  initialPage: 0,
+                  physics: const ClampingScrollPhysics(),
+                ),
+              ),
+            ],
           ),
         ),
-        
-        // ListView.builder(
-        //   shrinkWrap: true,
-        //   itemCount: titles.length,
-        //   itemBuilder: (context, index) {
-        //     return InkWell(
-        //       onTap: () {},
-        //       child: AnimatedContainer(
-        //         // height: isTap ? 600 : 200,
-        //         duration: Duration(milliseconds: 500),
-        //         decoration: BoxDecoration(
-        //           borderRadius: BorderRadius.circular(10.0.dp),
-        //         ),
-
-        //         child: Column(
-        //           children: [
-        //             TextWidget(
-        //               text: titles[index],
-        //               style: Theme.of(context).textTheme.displaySmall,
-        //             ),
-        //             // if (isTap)
-        //             // ListView.builder(
-        //             //   shrinkWrap: true,
-        //             //   itemCount:
-        //             //       widget.data.value[list[index]]?.length ?? 0,
-        //             //   itemBuilder:
-        //             //       (context, ind) => TextWidget(
-        //             //         text:
-        //             //             widget.data.value[list[index]]?[ind] ?? '',
-        //             //         style: Theme.of(context).textTheme.bodySmall,
-        //             //       ),
-        //             // ),
-        //           ],
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // ),
       ],
     );
   }
