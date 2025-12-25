@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
+import 'package:resume_critiquer_app/main_page/view/widget/type_one_card_widget.dart';
 
 typedef PageChangedCallback = void Function(double page);
 typedef PageSelectedCallback = void Function(int index);
@@ -7,8 +9,8 @@ typedef PageSelectedCallback = void Function(int index);
 enum ALIGN { left, center, right }
 
 class VerticalCardPager extends StatefulWidget {
-  final List<Widget> titles;
-  final List<Widget> extraWidget;
+  final List<CardContent> titles;
+  // final List<String> extraWidget;
   final PageChangedCallback? onPageChanged;
   final PageSelectedCallback? onSelectedItem;
   final ScrollPhysics? physics;
@@ -20,7 +22,7 @@ class VerticalCardPager extends StatefulWidget {
   const VerticalCardPager({
     super.key,
     required this.titles,
-    required this.extraWidget,
+    // required this.extraWidget,
     this.onPageChanged,
     this.onSelectedItem,
     this.physics,
@@ -28,7 +30,7 @@ class VerticalCardPager extends StatefulWidget {
     required this.width,
     this.unfocusIndexShouldBeSmaller = false,
     this.align = ALIGN.center,
-  }) : assert(titles.length == extraWidget.length);
+  });
 
   @override
   State<VerticalCardPager> createState() => _VerticalCardPagerState();
@@ -62,7 +64,6 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
               builder: (_, __) {
                 return CardStack(
                   titles: widget.titles,
-                  extraWidget: widget.extraWidget,
                   currentPage: currentPage,
                   viewHeight: constraints.maxHeight,
                   viewWidth: constraints.maxWidth,
@@ -83,9 +84,7 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
                       parent: AlwaysScrollableScrollPhysics(),
                     ),
                 itemCount: widget.titles.length,
-                itemBuilder:
-                    (_, __) =>
-                        SizedBox(width: MediaQuery.sizeOf(context).width),
+                itemBuilder: (_, __) => const SizedBox(),
               ),
             ),
           ],
@@ -100,8 +99,7 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
 /// ------------------------------------------------------------
 
 class CardStack extends StatelessWidget {
-  final List<Widget> titles;
-  final List<Widget>? extraWidget;
+  final List<CardContent> titles;
   final double currentPage;
   final double viewHeight;
   final double viewWidth;
@@ -116,10 +114,10 @@ class CardStack extends StatelessWidget {
     required this.viewWidth,
     required this.cardWidth,
     required this.align,
-    this.extraWidget,
+    // required this.extraWidget,
   });
 
-  double get baseCardHeight => viewHeight * 0.45;
+  double get baseCardHeight => viewHeight * 0.4;
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +125,7 @@ class CardStack extends StatelessWidget {
       clipBehavior: Clip.none,
       children: List.generate(titles.length, (index) {
         final diff = (currentPage - index).clamp(-3.0, 3.0);
+
         final absDiff = diff.abs();
 
         final scale = max(0.85, 1 - absDiff * 0.12);
@@ -142,7 +141,7 @@ class CardStack extends StatelessWidget {
               opacity: opacity,
               child: SizedBox(
                 width: cardWidth,
-                height: baseCardHeight,
+                // height: diff == 0 ? null : baseCardHeight,
                 child: _buildCard(context, index, diff),
               ),
             ),
@@ -152,23 +151,62 @@ class CardStack extends StatelessWidget {
     );
   }
 
+  Widget _getTitleWidget(final BuildContext context, final CardContent value) {
+    return TextWidget(
+      text: value.title,
+      style: Theme.of(context).textTheme.displaySmall?.copyWith(
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.primary,
+      ),
+      alignment: TextAlign.center,
+    );
+  }
+
+  Widget _getBulletPoints(
+    final BuildContext context,
+    final bool isFocused,
+    final CardContent value,
+  ) {
+    final list = value.points;
+    final color = Theme.of(context).colorScheme;
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: list.length,
+      itemBuilder:
+          (final context, final index) => TextWidget(
+            text: '\u2022 ${list[index]}',
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+              color: isFocused ? color.onSecondary : Colors.transparent,
+            ),
+          ),
+    );
+  }
+
   Widget _buildCard(BuildContext context, int index, double diff) {
     final isFocused = (currentPage - index).abs() < 0.5;
     return Card(
       elevation: isFocused ? 12 : 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Expanded(child: titles[index])],
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: AnimatedContainer(
+          duration: Durations.medium1,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(child: _getTitleWidget(context, titles[index])),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _getBulletPoints(context, isFocused, titles[index]),
+              ),
+              // SizedBox(height: 20),
+            ],
           ),
-          if (isFocused && extraWidget != null)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: extraWidget![index],
-            ),
-        ],
+        ),
       ),
     );
   }

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/framework/digital/sizer.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/view/widget/vertical_slider_widget.dart';
+
+class CardContent {
+  CardContent({required this.title, required this.points});
+
+  final String title;
+  final List<String> points;
+}
 
 class TypeOneCardWidget extends StatefulWidget {
   const TypeOneCardWidget({super.key, required this.data});
@@ -13,49 +19,20 @@ class TypeOneCardWidget extends StatefulWidget {
 }
 
 class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
-  late ColorScheme _color;
   @override
   void initState() {
     super.initState();
   }
 
-  final titles = <Widget>[];
-  final postTapWidget = <Widget>[];
-
-  Widget _getTitleWidget(final String value) => Padding(
-    padding: EdgeInsets.all(8.0),
-    child: TextWidget(
-      text: value,
-      style: Theme.of(context).textTheme.displaySmall?.copyWith(
-        fontWeight: FontWeight.bold,
-        color: _color.primary,
-      ),
-      alignment: TextAlign.center,
-    ),
-  );
-
+  final titles = <CardContent>[];
   void _organizeData() {
     widget.data.value.forEach((key, value) {
-      titles.add(_getTitleWidget(key));
-      final widget = ListView.builder(
-        shrinkWrap: true,
-        itemCount: value.length,
-        itemBuilder:
-            (final context, final index) => TextWidget(
-              text: value[index],
-              style: Theme.of(
-                context,
-              ).textTheme.titleSmall?.copyWith(color: _color.onSurface),
-            ),
-      );
-
-      postTapWidget.add(widget);
+      titles.add(CardContent(points: value, title: key));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _color = Theme.of(context).colorScheme;
     _organizeData();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
@@ -75,7 +52,6 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
                 child: VerticalCardPager(
                   width: MediaQuery.sizeOf(context).width,
                   titles: titles,
-                  extraWidget: postTapWidget,
                   initialPage: 0,
                   physics: const ClampingScrollPhysics(),
                 ),
