@@ -17,6 +17,7 @@ dependencies:
   build_runner: ^2.5.4
   syncfusion_flutter_gauges: ^31.1.19
   flex_seed_scheme: ^3.5.1
+  google_fonts: ^6.3.2
 
 dev_dependencies:
   flutter_test:
