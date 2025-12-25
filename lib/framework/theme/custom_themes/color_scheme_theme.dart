@@ -4,32 +4,85 @@ class TColorScheme {
   static ColorScheme lightColorScheme = ColorScheme(
     brightness: Brightness.light,
 
-    primary: Color(0xFF4F46E5), // Indigo
-    onPrimary: Colors.white,
+    primary: Color(0xFF381E72),
+    onPrimary: Color(0xFFFFFFFF),
 
-    secondary: Color(0xFF06B6D4), // Cyan
+    primaryContainer: Color(0xFF4F378B),
+    onPrimaryContainer: Color(0xFFFFFFFF),
+
+    secondary: Color(0xFF332D41),
     onSecondary: Colors.white,
 
-    surface: Colors.white, // Cards
-    onSurface: Color(0xFF111827), // Card text
+    secondaryContainer: Color(0xFF4A4458),
+    onSecondaryContainer: Colors.white,
 
-    error: Color(0xFFDC2626),
+    tertiary: Color(0xFF492532),
+    onTertiary: Colors.white,
+
+    tertiaryContainer: Color(0xFF633B48),
+    onTertiaryContainer: Colors.white,
+
+    error: Color(0xFF601410),
     onError: Colors.white,
+
+    errorContainer: Color(0xFF8C1D18),
+    onErrorContainer: Colors.white,
+
+    surface: Colors.white,
+    onSurface: Colors.black,
+
+    surfaceContainerHighest: Color(0xFFE6E0E9),
+    surfaceContainerHigh: Color(0xFFECE6F0),
+    surfaceContainer: Color(0xFFF3EDF7),
+    surfaceContainerLow: Color(0xFFF7F2FA),
+    surfaceContainerLowest: Colors.white,
+    inverseSurface: Color(0xFF322F35),
+    onInverseSurface: Colors.white,
+    surfaceTint: Color(0xFF381E72),
+
+    outline: Color(0xFF322F37),
+    outlineVariant: Color(0xFF49454F),
   );
 
   static ColorScheme darkColorScheme = const ColorScheme(
     brightness: Brightness.dark,
 
-    primary: Color(0xFF818CF8), // Soft Indigo
-    onPrimary: Color(0xFF0F172A),
+    primary: Color(0xFFF6EDFF),
+    onPrimary: Color(0xFF000000),
 
-    secondary: Color(0xFF22D3EE), // Cyan
-    onSecondary: Color(0xFF0F172A),
+    primaryContainer: Color(0xFFD0BCFF),
+    onPrimaryContainer: Color(0xFF000000),
 
-    surface: Color(0xFF0F172A), // Cards
-    onSurface: Color(0xFFE5E7EB), // Card text
+    secondary: Color(0xFFF6EDFF),
+    onSecondary: Colors.black,
 
-    error: Color(0xFFF87171),
-    onError: Color(0xFF0F172A),
+    secondaryContainer: Color(0xFFCCC2DC),
+    onSecondaryContainer: Colors.black,
+
+    tertiary: Color(0xFFFFECF1),
+    onTertiary: Colors.black,
+
+    tertiaryContainer: Color(0xFFEFB8C8),
+    onTertiaryContainer: Colors.black,
+
+    error: Color(0xFFFCEEEE),
+    onError: Colors.black,
+
+    errorContainer: Color(0xFFF2B8B5),
+    onErrorContainer: Colors.black,
+
+    surface: Color(0xFF141218),
+    onSurface: Colors.white,
+    surfaceContainerHighest: Color(0xFF36343B),
+    surfaceContainerHigh: Color(0xFF2B2930),
+    surfaceContainer: Color(0xFF211F26),
+    surfaceContainerLow: Color(0xFF1D1B20),
+    surfaceContainerLowest: Color(0xFF0F0D13),
+    inverseSurface: Color(0xFFE6E0E9),
+    onInverseSurface: Color(0xFF000000),
+    surfaceTint: Color(0xFFF6EDFF),
+
+    outline: Color(0xFFF5EEFA),
+    outlineVariant: Color(0xFFCAC4D0),
   );
 }
