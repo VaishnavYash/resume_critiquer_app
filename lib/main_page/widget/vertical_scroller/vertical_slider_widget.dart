@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/main_page/view/widget/type_one_card_widget.dart';
+import 'package:resume_critiquer_app/main_page/widget/vertical_scroller/type_one_card_widget.dart';
 
 typedef PageChangedCallback = void Function(double page);
 typedef PageSelectedCallback = void Function(int index);
@@ -201,7 +201,6 @@ class CardStack extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 12),
                 child: _getBulletPoints(context, isFocused, titles[index]),
               ),
-              // SizedBox(height: 20),
             ],
           ),
         ),

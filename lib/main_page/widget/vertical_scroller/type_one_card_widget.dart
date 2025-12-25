@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/main_page/view/widget/vertical_slider_widget.dart';
+import 'package:resume_critiquer_app/main_page/widget/vertical_scroller/vertical_slider_widget.dart';
 
 class CardContent {
   CardContent({required this.title, required this.points});
