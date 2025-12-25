@@ -13,20 +13,27 @@ class TypeOneCardWidget extends StatefulWidget {
 }
 
 class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
+  late ColorScheme _color;
   @override
   void initState() {
     super.initState();
   }
 
-  final titles = <String>[];
-  final preTapWidget = <Widget>[];
+  final titles = <Widget>[];
   final postTapWidget = <Widget>[];
+
+  TextWidget _getTitleWidget(final String value) => TextWidget(
+    text: value,
+    style: Theme.of(context).textTheme.displaySmall?.copyWith(
+      fontWeight: FontWeight.bold,
+      color: _color.primary,
+    ),
+    alignment: TextAlign.center,
+  );
 
   void _organizeData() {
     widget.data.value.forEach((key, value) {
-      titles.add(key);
-      preTapWidget.add(Card());
-
+      titles.add(_getTitleWidget(key));
       final widget = ListView.builder(
         shrinkWrap: true,
         itemCount: value.length,
@@ -35,7 +42,7 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
               text: value[index],
               style: Theme.of(
                 context,
-              ).textTheme.titleSmall?.copyWith(color: Colors.amber),
+              ).textTheme.titleSmall?.copyWith(color: _color.onSurface),
             ),
       );
 
@@ -45,18 +52,20 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _color = Theme.of(context).colorScheme;
     _organizeData();
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        TextWidget(
-          text: widget.data.key,
-          style: Theme.of(context).textTheme.displayLarge,
-        ),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.0.dp),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextWidget(
+            text: widget.data.key,
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
 
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0.dp),
-          child: Column(
+          Column(
             children: [
               SizedBox(
                 height: 400.0.dp,
@@ -64,16 +73,14 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
                   width: MediaQuery.sizeOf(context).width,
                   titles: titles,
                   extraWidget: postTapWidget,
-                  onPageChanged: (final page) {},
-                  onSelectedItem: (final index) {},
                   initialPage: 0,
                   physics: const ClampingScrollPhysics(),
                 ),
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

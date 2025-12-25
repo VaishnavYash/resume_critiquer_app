@@ -83,11 +83,20 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
               atsScore: response.atsScore?.toDouble() ?? 0.0,
             ),
           ),
-          if (response.analysis?.isNotEmpty ?? false)
-            TypeOneCardWidget(
-              // title: response.analysis!.first.entries.first.key ?? '',
-              data: response.analysis!.entries.first,
-            ),
+          // if (response.analysis?.isNotEmpty ?? false)
+          TypeOneCardWidget(
+            // data: response.analysis!.entries.first,
+            data: MapEntry('Content Clarity and Impact', {
+              "Strengths": [
+                "Professional summary succinctly outlines key skills and achievements.",
+                "Experience section provides quantifiable results that demonstrate impact.",
+              ],
+              "Areas of Improvement": [
+                "Clarify the role and contributions in academic projects and experiences.",
+                "Use more action-oriented language to enhance engagement.",
+              ],
+            }),
+          ),
 
           Text('PDF Upload Page'),
           Text('PDF Upload Page'),

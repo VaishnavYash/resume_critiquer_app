@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 
 typedef PageChangedCallback = void Function(double page);
 typedef PageSelectedCallback = void Function(int index);
@@ -8,7 +7,7 @@ typedef PageSelectedCallback = void Function(int index);
 enum ALIGN { left, center, right }
 
 class VerticalCardPager extends StatefulWidget {
-  final List<String> titles;
+  final List<Widget> titles;
   final List<Widget> extraWidget;
   final PageChangedCallback? onPageChanged;
   final PageSelectedCallback? onSelectedItem;
@@ -101,7 +100,7 @@ class _VerticalCardPagerState extends State<VerticalCardPager> {
 /// ------------------------------------------------------------
 
 class CardStack extends StatelessWidget {
-  final List<String> titles;
+  final List<Widget> titles;
   final List<Widget>? extraWidget;
   final double currentPage;
   final double viewHeight;
@@ -131,7 +130,7 @@ class CardStack extends StatelessWidget {
         final absDiff = diff.abs();
 
         final scale = max(0.85, 1 - absDiff * 0.12);
-        final opacity = (1 - absDiff * 0.5).clamp(0.0, 1.0);
+        final opacity = (1 - absDiff * 0.7).clamp(0.0, 1.0);
         final translateY = diff * baseCardHeight * 0.30; // Stack Tightness
 
         return Positioned(
@@ -160,24 +159,9 @@ class CardStack extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Column(
         children: [
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment:
-                  diff <= 0.5
-                      ? CrossAxisAlignment.start
-                      : CrossAxisAlignment.end,
-              children: [
-                TextWidget(
-                  text: titles[index],
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  alignment: TextAlign.center,
-                ),
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Expanded(child: titles[index])],
           ),
           if (isFocused && extraWidget != null)
             Padding(
