@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/framework/digital/sizer.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -54,11 +53,9 @@ class AtsScoreWidget extends StatelessWidget {
             GaugeAnnotation(
               widget: TextWidget(
                 text: atsScore.toStringAsFixed(1),
-                style: TextStyle().copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28.0.sp,
-                  color: colorCode,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.displayLarge?.copyWith(color: colorCode),
               ),
             ),
             GaugeAnnotation(
@@ -70,11 +67,9 @@ class AtsScoreWidget extends StatelessWidget {
                   SizedBox(height: 18),
                   TextWidget(
                     text: '0',
-                    style: TextStyle().copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0.sp,
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelLarge?.copyWith(color: Colors.red),
                   ),
                 ],
               ),
@@ -88,11 +83,9 @@ class AtsScoreWidget extends StatelessWidget {
                   SizedBox(height: 18),
                   TextWidget(
                     text: '100',
-                    style: TextStyle().copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0.sp,
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.labelLarge?.copyWith(color: Colors.green),
                   ),
                 ],
               ),

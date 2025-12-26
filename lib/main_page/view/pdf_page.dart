@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
+import 'package:resume_critiquer_app/main_page/widget/console_view/console_view.dart';
 import 'package:resume_critiquer_app/main_page/widget/horizontal_scroller/horizontal_carousel_widget.dart';
 import 'package:resume_critiquer_app/main_page/widget/vertical_scroller/type_one_card_widget.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
@@ -84,65 +85,54 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
               atsScore: response.atsScore?.toDouble() ?? 0.0,
             ),
           ),
-          if (response.analysis?.isNotEmpty ?? false)
-            TypeOneCardWidget(
-              data: response.analysis!.entries.first,
-            ),
 
-          // SizedBox(
-          //   height: 200,
-
-          //   child: CarouselView(
-          //     scrollDirection: Axis.horizontal,
-
-          //     itemExtent: double.infinity,
-          //     children: List<Widget>.generate(10, (int index) {
-          //       return Center(child: Text('Item $index'));
-          //     }),
-          //   ),
-          // ),
-          HorizontalCarouselWidget(
-              // data: response.analysis!.entries.first,
-            
-              data: MapEntry('Content Clarity and Impact', {
-                "Strengths": [
-                  "Professional summary succinctly outlines key skills and achievements.",
-                  "Experience section provides quantifiable results that demonstrate impact.",
-                ],
-                "Areas of Improvement": [
-                  "Clarify the role and contributions in academic projects and experiences.",
-                  "Use more action-oriented language to enhance engagement.",
-                ],
-              }),
+          ConsoleView(
+            title: "Summary",
+            detail:
+                'Aspiring Software Development Engineer with a strong focus on mobile app development and a proven track record of enhancing application performance and reliability. Adept in Agile methodologies and skilled in utilizing modern development frameworks and languages.',
           ),
 
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
-          TextWidget(text: 'PDF Upload Page'),
+          if (response.analysis?.isNotEmpty ?? false)
+            TypeOneCardWidget(data: response.analysis!.entries.first),
+
+          if (response.analysis?.isNotEmpty ?? false)
+            HorizontalCarouselWidget(data: response.analysis!.entries.first),
+
+          ListView.builder(
+            itemCount: 30,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, value) {
+              return TextWidget(
+                text: 'PDF Upload Page',
+                style: TextStyle(color: Colors.yellow),
+              );
+            },
+          ),
         ],
       ),
     );
   }
 }
+
+            // data: MapEntry('Content Clarity and Impact', {
+            //   "Strengths": [
+            //     "Professional summary succinctly outlines key skills and achievements.",
+            //     "Experience section provides quantifiable results that demonstrate impact.",
+            //     "Experience section provides quantifiable results that demonstrate impact.",
+            //     "Experience section provides quantifiable results that demonstrate impact.",
+            //     "Experience section provides quantifiable results that demonstrate impact.",
+            //     "Experience section provides quantifiable results that demonstrate impact.",
+            //     "Experience section provides quantifiable results that demonstrate impact.",
+            //     "Experience section provides quantifiable results that demonstrate impact.",
+            //     "Experience section provides quantifiable results that demonstrate impact.",
+            //   ],
+            //   "Areas of Improvement": [
+            //     "Clarify the role and contributions in academic projects and experiences.",
+            //     "Use more action-oriented language to enhance engagement.",
+            //     "Use more action-oriented language to enhance engagement.",
+            //     "Use more action-oriented language to enhance engagement.",
+            //     "Use more action-oriented language to enhance engagement.",
+            //     "Use more action-oriented language to enhance engagement.",
+            //   ],
+            // }),

@@ -62,7 +62,10 @@ class TextWidget extends StatelessWidget {
 
     return RichText(
       textAlign: alignment ?? TextAlign.start,
-      text: TextSpan(children: textSpans, style: style),
+      text: TextSpan(
+        children: textSpans,
+        style: style,
+      ),
       softWrap: true,
       overflow: TextOverflow.visible,
     );

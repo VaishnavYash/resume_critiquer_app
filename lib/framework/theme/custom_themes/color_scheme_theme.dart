@@ -88,5 +88,8 @@ class TColorScheme {
 
     outline: Color(0xFFF5EEFA),
     outlineVariant: Color(0xFFCAC4D0),
+
+    primaryFixed: Color(0xFF1F1F1F),
+    onPrimaryFixed: Colors.greenAccent,
   );
 }
