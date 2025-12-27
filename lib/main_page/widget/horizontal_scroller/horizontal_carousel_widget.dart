@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
@@ -17,13 +15,13 @@ class HorizontalCarouselWidget extends StatefulWidget {
 class _HorizontalCarouselWidgetState extends State<HorizontalCarouselWidget> {
   PageController controller = PageController(initialPage: 0);
   late ColorScheme _colorScheme;
-  int maxPoint = 0;
+
   var currentPage = 0;
+
   final cardData = <CardContent>[];
   void _organizeData() {
     widget.data.value.forEach((key, value) {
       cardData.add(CardContent(points: value, title: key));
-      maxPoint = max(maxPoint, value.length);
     });
   }
 
@@ -37,6 +35,7 @@ class _HorizontalCarouselWidgetState extends State<HorizontalCarouselWidget> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((final _) {
       _organizeData();
+      setState(() {});
     });
     super.initState();
   }
@@ -56,7 +55,7 @@ class _HorizontalCarouselWidgetState extends State<HorizontalCarouselWidget> {
         ),
         SizedBox(height: 10),
         SizedBox(
-          height: 250,
+          height: 220,
           child: PageView.builder(
             itemCount: cardData.length,
             onPageChanged: (final value) {
@@ -65,19 +64,14 @@ class _HorizontalCarouselWidgetState extends State<HorizontalCarouselWidget> {
             },
             itemBuilder: (context, index) {
               return Container(
-                margin: EdgeInsets.symmetric(horizontal: 15),
+                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      _colorScheme.primaryContainer,
-                      _colorScheme.secondaryContainer,
-                      _colorScheme.tertiaryContainer,
-                    ],
-                  ),
+                  color: _colorScheme.secondaryContainer,
                   boxShadow: [
                     BoxShadow(
-                      color: _colorScheme.onPrimaryFixed,
-                      blurRadius: 20,
+                      color: _colorScheme.onSurfaceVariant,
+                      blurRadius: 5,
+                      offset: Offset(1, 1),
                     ),
                   ],
                   borderRadius: BorderRadius.circular(20),
@@ -108,10 +102,10 @@ class _HorizontalCarouselWidgetState extends State<HorizontalCarouselWidget> {
         Align(
           alignment: Alignment.center,
           child: Card(
+            color: _colorScheme.onSurface,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
@@ -145,28 +139,6 @@ class _HorizontalCarouselWidgetState extends State<HorizontalCarouselWidget> {
       alignment: TextAlign.center,
     );
   }
-
-  // Widget _getBulletPoints(final BuildContext context, final CardContent value) {
-  //   final list = value.points;
-  //   final color = Theme.of(context).colorScheme;
-  //   return ColoredBox(
-  //     color: Colors.black,
-  //     child: List.(
-  //       children: List.generate(
-  //         list.length,
-  //         (final index) => Padding(
-  //           padding: EdgeInsets.only(bottom: 10),
-  //           child: TextWidget(
-  //             text: '\u2022 ${list[index]}',
-  //             style: Theme.of(context).textTheme.labelMedium?.copyWith(
-  //               color: color.onPrimaryContainer,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _getBulletPoints(final BuildContext context, final CardContent value) {
     final list = value.points;

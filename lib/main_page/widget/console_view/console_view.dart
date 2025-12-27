@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/framework/digital/sizer.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 
 class ConsoleView extends StatelessWidget {
@@ -12,57 +13,41 @@ class ConsoleView extends StatelessWidget {
     final color = Theme.of(context).colorScheme;
     final textStyle = Theme.of(context).textTheme;
 
-    return Container(
+    return Card(
       margin: const EdgeInsets.symmetric(horizontal: 15),
-      decoration: BoxDecoration(
-        color: color.onSecondaryFixed,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.onSurface.withOpacity(0.6), width: 1.5),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black54,
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
+      elevation: 10,
+
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+        side: BorderSide(
+          color: color.onSurface,
+          width: 1,
+          style: BorderStyle.solid,
+        ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
         children: [
-          // 🔹 Header (Tab)
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-              color: color.primaryFixed,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-              ),
-              border: Border(
-                top: BorderSide(color: color.primaryFixed),
-                right: BorderSide(color: color.primaryFixed),
-                left: BorderSide(color: color.primaryFixed),
-              ),
-            ),
-            child: TextWidget(
-              text: title,
-              style: textStyle.titleMedium?.copyWith(color: Colors.white54),
-            ),
-          ),
+          _row(title, textStyle, color),
           ColoredBox(
-            color: color.primaryFixed,
-            child: SizedBox(width: MediaQuery.sizeOf(context).width, height: 5),
+            color: Colors.white,
+            child: SizedBox(height: 1, width: double.infinity),
           ),
-          // 🔹 Terminal body
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(9),
+                bottomRight: Radius.circular(9),
+              ),
+              color: color.secondaryFixed,
+            ),
+
+            padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
             child: TextWidget(
               text: detail,
               style: textStyle.bodyMedium?.copyWith(
                 fontFamily: 'monospace',
                 color: color.onPrimaryFixed,
+                fontWeight: FontWeight.bold,
                 height: 1.4,
               ),
             ),
@@ -71,4 +56,33 @@ class ConsoleView extends StatelessWidget {
       ),
     );
   }
+
+  Widget _row(
+    final String title,
+    final TextTheme textStyle,
+    final ColorScheme color,
+  ) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+    decoration: BoxDecoration(
+      color: color.primaryFixed,
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(9),
+        topRight: Radius.circular(9),
+      ),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(Icons.terminal, color: Colors.white, size: 22.0.sp),
+        const SizedBox(width: 8),
+        TextWidget(
+          text: title,
+          style: textStyle.titleLarge?.copyWith(color: Colors.white),
+        ),
+        const Spacer(),
+        CircleAvatar(radius: 8, backgroundColor: Colors.yellow),
+      ],
+    ),
+  );
 }

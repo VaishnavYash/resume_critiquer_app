@@ -14,7 +14,7 @@ class MainApp extends StatelessWidget {
     Device.init(context);
     return MaterialApp(
       theme: TAppTheme.lightTheme, // Light Theme
-      themeMode: ThemeMode.light, // System Theme
+      themeMode: ThemeMode.dark, // System Theme
       darkTheme: TAppTheme.darkTheme, // Dark Theme
       home: Scaffold(
         body: SafeArea(child: PDFUploadPage()),

@@ -86,11 +86,8 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
             ),
           ),
 
-          ConsoleView(
-            title: "Summary",
-            detail:
-                'Aspiring Software Development Engineer with a strong focus on mobile app development and a proven track record of enhancing application performance and reliability. Adept in Agile methodologies and skilled in utilizing modern development frameworks and languages.',
-          ),
+          if (response.summary != null)
+            ConsoleView(title: 'Summary', detail: response.summary ?? ''),
 
           if (response.analysis?.isNotEmpty ?? false)
             TypeOneCardWidget(data: response.analysis!.entries.first),

@@ -44,6 +44,10 @@ class TColorScheme {
 
     outline: Color(0xFF322F37),
     outlineVariant: Color(0xFF49454F),
+
+    primaryFixed: Color(0xFF1E1E1E), // Title Bar
+    onPrimaryFixed: Color(0xFFA8BBA3), // Description Text
+    secondaryFixed: Color(0xFFF7F2FA), // Description Color
   );
 
   static ColorScheme darkColorScheme = const ColorScheme(
@@ -89,7 +93,8 @@ class TColorScheme {
     outline: Color(0xFFF5EEFA),
     outlineVariant: Color(0xFFCAC4D0),
 
-    primaryFixed: Color(0xFF1F1F1F),
-    onPrimaryFixed: Colors.greenAccent,
+    primaryFixed: Colors.black, // Title Bar
+    onPrimaryFixed: Color(0xFF94d2bd), // Description Text
+    secondaryFixed: Color(0xFF1E1E1E), // Description Color
   );
 }
