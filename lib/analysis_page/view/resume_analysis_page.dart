@@ -56,7 +56,7 @@ class ResumeAnalysisSection extends StatelessWidget {
                   builder:
                       (context) => ExperienceAnalysisScreen(
                         title: entry.key,
-                        content: list,
+                        cardContentList: list,
                       ),
                 ),
               );

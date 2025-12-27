@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/digital/device.dart';
 import 'package:resume_critiquer_app/framework/theme/theme.dart';
+import 'package:resume_critiquer_app/landing_page/view/landing_page.dart';
 import 'package:resume_critiquer_app/main_page/view/pdf_page.dart';
 
 void main() {
@@ -16,10 +17,7 @@ class MainApp extends StatelessWidget {
       theme: TAppTheme.lightTheme, // Light Theme
       themeMode: ThemeMode.dark, // System Theme
       darkTheme: TAppTheme.darkTheme, // Dark Theme
-      home: Scaffold(
-        body: SafeArea(child: PDFUploadPage()),
-        // backgroundColor:
-      ),
+      home: Scaffold(body: SafeArea(child: LandingPage())),
     );
   }
 }

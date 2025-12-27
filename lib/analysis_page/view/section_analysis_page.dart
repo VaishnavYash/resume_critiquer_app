@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/analysis_page/widget/improvement_card_widget.dart';
-import 'package:resume_critiquer_app/analysis_page/widget/strength_card.dart';
+import 'package:resume_critiquer_app/analysis_page/widget/analysis_card.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
 
 class ExperienceAnalysisScreen extends StatelessWidget {
   const ExperienceAnalysisScreen({
     super.key,
     required this.title,
-    required this.content,
+    required this.cardContentList,
   });
 
   final String title;
-  final List<CardContent> content;
+  final List<CardContent> cardContentList;
+  // backgroundColor: const Color(0xFF0B1220),
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF0B1220),
-      body: SafeArea(
+    return ColoredBox(
+      color: const Color(0xFF0B1220),
+      child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -24,19 +25,31 @@ class ExperienceAnalysisScreen extends StatelessWidget {
             children: [
               _header(context),
               const SizedBox(height: 16),
-              _experienceTitle(),
+              _experienceTitle(context),
               const SizedBox(height: 12),
-              _tabs(content),
+              _tabs(cardContentList),
               const SizedBox(height: 16),
-              Expanded(
-                child: ListView(
-                  children: const [
-                    StrengthsCard(),
-                    SizedBox(height: 16),
-                    ImprovementsCard(),
-                  ],
-                ),
+              ListView.builder(
+                itemCount: cardContentList.length,
+                shrinkWrap: true,
+                itemBuilder:
+                    (final context, final index) => Padding(
+                      padding: EdgeInsets.only(bottom: 16),
+                      child: AnalysisCard(
+                        iconPath: Icons.import_contacts,
+                        cardContent: cardContentList[index],
+                      ),
+                    ),
               ),
+              // Expanded(
+              //   child: ListView(
+              //     children: const [
+              //       AnalysisCard(cardContent: ),
+              //       SizedBox(height: 16),
+              //       ImprovementsCard(),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -54,27 +67,28 @@ class ExperienceAnalysisScreen extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        const SizedBox(width: 8),
-        Text(title, style: TextStyle(color: Colors.white70, fontSize: 13)),
-        const Text(
-          " > Experience",
-          style: TextStyle(color: Colors.white54, fontSize: 13),
-        ),
-        const Spacer(),
-        Container(
-          padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            color: const Color(0xFF121A2F),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Icon(Icons.add, color: Colors.white70, size: 18),
-        ),
+        // const SizedBox(width: 8),
+        // Text(title, style: TextStyle(color: Colors.white70, fontSize: 13)),
+        // const Text(
+        //   " > Experience",
+        //   style: TextStyle(color: Colors.white54, fontSize: 13),
+        // ),
+        // const Spacer(),
+        // Container(
+        //   padding: const EdgeInsets.all(6),
+        //   decoration: BoxDecoration(
+        //     color: const Color(0xFF121A2F),
+        //     borderRadius: BorderRadius.circular(8),
+        //   ),
+        //   child: const Icon(Icons.add, color: Colors.white70, size: 18),
+        // ),
       ],
     );
   }
 
-  Widget _experienceTitle() {
+  Widget _experienceTitle(final BuildContext context) {
     return Container(
+      width: MediaQuery.sizeOf(context).width,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
@@ -82,26 +96,30 @@ class ExperienceAnalysisScreen extends StatelessWidget {
           colors: [const Color(0xFF1B2A4A), const Color(0xFF121A2F)],
         ),
       ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: const Color(0xFF1E2A4A),
-              borderRadius: BorderRadius.circular(10),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1E2A4A),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(Icons.layers, color: Colors.white),
             ),
-            child: const Icon(Icons.layers, color: Colors.white),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
+            const SizedBox(width: 10),
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

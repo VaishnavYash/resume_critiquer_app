@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/model/card_content.dart';
 
-class StrengthsCard extends StatelessWidget {
-  const StrengthsCard({super.key});
+class AnalysisCard extends StatelessWidget {
+  const AnalysisCard({
+    super.key,
+    required this.iconPath,
+    required this.cardContent,
+  });
+
+  final IconData iconPath;
+  final CardContent cardContent;
 
   @override
   Widget build(BuildContext context) {
@@ -10,43 +18,44 @@ class StrengthsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _sectionTitle(
-            icon: Icons.check_circle,
-            title: "Strengths",
+            icon: iconPath,
+            title: cardContent.title,
             color: Colors.greenAccent,
           ),
           const SizedBox(height: 12),
-          _bullet(
-            "Demonstrates leadership and innovation in current role at TCS.",
+          ListView.builder(
+            itemCount: cardContent.points.length,
+            shrinkWrap: true,
+            itemBuilder:
+                (final context, final index) =>
+                    _bullet(cardContent.points[index]),
           ),
-          _bullet(
-            "Highlights successful collaboration with cross-functional teams.",
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.04),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  "Why this matters",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(height: 6),
-                Text(
-                  "Demonstrates to recruiters your ability to lead and work "
-                  "in a team environment.",
-                  style: TextStyle(color: Colors.white70, fontSize: 13),
-                ),
-              ],
-            ),
-          ),
+          // const SizedBox(height: 12),
+          // Container(
+          //   padding: const EdgeInsets.all(12),
+          //   decoration: BoxDecoration(
+          //     color: Colors.white.withOpacity(0.04),
+          //     borderRadius: BorderRadius.circular(12),
+          //   ),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: const [
+          //       Text(
+          //         "Why this matters",
+          //         style: TextStyle(
+          //           color: Colors.white,
+          //           fontWeight: FontWeight.w500,
+          //         ),
+          //       ),
+          //       SizedBox(height: 6),
+          //       Text(
+          //         "Demonstrates to recruiters your ability to lead and work "
+          //         "in a team environment.",
+          //         style: TextStyle(color: Colors.white70, fontSize: 13),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
