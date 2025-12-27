@@ -60,27 +60,24 @@ class AnalysisCard extends StatelessWidget {
 
                 const SizedBox(height: 6),
 
-                Row(
-                  children: List.generate(cardContent.length, (final index) {
-                    final card = cardContent[index];
-                    return _infoChip(
-                      icon: Icons.check_circle,
-                      color: Colors.greenAccent,
-                      text: "${card.points.length} ${card.title}",
-                    );
-                  }),
-                  // _infoChip(
-                  //   icon: Icons.check_circle,
-                  //   color: Colors.greenAccent,
-                  //   text: "$strengths ",
-                  // ),
-                  // const SizedBox(width: 12),
-                  // _infoChip(
-                  //   icon: Icons.warning_amber_rounded,
-                  //   color: Colors.amber,
-                  //   text: "$improvements Areas + Improvement",
-                  // ),
-                  // ],
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(cardContent.length, (final index) {
+                      final card = cardContent[index];
+                      return Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: _infoChip(
+                          icon:
+                              index == 0
+                                  ? Icons.check_circle
+                                  : Icons.warning_amber_rounded,
+                          color: index == 0 ? Colors.greenAccent : Colors.amber,
+                          text: "${card.points.length} ${card.title}",
+                        ),
+                      );
+                    }),
+                  ),
                 ),
               ],
             ),

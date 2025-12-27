@@ -66,51 +66,61 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text('PDF Upload Page'),
-
-          TextButton(onPressed: _submitResume, child: Text('Submit')),
-
-          Divider(),
-          SizedBox(
-            width: 300,
-            height: 300,
-            child: AtsScoreWidget(
-              atsScore: response.atsScore?.toDouble() ?? 0.0,
-            ),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF0B1220), Color(0xFF0E1627)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('PDF Upload Page'),
 
-          if (response.summary != null) _summaryBlock(response.summary!),
+            TextButton(onPressed: _submitResume, child: Text('Submit')),
 
-          if (response.analysis?.isNotEmpty ?? false)
-            ResumeAnalysisSection(jsonData: response.analysis!),
+            Divider(),
+            SizedBox(
+              width: 300,
+              height: 300,
+              child: AtsScoreWidget(
+                atsScore: response.atsScore?.toDouble() ?? 0.0,
+              ),
+            ),
 
-          // ConsoleView(
-          //   title: 'Summary',
-          //   detail:response.summary ?? '',
-          // ),
+            if (response.summary != null) _summaryBlock(response.summary!),
 
-          // if (response.analysis?.isNotEmpty ?? false)
-          //   TypeOneCardWidget(data: response.analysis!.entries.first),
+            if (response.analysis?.isNotEmpty ?? false)
+              ResumeAnalysisSection(jsonData: response.analysis!),
 
-          // if (response.analysis?.isNotEmpty ?? false)
-          //   HorizontalCarouselWidget(data: response.analysis!.entries.first),
+            // ConsoleView(
+            //   title: 'Summary',
+            //   detail:response.summary ?? '',
+            // ),
 
-          // ListView.builder(
-          //   itemCount: 30,
-          //   shrinkWrap: true,
-          //   physics: NeverScrollableScrollPhysics(),
-          //   itemBuilder: (context, value) {
-          //     return TextWidget(
-          //       text: 'PDF Upload Page',
-          //       style: TextStyle(color: Colors.yellow),
-          //     );
-          //   },
-          // ),
-        ],
+            // if (response.analysis?.isNotEmpty ?? false)
+            //   TypeOneCardWidget(data: response.analysis!.entries.first),
+
+            // if (response.analysis?.isNotEmpty ?? false)
+            //   HorizontalCarouselWidget(data: response.analysis!.entries.first),
+
+            // ListView.builder(
+            //   itemCount: 30,
+            //   shrinkWrap: true,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   itemBuilder: (context, value) {
+            //     return TextWidget(
+            //       text: 'PDF Upload Page',
+            //       style: TextStyle(color: Colors.yellow),
+            //     );
+            //   },
+            // ),
+          ],
+        ),
       ),
     );
   }
