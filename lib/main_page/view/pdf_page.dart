@@ -1,10 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
+import 'package:resume_critiquer_app/analysis_page/view/resume_analysis_page.dart';
 import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
-import 'package:resume_critiquer_app/main_page/widget/console_view/console_view.dart';
-import 'package:resume_critiquer_app/main_page/widget/horizontal_scroller/horizontal_carousel_widget.dart';
-import 'package:resume_critiquer_app/main_page/widget/vertical_scroller/type_one_card_widget.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
 import 'package:resume_critiquer_app/main_page/widget/score_gauge/ats_score_widget.dart';
 
@@ -86,33 +83,58 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
             ),
           ),
 
-          if(response.summary != null)
-          ConsoleView(
-            title: 'Summary',
-            detail:response.summary ?? '',
-          ),
+          if (response.summary != null) _summaryBlock(response.summary!),
 
           if (response.analysis?.isNotEmpty ?? false)
-            TypeOneCardWidget(data: response.analysis!.entries.first),
+            ResumeAnalysisSection(jsonData: response.analysis!),
 
-          if (response.analysis?.isNotEmpty ?? false)
-            HorizontalCarouselWidget(data: response.analysis!.entries.first),
+          // ConsoleView(
+          //   title: 'Summary',
+          //   detail:response.summary ?? '',
+          // ),
 
-          ListView.builder(
-            itemCount: 30,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, value) {
-              return TextWidget(
-                text: 'PDF Upload Page',
-                style: TextStyle(color: Colors.yellow),
-              );
-            },
-          ),
+          // if (response.analysis?.isNotEmpty ?? false)
+          //   TypeOneCardWidget(data: response.analysis!.entries.first),
+
+          // if (response.analysis?.isNotEmpty ?? false)
+          //   HorizontalCarouselWidget(data: response.analysis!.entries.first),
+
+          // ListView.builder(
+          //   itemCount: 30,
+          //   shrinkWrap: true,
+          //   physics: NeverScrollableScrollPhysics(),
+          //   itemBuilder: (context, value) {
+          //     return TextWidget(
+          //       text: 'PDF Upload Page',
+          //       style: TextStyle(color: Colors.yellow),
+          //     );
+          //   },
+          // ),
         ],
       ),
     );
   }
+
+  Widget _summaryBlock(final String summary) => Column(
+    children: [
+      const Text(
+        "Professional Summary",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      const SizedBox(height: 8),
+
+      // Summary text
+      Text(
+        summary,
+        style: TextStyle(color: Colors.white70, fontSize: 14, height: 1.4),
+      ),
+      const SizedBox(height: 24),
+    ],
+  );
 }
 
             // data: MapEntry('Content Clarity and Impact', {
