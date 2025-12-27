@@ -86,8 +86,11 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
             ),
           ),
 
-          if (response.summary != null)
-            ConsoleView(title: 'Summary', detail: response.summary ?? ''),
+          if(response.summary != null)
+          ConsoleView(
+            title: 'Summary',
+            detail:response.summary ?? '',
+          ),
 
           if (response.analysis?.isNotEmpty ?? false)
             TypeOneCardWidget(data: response.analysis!.entries.first),

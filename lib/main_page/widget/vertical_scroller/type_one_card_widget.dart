@@ -15,6 +15,10 @@ class TypeOneCardWidget extends StatefulWidget {
 class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((final _) {
+      titles.clear();
+      _organizeData();
+    });
     super.initState();
   }
 
@@ -33,8 +37,6 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    titles.clear();
-    _organizeData();
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -46,17 +48,9 @@ class _TypeOneCardWidgetState extends State<TypeOneCardWidget> {
             style: Theme.of(context).textTheme.displayMedium,
           ),
 
-          Column(
-            children: [
-              SizedBox(
-                height: 360,
-                child: VerticalCardPager(
-                  titles: titles,
-                  initialPage: 0,
-                  physics: const ClampingScrollPhysics(),
-                ),
-              ),
-            ],
+          SizedBox(
+            height: 330,
+            child: VerticalCardPager(titles: titles, initialPage: 0),
           ),
         ],
       ),
