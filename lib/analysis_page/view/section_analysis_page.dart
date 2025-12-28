@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/analysis_page/widget/analysis_card.dart';
+import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
 
 class ExperienceAnalysisScreen extends StatelessWidget {
@@ -68,8 +69,8 @@ class ExperienceAnalysisScreen extends StatelessWidget {
           },
         ),
         // const SizedBox(width: 8),
-        // Text(title, style: TextStyle(color: Colors.white70, fontSize: 13)),
-        // const Text(
+        // TextWidget(title, style: TextStyle(color: Colors.white70, fontSize: 13)),
+        // const TextWidget(
         //   " > Experience",
         //   style: TextStyle(color: Colors.white54, fontSize: 13),
         // ),
@@ -110,8 +111,8 @@ class ExperienceAnalysisScreen extends StatelessWidget {
               child: const Icon(Icons.layers, color: Colors.white),
             ),
             const SizedBox(width: 10),
-            Text(
-              title,
+            TextWidget(
+              text: title,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -175,8 +176,8 @@ class _TabItem extends StatelessWidget {
       children: [
         Icon(icon, color: color, size: 14),
         const SizedBox(width: 4),
-        Text(
-          label.title,
+        TextWidget(
+          text: label.title,
           style: TextStyle(color: Colors.white70, fontSize: 12),
         ),
       ],
