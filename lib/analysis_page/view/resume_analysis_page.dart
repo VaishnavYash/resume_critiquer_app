@@ -14,30 +14,28 @@ class ResumeAnalysisSection extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ...data,
+      children: [ ...data],
 
-        // // View Details Button
-        // Center(
-        //   child: ElevatedButton(
-        //     style: ElevatedButton.styleFrom(
-        //       backgroundColor: const Color(0xFF1F3C88),
-        //       shape: RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.circular(24),
-        //       ),
-        //       padding: const EdgeInsets.symmetric(
-        //         horizontal: 28,
-        //         vertical: 12,
-        //       ),
-        //     ),
-        //     onPressed: () {},
-        //     child: const Text("View Details", style: TextStyle(fontSize: 14)),
-        //   ),
-        // ),
-      ],
+      // // View Details Button
+      // Center(
+      //   child: ElevatedButton(
+      //     style: ElevatedButton.styleFrom(
+      //       backgroundColor: const Color(0xFF1F3C88),
+      //       shape: RoundedRectangleBorder(
+      //         borderRadius: BorderRadius.circular(24),
+      //       ),
+      //       padding: const EdgeInsets.symmetric(
+      //         horizontal: 28,
+      //         vertical: 12,
+      //       ),
+      //     ),
+      //     onPressed: () {},
+      //     child: const Text("View Details", style: TextStyle(fontSize: 14)),
+      //   ),
+      // ),
     );
   }
-
+  
   List<Widget> _organizeData(final BuildContext context) {
     final data = <Widget>[];
     for (var entry in jsonData.entries) {
@@ -46,21 +44,21 @@ class ResumeAnalysisSection extends StatelessWidget {
         list.add(CardContent(title: entryData.key, points: entryData.value));
       }
       data.add(
-        Padding(
-          padding: EdgeInsets.only(bottom: 12),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (context) => ExperienceAnalysisScreen(
-                        title: entry.key,
-                        cardContentList: list,
-                      ),
-                ),
-              );
-            },
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder:
+                    (context) => ExperienceAnalysisScreen(
+                      title: entry.key,
+                      cardContentList: list,
+                    ),
+              ),
+            );
+          },
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 12),
             child: AnalysisCard(
               icon: Icons.work_outline,
               title: entry.key,

@@ -58,8 +58,7 @@ class ExperienceAnalysisScreen extends StatelessWidget {
     );
   }
 
-  Widget _header(BuildContext context) {
-    return Row(
+  Widget _header(BuildContext context) => Row(
       children: [
         IconButton(
           icon: Icon(Icons.arrow_back),
@@ -85,7 +84,7 @@ class ExperienceAnalysisScreen extends StatelessWidget {
         // ),
       ],
     );
-  }
+  
 
   Widget _experienceTitle(final BuildContext context) {
     return Container(

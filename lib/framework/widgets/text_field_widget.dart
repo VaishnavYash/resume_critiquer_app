@@ -10,12 +10,10 @@ class TextFieldWidget extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
-  final TextFieldTheme textFieldTheme;
   final double? radius;
   final String? prefixIcon;
   final double? labelSize;
   final double? prefixSize;
-  final Color? bgColor;
   final Color? labelColor;
   final Color? hintColor;
   final Color? fieldTextColor;
@@ -30,12 +28,10 @@ class TextFieldWidget extends StatelessWidget {
     super.key,
     required this.label,
     required this.hintText,
-    required this.textFieldTheme,
     this.radius,
     this.hintColor,
     this.labelColor,
     this.labelSize,
-    this.bgColor,
     this.prefixIcon,
     this.prefixSize,
     this.controller,
@@ -51,49 +47,38 @@ class TextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (textFieldTheme) {
-      case TextFieldTheme.light:
-        return _lightThemeField();
-      case TextFieldTheme.dark:
-        return _darkThemeField();
-    }
-  }
-
-  Widget _lightThemeField() => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      TextWidget(
-        text: label,
-        style: TextStyle().copyWith(
-          fontSize: labelSize,
-          fontWeight: FontWeight.bold,
-          color: labelColor,
+    final colorScheme = Theme.of(context).colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextWidget(
+          text: label,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            fontSize: labelSize,
+            fontWeight: FontWeight.bold,
+            color: labelColor,
+          ),
+          highlightColor: highlightColor,
+          highlightWords: highlightWords,
+          highlightFontWeight: highlightFontWeight,
         ),
-        highlightColor: highlightColor,
-        highlightWords: highlightWords,
-        highlightFontWeight: highlightFontWeight,
-      ),
-      SizedBox(height: 10),
-      Container(
-        padding: EdgeInsets.only(right: 20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
-          color: bgColor,
-        ),
-        child: TextFormField(
+        SizedBox(height: 10),
+        TextFormField(
           maxLength: maxLength,
           controller: controller,
           keyboardType: keyboardType,
           style: TextStyle(color: fieldTextColor ?? Colors.black),
           decoration: InputDecoration(
             filled: true,
-            fillColor: bgColor,
+            fillColor: colorScheme.primaryContainer,
             prefixIcon:
                 (prefixSize != null && prefixIcon != null)
                     ? IconWidget(path: prefixIcon!, size: prefixSize!)
                     : null,
             hintText: hintText,
-            hintStyle: TextStyle(color: hintColor),
+            hintStyle: Theme.of(
+              context,
+            ).textTheme.labelSmall!.copyWith(color: hintColor),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
               borderSide: BorderSide.none,
@@ -101,59 +86,7 @@ class TextFieldWidget extends StatelessWidget {
           ),
           validator: validator,
         ),
-      ),
-    ],
-  );
-
-  Widget _darkThemeField() => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      TextWidget(
-        text: label,
-        style: TextStyle().copyWith(
-          fontSize: labelSize,
-          fontWeight: FontWeight.bold,
-          color: labelColor,
-        ),
-      ),
-      SizedBox(height: 10),
-      Container(
-        padding: EdgeInsets.only(right: 20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
-          color: bgColor,
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: TextFormField(
-                controller: controller,
-                keyboardType: keyboardType,
-                style: TextStyle(color: fieldTextColor),
-                maxLength: maxLength,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: bgColor,
-                  hintText: hintText,
-                  hintStyle: TextStyle(color: hintColor),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(radius ?? 15.0.sp),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                validator: validator,
-              ),
-            ),
-            if (prefixIcon != null) _prefixIconWidget(),
-          ],
-        ),
-      ),
-    ],
-  );
-
-  Widget _prefixIconWidget() => IconWidget(
-    path: prefixIcon!,
-    size: prefixSize ?? 20.0.sp,
-    color: prefixIconColor,
-  );
+      ],
+    );
+  }
 }

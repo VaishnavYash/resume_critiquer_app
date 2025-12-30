@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/analysis_page/view/resume_analysis_page.dart';
+import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
 import 'package:resume_critiquer_app/main_page/widget/score_gauge/ats_score_widget.dart';
@@ -18,6 +19,15 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
   FileUploadResponse response = FileUploadResponse();
 
   final List<String> data = [];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((final _) {
+      _submitResume();
+      setState(() {});
+    });
+    super.initState();
+  }
 
   // void _fileUploader() async {
   //   FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -65,6 +75,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -79,14 +90,13 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('PDF Upload Page'),
-
-            TextButton(onPressed: _submitResume, child: Text('Submit')),
-
-            Divider(),
+            _header(context),
+            TextWidget(
+              text: 'ATS Score',
+              style: textTheme.displayMedium!.copyWith(),
+            ),
             SizedBox(
-              width: 300,
-              height: 300,
+              height: 200,
               child: AtsScoreWidget(
                 atsScore: response.atsScore?.toDouble() ?? 0.0,
               ),
@@ -146,6 +156,34 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
     ],
   );
 }
+
+Widget _header(BuildContext context) => Row(
+  children: [
+    IconButton(
+      icon: Icon(Icons.arrow_back),
+      color: Colors.white70,
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    ),
+    // const SizedBox(width: 8),
+    // TextWidget(title, style: TextStyle(color: Colors.white70, fontSize: 13)),
+    // const TextWidget(
+    //   " > Experience",
+    //   style: TextStyle(color: Colors.white54, fontSize: 13),
+    // ),
+    // const Spacer(),
+    // Container(
+    //   padding: const EdgeInsets.all(6),
+    //   decoration: BoxDecoration(
+    //     color: const Color(0xFF121A2F),
+    //     borderRadius: BorderRadius.circular(8),
+    //   ),
+    //   child: const Icon(Icons.add, color: Colors.white70, size: 18),
+    // ),
+  ],
+);
+
 
             // data: MapEntry('Content Clarity and Impact', {
             //   "Strengths": [

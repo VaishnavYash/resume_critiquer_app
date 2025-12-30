@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
+import 'package:resume_critiquer_app/main_page/view/pdf_page.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -11,12 +12,32 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: SizedBox(
-        // color: Colors.amber,
         height: MediaQuery.of(context).size.height,
-        child: Stack(children: [_topBar(context), _mainContent(context)]),
+        child: Stack(
+          children: [_topStackWidget(context), _mainContent(context)],
+        ),
       ),
     );
   }
+
+  Widget _topStackWidget(final BuildContext context) => Container(
+    padding: EdgeInsets.all(10),
+    height: 280,
+    width: MediaQuery.sizeOf(context).width,
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFF4A5CF3),
+          Color(0xFF7B5CFF),
+          Color(0xFF7B5CFF),
+          Color(0xFF7B5CFF),
+        ],
+      ),
+    ),
+    child: Column(children: [_topBar(context), _header(context)]),
+  );
 
   Widget _mainContent(final BuildContext context) => Positioned(
     top: MediaQuery.sizeOf(context).height / 4,
@@ -38,9 +59,9 @@ class LandingPage extends StatelessWidget {
           const SizedBox(height: 24),
           _uploadCard(context),
           const SizedBox(height: 18),
-          _jobDescription('Company Applying for', context),
+          TextFieldWidget(label: 'Company Applying for', hintText: 'Google'),
           const SizedBox(height: 18),
-          _jobDescription('Job Appling for', context),
+          TextFieldWidget(label: 'Job Appling for', hintText: 'SDE 1'),
           const SizedBox(height: 24),
           _analyzeButton(context),
         ],
@@ -48,61 +69,8 @@ class LandingPage extends StatelessWidget {
     ),
   );
 
-  Widget _header(final BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 8),
-        TextWidget(
-          text: "Improve your resume\nwith AI insights",
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            fontSize: 26,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _topBar(final BuildContext context) => Container(
-    padding: EdgeInsets.all(10),
-    height: 280,
-    width: MediaQuery.sizeOf(context).width,
-    decoration: const BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Color(0xFF4A5CF3),
-          Color(0xFF7B5CFF),
-          Color(0xFF7B5CFF),
-          Color(0xFF7B5CFF),
-        ],
-      ),
-    ),
-    child: Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Icon(Icons.menu, size: 22), // Icon Change
-            SizedBox(width: 20),
-            TextWidget(
-              text: "Welcome!",
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: 16,
-                color: Colors.white70,
-              ),
-            ),
-          ],
-        ),
-        _header(context),
-      ],
-    ),
-  );
-
   Widget _uploadCard(final BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: BackdropFilter(
@@ -111,32 +79,30 @@ class LandingPage extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: Colors.white.withOpacity(0.06),
+            color: colorScheme.primaryContainer,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Row(
-              //   children: [
-              //     const Icon(Icons.description_outlined),
-              //     const SizedBox(width: 8),
-              //     TextWidget(
-              //       text: "Upload Resume",
-              //       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              //         fontSize: 16,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //     ),
-              //     const Spacer(),
-              //     const Icon(Icons.cloud_upload_outlined),
-              //   ],
-              // ),
+              Row(
+                children: [
+                  const Icon(Icons.description_outlined),
+                  const SizedBox(width: 8),
+                  TextWidget(
+                    text: 'Upload Resume',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const Spacer(),
+                  const Icon(Icons.cloud_upload_outlined),
+                ],
+              ),
               const SizedBox(height: 4),
               TextWidget(
-                text: "Supported files: PDF, DOC, DOCX",
+                text: "Supported files: PDF",
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontSize: 12,
-                  color: Colors.white54,
+                  color: colorScheme.onPrimaryContainer,
                 ),
               ),
               const SizedBox(height: 16),
@@ -145,7 +111,7 @@ class LandingPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(
-                    color: Colors.white24,
+                    color: colorScheme.onTertiary,
                     style: BorderStyle.solid,
                   ),
                 ),
@@ -153,22 +119,16 @@ class LandingPage extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.cloud, size: 32, color: Colors.white54),
+                      Icon(
+                        Icons.cloud,
+                        size: 32,
+                        color: colorScheme.onPrimaryContainer,
+                      ),
                       const SizedBox(height: 8),
                       TextWidget(
-                        text: "Drag and drop your resume here",
+                        text: "Browse file",
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontSize: 13,
-                          color: Colors.white70,
-                        ),
-                      ),
-
-                      const SizedBox(height: 4),
-                      TextWidget(
-                        text: "or Browse file",
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontSize: 13,
-                          color: Colors.blueAccent,
+                          color: colorScheme.surface,
                         ),
                       ),
                     ],
@@ -182,81 +142,55 @@ class LandingPage extends StatelessWidget {
     );
   }
 
-  Widget _jobDescription(final String title, final BuildContext context) {
-    return InkWell(
-      onTap: () {
-        // showDialog(
-        //   context: context,
-        //   builder: (final context) {
-        //     return _popUpTextField(context, title, 'Google');
-        //   },
-        // );
-      },
-      child: TextFieldWidget(
-        label: title,
-        hintText: 'Google',
-        textFieldTheme: TextFieldTheme.light,
+  Widget _topBar(final BuildContext context) => Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Icon(Icons.document_scanner, size: 22),
+      SizedBox(width: 20),
+      TextWidget(
+        text: 'Welcome!',
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          color: Theme.of(context).colorScheme.onSecondaryContainer,
+        ),
       ),
-      // child: Row(
-      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //   children: [
-      //     Row(
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       children: [
-      //         TextWidget(
-      //           text: "Optional: ",
-      //           style: Theme.of(
-      //             context,
-      //           ).textTheme.bodyLarge?.copyWith(color: Colors.white54),
-      //         ),
-      //         TextWidget(
-      //           text: title,
-      //           style: Theme.of(
-      //             context,
-      //           ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
-      //         ),
-      //       ],
-      //     ),
-      //     Icon(Icons.chevron_right),
-      //   ],
-      // ),
-    );
-  }
+    ],
+  );
 
-  Widget _popUpTextField(
-    final BuildContext context,
-    final String title,
-    final String hintText,
-  ) {
-    return AlertDialog(
-      title: const Text('AlertDialog Title'),
-      content: TextField(
-        //  title,
-        //         hintText: hintText,
-        //         textFieldTheme: TextFieldTheme.light,
-      ),
-      actions: <Widget>[
-        TextButton(
-          child: const Text('Submit'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+  Widget _header(final BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(height: 30),
+        TextWidget(
+          alignment: TextAlign.center,
+          text: 'Improve your resume\nwith AI insights',
+          style: Theme.of(
+            context,
+          ).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.w600),
         ),
       ],
     );
   }
 
   Widget _analyzeButton(final BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return SizedBox(
       height: 52,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (final context) => PDFUploadPage()),
+          );
+        },
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
           padding: EdgeInsets.zero,
-          backgroundColor: Colors.transparent,
+          backgroundColor: colorScheme.surface,
         ),
         child: Ink(
           decoration: BoxDecoration(
@@ -268,10 +202,9 @@ class LandingPage extends StatelessWidget {
           child: Center(
             child: TextWidget(
               text: "Analyze Resume",
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge!.copyWith(color: colorScheme.onSurface),
             ),
           ),
         ),
