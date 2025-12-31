@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
 
-class AnalysisCard extends StatelessWidget {
+class AnalysisCardWidget extends StatelessWidget {
   final IconData icon;
   final String title;
   // final int strengths;
   // final int improvements;
   final List<CardContent> cardContent;
 
-  const AnalysisCard({
+  const AnalysisCardWidget({
     super.key,
     required this.icon,
     required this.title,

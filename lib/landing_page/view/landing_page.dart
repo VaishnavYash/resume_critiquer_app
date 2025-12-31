@@ -7,67 +7,143 @@ import 'package:resume_critiquer_app/main_page/view/pdf_page.dart';
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
 
+  
+
   // backgroundColor: const Color(0xFF0B1020),
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [_topStackWidget(context), _mainContent(context)],
+
+
+    
+    final colorScheme = Theme.of(context).colorScheme;
+    return Scaffold(
+      appBar: AppBar(
+        title: _topBar(context),
+        backgroundColor: colorScheme.tertiaryContainer,
+      ),
+      backgroundColor: colorScheme.tertiaryContainer,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Stack(
+              children: [_topStackWidget(context), _mainContent(context)],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _topStackWidget(final BuildContext context) => Container(
-    padding: EdgeInsets.all(10),
-    height: 280,
-    width: MediaQuery.sizeOf(context).width,
-    decoration: const BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Color(0xFF4A5CF3),
-          Color(0xFF7B5CFF),
-          Color(0xFF7B5CFF),
-          Color(0xFF7B5CFF),
-        ],
-      ),
-    ),
-    child: Column(children: [_topBar(context), _header(context)]),
-  );
 
-  Widget _mainContent(final BuildContext context) => Positioned(
-    top: MediaQuery.sizeOf(context).height / 4,
-    child: Container(
-      height: MediaQuery.sizeOf(context).height,
+
+  // void _fileUploader() async {
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
+  //     type: FileType.custom,
+  //     allowedExtensions: ['pdf'],
+  //   );
+
+  //   if (result != null) {
+  //     isFileUploaded = true;
+  //     file = result.files.first;
+  //     setState(() {});
+  //   } else {
+  //     isFileUploaded = false;
+  //   }
+  // }
+
+  // void _submitResume() async {
+  //   // if (isFileUploaded) {
+  //   response = await MultipartApi().fileUploadMultipart(
+  //     // file: File(file!.path!),
+  //     jobTtile: 'Sample Job Title',
+  //   );
+  //   _structureResponseData();
+  //   // } else {
+  //   //   ScaffoldMessenger.of(context).showSnackBar(
+  //   //     SnackBar(content: TextWidget(text:'Please upload a PDF file before submitting.')),
+  //   //   );
+  //   // }
+  // }
+
+
+  // void _structureResponseData() {
+  //   data.clear();
+  //   data.add(
+  //     response.atsScore != null
+  //         ? 'ATS Score: ${response.atsScore}'
+  //         : 'ATS Score: N/A',
+  //   );
+  //   data.add(
+  //     response.summary != null
+  //         ? 'Summary: ${response.summary}'
+  //         : 'Summary: N/A',
+  //   );
+  //   setState(() {});
+  // }
+
+  Widget _topStackWidget(final BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
+      height: MediaQuery.sizeOf(context).height / 2,
       width: MediaQuery.sizeOf(context).width,
-      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        gradient: const LinearGradient(
-          colors: [Color(0xFF141B34), Color(0xFF0B1020)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+        gradient: LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [
+            colorScheme.secondaryContainer,
+            colorScheme.tertiaryContainer,
+            colorScheme.tertiaryContainer,
+          ],
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 24),
-          _uploadCard(context),
-          const SizedBox(height: 18),
-          TextFieldWidget(label: 'Company Applying for', hintText: 'Google'),
-          const SizedBox(height: 18),
-          TextFieldWidget(label: 'Job Appling for', hintText: 'SDE 1'),
-          const SizedBox(height: 24),
-          _analyzeButton(context),
-        ],
+      child: TextWidget(
+        alignment: TextAlign.center,
+        text: 'Improve your resume\nwith AI insights',
+        style: Theme.of(
+          context,
+        ).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.w600),
       ),
-    ),
-  );
+    );
+  }
+
+  Widget _mainContent(final BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Positioned(
+      top: MediaQuery.sizeOf(context).height / 5,
+      child: Container(
+        height: MediaQuery.sizeOf(context).height,
+        width: MediaQuery.sizeOf(context).width,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          gradient: LinearGradient(
+            colors: [
+              colorScheme.onPrimaryFixedVariant,
+              colorScheme.onSecondaryFixed,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 24),
+            _uploadCard(context),
+            const SizedBox(height: 18),
+            TextFieldWidget(label: 'Company Applying for', hintText: 'Google'),
+            const SizedBox(height: 18),
+            TextFieldWidget(label: 'Job Appling for', hintText: 'SDE 1'),
+            const SizedBox(height: 24),
+            _analyzeButton(context),
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget _uploadCard(final BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -157,22 +233,15 @@ class LandingPage extends StatelessWidget {
     ],
   );
 
-  Widget _header(final BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(height: 30),
-        TextWidget(
-          alignment: TextAlign.center,
-          text: 'Improve your resume\nwith AI insights',
-          style: Theme.of(
-            context,
-          ).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.w600),
-        ),
-      ],
-    );
-  }
+  // Widget _header(final BuildContext context) {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     crossAxisAlignment: CrossAxisAlignment.center,
+  //     children: [
+
+  //     ],
+  //   );
+  // }
 
   Widget _analyzeButton(final BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;

@@ -16,16 +16,20 @@ class ExperienceAnalysisScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: const Color(0xFF0B1220),
-      child: SafeArea(
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    return Scaffold(
+      backgroundColor: const Color(0xFF0B1220),
+      appBar: AppBar(
+        backgroundColor: colorScheme.tertiaryContainer,
+        title: TextWidget(text: 'Resume Analysis', style: textTheme.titleSmall),
+      ),
+      body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _header(context),
-              const SizedBox(height: 16),
               _experienceTitle(context),
               const SizedBox(height: 12),
               _tabs(cardContentList),
@@ -42,49 +46,12 @@ class ExperienceAnalysisScreen extends StatelessWidget {
                       ),
                     ),
               ),
-              // Expanded(
-              //   child: ListView(
-              //     children: const [
-              //       AnalysisCard(cardContent: ),
-              //       SizedBox(height: 16),
-              //       ImprovementsCard(),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),
       ),
     );
   }
-
-  Widget _header(BuildContext context) => Row(
-      children: [
-        IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: Colors.white70,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        // const SizedBox(width: 8),
-        // TextWidget(title, style: TextStyle(color: Colors.white70, fontSize: 13)),
-        // const TextWidget(
-        //   " > Experience",
-        //   style: TextStyle(color: Colors.white54, fontSize: 13),
-        // ),
-        // const Spacer(),
-        // Container(
-        //   padding: const EdgeInsets.all(6),
-        //   decoration: BoxDecoration(
-        //     color: const Color(0xFF121A2F),
-        //     borderRadius: BorderRadius.circular(8),
-        //   ),
-        //   child: const Icon(Icons.add, color: Colors.white70, size: 18),
-        // ),
-      ],
-    );
-  
 
   Widget _experienceTitle(final BuildContext context) {
     return Container(

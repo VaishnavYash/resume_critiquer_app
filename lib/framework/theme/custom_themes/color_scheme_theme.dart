@@ -58,43 +58,43 @@ class TColorScheme {
     primary: Color(0xFFF6EDFF),
     onPrimary: Color(0xFF000000),
 
-    primaryContainer: Color(0xFF2B334C), //
-    onPrimaryContainer: Colors.white54, //
+    // Current Use
+    primaryContainer: Color(0xFF2B334C),
+    onPrimaryContainer: Colors.white54,
+    onSurface: Colors.white,
+    surface: Colors.blueAccent,
+    onTertiary: Colors.white24,
+    secondaryContainer: Color(0xFF4A5CF3),
+    onSecondaryContainer: Colors.black,
+    tertiaryContainer: Color(0xFF7B5CFF),
+
+    onPrimaryFixedVariant: Color(0xFF141B34),
+    onSecondaryFixed: Color(0xFF0B1020),
 
     secondary: Color(0xFFF6EDFF),
     onSecondary: Colors.black,
 
-    secondaryContainer: Color(0xFFCCC2DC),
-    onSecondaryContainer: Colors.black,
-
     tertiary: Color(0xFFFFECF1),
-    onTertiary: Colors.white24, //
-
-    tertiaryContainer: Color(0xFFEFB8C8),
-    onTertiaryContainer: Colors.black,
 
     error: Color(0xFFFCEEEE),
     onError: Colors.black,
 
-    errorContainer: Color(0xFFF2B8B5),
-    onErrorContainer: Colors.black,
+    // errorContainer: Color(0xFFF2B8B5),
+    // onErrorContainer: Colors.black,
 
-    surface: Colors.blueAccent,
-    onSurface: Colors.white,
-    surfaceContainerHighest: Color(0xFF36343B), //
-    surfaceContainerHigh: Color(0xFF2B2930),
-    surfaceContainer: Color(0xFF211F26),
-    surfaceContainerLow: Color(0xFF1D1B20),
-    surfaceContainerLowest: Color(0xFF0F0D13),
-    inverseSurface: Color(0xFFE6E0E9),
-    onInverseSurface: Color(0xFF000000),
-    surfaceTint: Color(0xFFF6EDFF), //
+    // surfaceContainerHighest: Color(0xFF36343B), //
+    // surfaceContainerHigh: Color(0xFF2B2930),
+    // surfaceContainer: Color(0xFF211F26),
+    // surfaceContainerLow: Color(0xFF1D1B20),
+    // surfaceContainerLowest: Color(0xFF0F0D13),
+    // inverseSurface: Color(0xFFE6E0E9),
+    // onInverseSurface: Color(0xFF000000),
+    // surfaceTint: Color(0xFFF6EDFF), //
 
-    outline: Color(0xFFF5EEFA),
-    outlineVariant: Color(0xFFCAC4D0),
+    // outline: Color(0xFFF5EEFA),
+    // outlineVariant: Color(0xFFCAC4D0),
 
-    primaryFixed: Colors.black, // Title Bar
-    onPrimaryFixed: Color(0xFF94d2bd), // Description Text
-    secondaryFixed: Color(0xFF1E1E1E), // Description Color
+    // primaryFixed: Colors.black, // Title Bar
+    // onPrimaryFixed: Color(0xFF94d2bd), // Description Text
   );
 }

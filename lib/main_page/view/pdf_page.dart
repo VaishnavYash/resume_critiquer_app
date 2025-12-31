@@ -1,10 +1,12 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/analysis_page/view/resume_analysis_page.dart';
+import 'package:resume_critiquer_app/analysis_page/view/section_analysis_page.dart';
+import 'package:resume_critiquer_app/main_page/widget/analysis_card/analysis_card_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
+import 'package:resume_critiquer_app/model/card_content.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
-import 'package:resume_critiquer_app/main_page/widget/score_gauge/ats_score_widget.dart';
+import 'package:resume_critiquer_app/main_page/widget/other_widget/score_gauge/ats_score_widget.dart';
 
 class PDFUploadPage extends StatefulWidget {
   const PDFUploadPage({super.key});
@@ -14,11 +16,9 @@ class PDFUploadPage extends StatefulWidget {
 }
 
 class _PDFUploadPageState extends State<PDFUploadPage> {
-  // bool isFileUploaded = false;
+  late TextTheme textTheme;
   PlatformFile? file;
   FileUploadResponse response = FileUploadResponse();
-
-  final List<String> data = [];
 
   @override
   void initState() {
@@ -29,180 +29,151 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
     super.initState();
   }
 
-  // void _fileUploader() async {
-  //   FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //     type: FileType.custom,
-  //     allowedExtensions: ['pdf'],
-  //   );
-
-  //   if (result != null) {
-  //     isFileUploaded = true;
-  //     file = result.files.first;
-  //     setState(() {});
-  //   } else {
-  //     isFileUploaded = false;
-  //   }
-  // }
-
   void _submitResume() async {
-    // if (isFileUploaded) {
     response = await MultipartApi().fileUploadMultipart(
-      // file: File(file!.path!),
       jobTtile: 'Sample Job Title',
     );
-    _structureResponseData();
-    // } else {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(content: Text('Please upload a PDF file before submitting.')),
-    //   );
-    // }
-  }
-
-  void _structureResponseData() {
-    data.clear();
-    data.add(
-      response.atsScore != null
-          ? 'ATS Score: ${response.atsScore}'
-          : 'ATS Score: N/A',
-    );
-    data.add(
-      response.summary != null
-          ? 'Summary: ${response.summary}'
-          : 'Summary: N/A',
-    );
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF0B1220), Color(0xFF0E1627)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _header(context),
-            TextWidget(
-              text: 'ATS Score',
-              style: textTheme.displayMedium!.copyWith(),
-            ),
-            SizedBox(
-              height: 200,
-              child: AtsScoreWidget(
-                atsScore: response.atsScore?.toDouble() ?? 0.0,
+    textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: colorScheme.tertiaryContainer,
+        title: TextWidget(text: 'Resume Analysis', style: textTheme.titleLarge),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  colorScheme.onPrimaryFixedVariant,
+                  colorScheme.onSecondaryFixed,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
             ),
-
-            if (response.summary != null) _summaryBlock(response.summary!),
-
-            if (response.analysis?.isNotEmpty ?? false)
-              ResumeAnalysisSection(jsonData: response.analysis!),
-
-            // ConsoleView(
-            //   title: 'Summary',
-            //   detail:response.summary ?? '',
-            // ),
-
-            // if (response.analysis?.isNotEmpty ?? false)
-            //   TypeOneCardWidget(data: response.analysis!.entries.first),
-
-            // if (response.analysis?.isNotEmpty ?? false)
-            //   HorizontalCarouselWidget(data: response.analysis!.entries.first),
-
-            // ListView.builder(
-            //   itemCount: 30,
-            //   shrinkWrap: true,
-            //   physics: NeverScrollableScrollPhysics(),
-            //   itemBuilder: (context, value) {
-            //     return TextWidget(
-            //       text: 'PDF Upload Page',
-            //       style: TextStyle(color: Colors.yellow),
-            //     );
-            //   },
-            // ),
-          ],
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _atsScore(),
+                _summaryBlock(response.summary!),
+                _analysisCards(),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _summaryBlock(final String summary) => Column(
-    children: [
-      const Text(
-        "Professional Summary",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
+  Widget _atsScore() {
+    if (response.atsScore == null) return SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextWidget(text: 'ATS Score', style: textTheme.displayMedium!),
+          SizedBox(
+            height: 200,
+            child: AtsScoreWidget(
+              atsScore: response.atsScore?.toDouble() ?? 0.0,
+            ),
+          ),
+        ],
       ),
-      const SizedBox(height: 8),
+    );
+  }
 
-      // Summary text
-      Text(
-        summary,
-        style: TextStyle(color: Colors.white70, fontSize: 14, height: 1.4),
+  Widget _summaryBlock(final String summary) {
+    if (response.summary == null) return SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextWidget(
+            text: "Professional Summary",
+            style: textTheme.displaySmall?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextWidget(
+            text: summary,
+            style: textTheme.labelMedium?.copyWith(height: 1.4),
+          ),
+          const SizedBox(height: 24),
+        ],
       ),
-      const SizedBox(height: 24),
-    ],
-  );
+    );
+  }
+
+  Widget _analysisCards() {
+    if (response.analysis == null) return SizedBox.shrink();
+    final data = <Widget>[];
+    for (var entry in response.analysis!.entries) {
+      final list = <CardContent>[];
+      for (var entryData in entry.value.entries) {
+        list.add(CardContent(title: entryData.key, points: entryData.value));
+      }
+      data.add(
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder:
+                    (context) => ExperienceAnalysisScreen(
+                      title: entry.key,
+                      cardContentList: list,
+                    ),
+              ),
+            );
+          },
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 12),
+            child: AnalysisCardWidget(
+              icon: Icons.work_outline,
+              title: entry.key,
+              cardContent: list,
+            ),
+          ),
+        ),
+      );
+    }
+    return Column(children: data);
+  }
 }
 
-Widget _header(BuildContext context) => Row(
-  children: [
-    IconButton(
-      icon: Icon(Icons.arrow_back),
-      color: Colors.white70,
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    ),
-    // const SizedBox(width: 8),
-    // TextWidget(title, style: TextStyle(color: Colors.white70, fontSize: 13)),
-    // const TextWidget(
-    //   " > Experience",
-    //   style: TextStyle(color: Colors.white54, fontSize: 13),
-    // ),
-    // const Spacer(),
-    // Container(
-    //   padding: const EdgeInsets.all(6),
-    //   decoration: BoxDecoration(
-    //     color: const Color(0xFF121A2F),
-    //     borderRadius: BorderRadius.circular(8),
-    //   ),
-    //   child: const Icon(Icons.add, color: Colors.white70, size: 18),
-    // ),
-  ],
-);
 
 
-            // data: MapEntry('Content Clarity and Impact', {
-            //   "Strengths": [
-            //     "Professional summary succinctly outlines key skills and achievements.",
-            //     "Experience section provides quantifiable results that demonstrate impact.",
-            //     "Experience section provides quantifiable results that demonstrate impact.",
-            //     "Experience section provides quantifiable results that demonstrate impact.",
-            //     "Experience section provides quantifiable results that demonstrate impact.",
-            //     "Experience section provides quantifiable results that demonstrate impact.",
-            //     "Experience section provides quantifiable results that demonstrate impact.",
-            //     "Experience section provides quantifiable results that demonstrate impact.",
-            //     "Experience section provides quantifiable results that demonstrate impact.",
-            //   ],
-            //   "Areas of Improvement": [
-            //     "Clarify the role and contributions in academic projects and experiences.",
-            //     "Use more action-oriented language to enhance engagement.",
-            //     "Use more action-oriented language to enhance engagement.",
-            //     "Use more action-oriented language to enhance engagement.",
-            //     "Use more action-oriented language to enhance engagement.",
-            //     "Use more action-oriented language to enhance engagement.",
-            //   ],
-            // }),
+                // ConsoleView(
+                //   title: 'Summary',
+                //   detail:response.summary ?? '',
+                // ),
+
+                // if (response.analysis?.isNotEmpty ?? false)
+                //   TypeOneCardWidget(data: response.analysis!.entries.first),
+
+                // if (response.analysis?.isNotEmpty ?? false)
+                //   HorizontalCarouselWidget(data: response.analysis!.entries.first),
+
+                // ListView.builder(
+                //   itemCount: 30,
+                //   shrinkWrap: true,
+                //   physics: NeverScrollableScrollPhysics(),
+                //   itemBuilder: (context, value) {
+                //     return TextWidget(
+                //       text: 'PDF Upload Page',
+                //       style: textTheme.displayMedium?.copyWith(color: Colors.yellow),
+                //     );
+                //   },
+                // ),
