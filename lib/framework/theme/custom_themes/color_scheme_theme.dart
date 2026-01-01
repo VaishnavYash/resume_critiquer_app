@@ -63,18 +63,18 @@ class TColorScheme {
     onPrimaryContainer: Colors.white54,
     onSurface: Colors.white,
     surface: Colors.blueAccent,
+    tertiary: Color(0xFF1E2A4A),
     onTertiary: Colors.white24,
     secondaryContainer: Color(0xFF4A5CF3),
     onSecondaryContainer: Colors.black,
     tertiaryContainer: Color(0xFF7B5CFF),
-
     onPrimaryFixedVariant: Color(0xFF141B34),
     onSecondaryFixed: Color(0xFF0B1020),
-
-    secondary: Color(0xFFF6EDFF),
-    onSecondary: Colors.black,
-
-    tertiary: Color(0xFFFFECF1),
+    secondary: Color(0xFF121A2F),
+    onSecondary: Color(0xFFF6EDFF),
+    onInverseSurface: Color(0xFF1B2A4A), //
+    surfaceTint: Color(0xFF0B1220), //
+ 
 
     error: Color(0xFFFCEEEE),
     onError: Colors.black,
@@ -89,7 +89,6 @@ class TColorScheme {
     // surfaceContainerLowest: Color(0xFF0F0D13),
     // inverseSurface: Color(0xFFE6E0E9),
     // onInverseSurface: Color(0xFF000000),
-    // surfaceTint: Color(0xFFF6EDFF), //
 
     // outline: Color(0xFFF5EEFA),
     // outlineVariant: Color(0xFFCAC4D0),

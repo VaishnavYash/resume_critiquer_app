@@ -7,14 +7,9 @@ import 'package:resume_critiquer_app/main_page/view/pdf_page.dart';
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
 
-  
-
   // backgroundColor: const Color(0xFF0B1020),
   @override
   Widget build(BuildContext context) {
-
-
-    
     final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +20,7 @@ class LandingPage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height * (9 / 10),
             child: Stack(
               children: [_topStackWidget(context), _mainContent(context)],
             ),
@@ -34,8 +29,6 @@ class LandingPage extends StatelessWidget {
       ),
     );
   }
-
-
 
   // void _fileUploader() async {
   //   FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -65,7 +58,6 @@ class LandingPage extends StatelessWidget {
   //   //   );
   //   // }
   // }
-
 
   // void _structureResponseData() {
   //   data.clear();
@@ -111,14 +103,15 @@ class LandingPage extends StatelessWidget {
 
   Widget _mainContent(final BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final height = MediaQuery.sizeOf(context).height;
     return Positioned(
-      top: MediaQuery.sizeOf(context).height / 5,
+      top: height / 5,
       child: Container(
-        height: MediaQuery.sizeOf(context).height,
+        height: height,
         width: MediaQuery.sizeOf(context).width,
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.fromLTRB(20, 30, 20, 10),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           gradient: LinearGradient(
             colors: [
               colorScheme.onPrimaryFixedVariant,
@@ -129,9 +122,9 @@ class LandingPage extends StatelessWidget {
           ),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 24),
             _uploadCard(context),
             const SizedBox(height: 18),
             TextFieldWidget(label: 'Company Applying for', hintText: 'Google'),

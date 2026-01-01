@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/main_page/view/widget/utils.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
+
+import '../../../framework/widgets/text_widget.dart';
 
 class AnalysisCardWidget extends StatelessWidget {
   final IconData icon;
   final String title;
-  // final int strengths;
-  // final int improvements;
   final List<CardContent> cardContent;
 
   const AnalysisCardWidget({
@@ -17,14 +18,17 @@ class AnalysisCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textStyle = Theme.of(context).textTheme;
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: const Color(0xFF121A2F),
+        color: colorScheme.secondary,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.25),
+            color: colorScheme.onSecondaryFixed,
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -36,10 +40,10 @@ class AnalysisCardWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: const Color(0xFF1E2A4A),
+              color: colorScheme.tertiary,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icon, color: Colors.white, size: 20),
+            child: Icon(icon, color: colorScheme.onSecondary, size: 20),
           ),
 
           const SizedBox(width: 12),
@@ -49,12 +53,10 @@ class AnalysisCardWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+                TextWidget(
+                  text: title,
+                  style: textStyle.bodyMedium!.copyWith(
+                    color: colorScheme.onSecondary,
                   ),
                 ),
 
@@ -68,11 +70,15 @@ class AnalysisCardWidget extends StatelessWidget {
                       return Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: _infoChip(
+                          context: context,
                           icon:
                               index == 0
                                   ? Icons.check_circle
                                   : Icons.warning_amber_rounded,
-                          color: index == 0 ? Colors.greenAccent : Colors.amber,
+                          // color:
+                          //     index == 0
+                          //         ? colorScheme.error
+                          //         : colorScheme.onError,
                           text: "${card.points.length} ${card.title}",
                         ),
                       );
@@ -83,7 +89,10 @@ class AnalysisCardWidget extends StatelessWidget {
             ),
           ),
 
-          const Icon(Icons.chevron_right, color: Colors.white54),
+          const Icon(
+            Icons.chevron_right,
+            //  color: colorScheme.white54
+          ),
         ],
       ),
     );
@@ -91,14 +100,20 @@ class AnalysisCardWidget extends StatelessWidget {
 
   Widget _infoChip({
     required IconData icon,
-    required Color color,
     required String text,
+    required BuildContext context,
   }) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textStyle = Theme.of(context).textTheme;
+
     return Row(
       children: [
-        Icon(icon, color: color, size: 14),
+        Utils.getIcon(text.replaceAll(' ', '').toLowerCase()),
         const SizedBox(width: 4),
-        Text(text, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+        TextWidget(
+          text: text,
+          style: textStyle.bodySmall!.copyWith(color: colorScheme.onSecondary),
+        ),
       ],
     );
   }

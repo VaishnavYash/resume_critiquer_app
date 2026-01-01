@@ -1,7 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/analysis_page/view/section_analysis_page.dart';
-import 'package:resume_critiquer_app/main_page/widget/analysis_card/analysis_card_widget.dart';
+import 'package:resume_critiquer_app/main_page/view/widget/analysis_card_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
@@ -40,6 +40,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
     textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
+      backgroundColor: colorScheme.onInverseSurface,
       appBar: AppBar(
         backgroundColor: colorScheme.tertiaryContainer,
         title: TextWidget(text: 'Resume Analysis', style: textTheme.titleLarge),
@@ -118,6 +119,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
 
   Widget _analysisCards() {
     if (response.analysis == null) return SizedBox.shrink();
+
     final data = <Widget>[];
     for (var entry in response.analysis!.entries) {
       final list = <CardContent>[];
