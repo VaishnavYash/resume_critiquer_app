@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/analysis_page/view/widget/analysis_card.dart';
+import 'package:resume_critiquer_app/analysis_page/view/widget/glass_tabs.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
 
@@ -12,40 +13,39 @@ class ExperienceAnalysisScreen extends StatelessWidget {
 
   final String title;
   final List<CardContent> cardContentList;
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       backgroundColor: colorScheme.surfaceTint,
       appBar: AppBar(
         backgroundColor: colorScheme.tertiaryContainer,
-        title: TextWidget(text: 'Resume Analysis', style: textTheme.titleSmall),
+        title: TextWidget(
+          text: 'Resume Analysis',
+          style: textTheme.titleMedium?.copyWith(
+            color: colorScheme.onSecondary,
+          ),
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _experienceTitle(context),
-                const SizedBox(height: 16),
-                ListView.builder(
-                  itemCount: cardContentList.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder:
-                      (final context, final index) => Padding(
-                        padding: EdgeInsets.only(bottom: 16),
-                        child: AnalysisCard(
-                          cardContent: cardContentList[index],
-                        ),
-                      ),
-                ),
-              ],
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _experienceTitle(context),
+              GlassTabs(cardContent: cardContentList),
+
+              const SizedBox(height: 16),
+              ListView.builder(
+                itemCount: cardContentList.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder:
+                    (final context, final index) => AnalysisCard(cardContent: cardContentList[index]),
+              ),
+            ],
           ),
         ),
       ),
@@ -57,6 +57,7 @@ class ExperienceAnalysisScreen extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme;
 
     return Container(
+      margin: const EdgeInsets.all(16),
       width: MediaQuery.sizeOf(context).width,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -91,11 +92,13 @@ class ExperienceAnalysisScreen extends StatelessWidget {
 }
 
 // Widget _tabs(final List<CardContent> content) {
-//   return Row(
-//     children: List.generate(content.length, (final index) {
-//       return _TabItem(label: content[index], color: Colors.greenAccent);
-//     }),
-
+//   return SingleChildScrollView(
+//     scrollDirection: Axis.horizontal,
+//     child: Row(
+//       children: List.generate(content.length, (final index) {
+//         return _TabItem(label: content[index], color: Colors.greenAccent);
+//       }),
+//     ),
 //   );
 // }
 
@@ -107,15 +110,22 @@ class ExperienceAnalysisScreen extends StatelessWidget {
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return Row(
-//       children: [
-//         Utils.getIcon(label.title.replaceAll(' ', '').toLowerCase()),
-//         const SizedBox(width: 4),
-//         TextWidget(
-//           text: label.title,
-//           style: textStyle.bodySmall!.copyWith((color: Colors.white70, fontSize: 12),
-//         ),
-//       ],
+//     final textStyle = Theme.of(context).textTheme;
+//     return Container(
+
+//       child: Row(
+//         children: [
+//           Utils.getIcon(label.title.replaceAll(' ', '').toLowerCase()).icon,
+//           const SizedBox(width: 4),
+//           TextWidget(
+//             text: label.title,
+//             style: textStyle.bodySmall!.copyWith(
+//               color: Colors.white70,
+//               fontSize: 12,
+//             ),
+//           ),
+//         ],
+//       ),
 //     );
 //   }
 // }

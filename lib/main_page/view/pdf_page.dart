@@ -6,7 +6,7 @@ import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
-import 'package:resume_critiquer_app/main_page/widget/other_widget/score_gauge/ats_score_widget.dart';
+import 'package:resume_critiquer_app/main_page/view/widget/ats_score_widget.dart';
 
 class PDFUploadPage extends StatefulWidget {
   const PDFUploadPage({super.key});
@@ -17,6 +17,7 @@ class PDFUploadPage extends StatefulWidget {
 
 class _PDFUploadPageState extends State<PDFUploadPage> {
   late TextTheme textTheme;
+  late ColorScheme colorScheme;
   PlatformFile? file;
   FileUploadResponse response = FileUploadResponse();
 
@@ -38,27 +39,23 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
   @override
   Widget build(BuildContext context) {
     textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
+    colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: colorScheme.onInverseSurface,
+      backgroundColor: colorScheme.surfaceTint,
       appBar: AppBar(
         backgroundColor: colorScheme.tertiaryContainer,
-        title: TextWidget(text: 'Resume Analysis', style: textTheme.titleLarge),
+        title: TextWidget(
+          text: 'Resume Analysis',
+          style: textTheme.titleMedium?.copyWith(
+            color: colorScheme.onSecondary,
+          ),
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
+          child: Padding(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colorScheme.onPrimaryFixedVariant,
-                  colorScheme.onSecondaryFixed,
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,6 +63,8 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
                 _atsScore(),
                 _summaryBlock(response.summary!),
                 _analysisCards(),
+                // _bottomButton(),
+                // SizedBox(height: 20),
               ],
             ),
           ),
@@ -81,7 +80,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextWidget(text: 'ATS Score', style: textTheme.displayMedium!),
+          _titleBlock('ATS Score'),
           SizedBox(
             height: 200,
             child: AtsScoreWidget(
@@ -93,6 +92,11 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
     );
   }
 
+  Widget _titleBlock(final String title) => TextWidget(
+    text: title,
+    style: textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w600),
+  );
+
   Widget _summaryBlock(final String summary) {
     if (response.summary == null) return SizedBox.shrink();
     return Padding(
@@ -100,12 +104,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextWidget(
-            text: "Professional Summary",
-            style: textTheme.displaySmall?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          _titleBlock("Professional Summary"),
           const SizedBox(height: 8),
           TextWidget(
             text: summary,
@@ -121,7 +120,9 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
     if (response.analysis == null) return SizedBox.shrink();
 
     final data = <Widget>[];
+    // int i = 0;
     for (var entry in response.analysis!.entries) {
+      // i++;
       final list = <CardContent>[];
       for (var entryData in entry.value.entries) {
         list.add(CardContent(title: entryData.key, points: entryData.value));
@@ -150,32 +151,33 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
           ),
         ),
       );
+      // if (i == 3) break;
     }
     return Column(children: data);
   }
+
+  // Widget _bottomButton() {
+  //   return ElevatedButton(
+  //     onPressed: () {},
+  //     style: ElevatedButton.styleFrom(
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+  //       padding: EdgeInsets.zero,
+  //     ),
+  //     child: Ink(
+  //       decoration: BoxDecoration(
+  //         color: colorScheme.surface,
+  //         borderRadius: BorderRadius.circular(16),
+  //       ),
+  //       child: Padding(
+  //         padding: EdgeInsets.symmetric(horizontal: 18),
+  //         child: TextWidget(
+  //           text: 'View Details',
+  //           style: Theme.of(
+  //             context,
+  //           ).textTheme.bodySmall!.copyWith(color: colorScheme.onSurface),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
-
-
-
-                // ConsoleView(
-                //   title: 'Summary',
-                //   detail:response.summary ?? '',
-                // ),
-
-                // if (response.analysis?.isNotEmpty ?? false)
-                //   TypeOneCardWidget(data: response.analysis!.entries.first),
-
-                // if (response.analysis?.isNotEmpty ?? false)
-                //   HorizontalCarouselWidget(data: response.analysis!.entries.first),
-
-                // ListView.builder(
-                //   itemCount: 30,
-                //   shrinkWrap: true,
-                //   physics: NeverScrollableScrollPhysics(),
-                //   itemBuilder: (context, value) {
-                //     return TextWidget(
-                //       text: 'PDF Upload Page',
-                //       style: textTheme.displayMedium?.copyWith(color: Colors.yellow),
-                //     );
-                //   },
-                // ),

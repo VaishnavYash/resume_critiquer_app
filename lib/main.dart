@@ -13,6 +13,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Device.init(context);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: TAppTheme.lightTheme, // Light Theme
       themeMode: ThemeMode.dark, // System Theme
       darkTheme: TAppTheme.darkTheme, // Dark Theme

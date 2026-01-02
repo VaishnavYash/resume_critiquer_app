@@ -55,7 +55,7 @@ class AtsScoreWidget extends StatelessWidget {
                 text: atsScore.toStringAsFixed(1),
                 style: Theme.of(
                   context,
-                ).textTheme.displayLarge?.copyWith(color: colorCode),
+                ).textTheme.displayMedium?.copyWith(color: colorCode),
               ),
             ),
             GaugeAnnotation(
@@ -96,7 +96,7 @@ class AtsScoreWidget extends StatelessWidget {
           showLastLabel: true,
           showAxisLine: true,
           axisLineStyle: AxisLineStyle(
-            thickness: 70,
+            thickness: 60,
             gradient: SweepGradient(
               colors: [
                 const Color.fromARGB(255, 191, 45, 249),

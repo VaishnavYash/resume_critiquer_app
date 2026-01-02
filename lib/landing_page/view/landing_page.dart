@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/view/pdf_page.dart';
+import 'package:resume_critiquer_app/landing_page/widget/glass_button.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
 
-  // backgroundColor: const Color(0xFF0B1020),
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -16,15 +16,17 @@ class LandingPage extends StatelessWidget {
         title: _topBar(context),
         backgroundColor: colorScheme.tertiaryContainer,
       ),
-      backgroundColor: colorScheme.tertiaryContainer,
+      backgroundColor: colorScheme.secondaryContainer,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * (9 / 10),
-            child: Stack(
-              children: [_topStackWidget(context), _mainContent(context)],
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(child: _topStackWidget(context)),
+
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: _mainContent(context),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -77,8 +79,7 @@ class LandingPage extends StatelessWidget {
   Widget _topStackWidget(final BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return Container(
-      padding: EdgeInsets.fromLTRB(10, 40, 10, 10),
-      height: MediaQuery.sizeOf(context).height / 2,
+      padding: EdgeInsets.fromLTRB(10, 40, 10, 60),
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -103,37 +104,31 @@ class LandingPage extends StatelessWidget {
 
   Widget _mainContent(final BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final height = MediaQuery.sizeOf(context).height;
-    return Positioned(
-      top: height / 5,
-      child: Container(
-        height: height,
-        width: MediaQuery.sizeOf(context).width,
-        padding: EdgeInsets.fromLTRB(20, 30, 20, 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-          gradient: LinearGradient(
-            colors: [
-              colorScheme.onPrimaryFixedVariant,
-              colorScheme.onSecondaryFixed,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _uploadCard(context),
-            const SizedBox(height: 18),
-            TextFieldWidget(label: 'Company Applying for', hintText: 'Google'),
-            const SizedBox(height: 18),
-            TextFieldWidget(label: 'Job Appling for', hintText: 'SDE 1'),
-            const SizedBox(height: 24),
-            _analyzeButton(context),
+    return Container(
+      width: MediaQuery.sizeOf(context).width,
+      padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        gradient: LinearGradient(
+          colors: [
+            colorScheme.onPrimaryFixedVariant,
+            colorScheme.onSecondaryFixed,
           ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _uploadCard(context),
+          const SizedBox(height: 18),
+          TextFieldWidget(label: 'Company Applying for', hintText: 'Google'),
+          const SizedBox(height: 18),
+          TextFieldWidget(label: 'Job Appling for', hintText: 'SDE 1'),
+          const SizedBox(height: 24),
+          _analyzeButton(context),
+        ],
       ),
     );
   }
@@ -170,7 +165,7 @@ class LandingPage extends StatelessWidget {
               const SizedBox(height: 4),
               TextWidget(
                 text: "Supported files: PDF",
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onPrimaryContainer,
                 ),
               ),
@@ -226,51 +221,33 @@ class LandingPage extends StatelessWidget {
     ],
   );
 
-  // Widget _header(final BuildContext context) {
-  //   return Column(
-  //     mainAxisAlignment: MainAxisAlignment.center,
-  //     crossAxisAlignment: CrossAxisAlignment.center,
-  //     children: [
-
-  //     ],
-  //   );
-  // }
-
   Widget _analyzeButton(final BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return SizedBox(
-      height: 52,
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (final context) => PDFUploadPage()),
-          );
-        },
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          padding: EdgeInsets.zero,
-          backgroundColor: colorScheme.surface,
-        ),
-        child: Ink(
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF5B7CFF), Color(0xFF6A5BFF)],
-            ),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Center(
-            child: TextWidget(
-              text: "Analyze Resume",
-              style: Theme.of(
-                context,
-              ).textTheme.bodyLarge!.copyWith(color: colorScheme.onSurface),
-            ),
+    final textTheme = Theme.of(context).textTheme;
+    return GlassButton(
+      textWidget: Center(
+        child: TextWidget(
+          text: 'Analyze Resume',
+          style: textTheme.bodyLarge?.copyWith(
+            color: colorScheme.onSurface,
+            letterSpacing: 0.5,
           ),
         ),
       ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (final context) => PDFUploadPage()),
+        );
+      },
+      colorsList: [
+        colorScheme.primaryContainer,
+        colorScheme.surface,
+        colorScheme.surface,
+        colorScheme.surface,
+        colorScheme.primaryContainer,
+      ],
     );
+
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/main_page/view/widget/utils.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
@@ -65,21 +67,16 @@ class AnalysisCardWidget extends StatelessWidget {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: List.generate(cardContent.length, (final index) {
+                    children: List.generate(min(cardContent.length, 2), (
+                      final index,
+                    ) {
                       final card = cardContent[index];
                       return Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: _infoChip(
                           context: context,
-                          icon:
-                              index == 0
-                                  ? Icons.check_circle
-                                  : Icons.warning_amber_rounded,
-                          // color:
-                          //     index == 0
-                          //         ? colorScheme.error
-                          //         : colorScheme.onError,
-                          text: "${card.points.length} ${card.title}",
+                          text: card.title,
+                          count: card.points.length,
                         ),
                       );
                     }),
@@ -99,20 +96,31 @@ class AnalysisCardWidget extends StatelessWidget {
   }
 
   Widget _infoChip({
-    required IconData icon,
     required String text,
     required BuildContext context,
+    required int count,
   }) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyle = Theme.of(context).textTheme;
+    final searchString = text.replaceAll(' ', '').toLowerCase();
+    final iconData = Utils.getIcon(searchString);
 
     return Row(
       children: [
-        Utils.getIcon(text.replaceAll(' ', '').toLowerCase()),
-        const SizedBox(width: 4),
+        iconData.icon,
+        const SizedBox(width: 5),
         TextWidget(
-          text: text,
-          style: textStyle.bodySmall!.copyWith(color: colorScheme.onSecondary),
+          text: '$count $text',
+          highlightWords: {count.toString()},
+          highlightColor:
+              iconData.color == Colors.greenAccent
+                  ? iconData.color
+                  : colorScheme.onSurface,
+          highlightFontWeight: FontWeight.bold,
+          style: textStyle.labelSmall!.copyWith(
+            color: colorScheme.onSecondary,
+            fontSize: 10,
+          ),
         ),
       ],
     );

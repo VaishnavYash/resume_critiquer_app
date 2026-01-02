@@ -40,17 +40,12 @@ class AnalysisCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
+      margin: EdgeInsets.fromLTRB(16, 0, 16, 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: colorScheme.secondary,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.secondary,
-            blurRadius: 10,
-            offset: const Offset(0, 6),
-          ),
-        ],
+        boxShadow: [BoxShadow(blurRadius: 5, offset: const Offset(0, 6))],
       ),
       child: child,
     );
@@ -63,10 +58,11 @@ class AnalysisCard extends StatelessWidget {
   }) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyle = Theme.of(context).textTheme;
+    final iconData = Utils.getIcon(title.replaceAll(' ', '').toLowerCase());
 
     return Row(
       children: [
-        Utils.getIcon(title.replaceAll(' ', '').toLowerCase()),
+        iconData.icon,
         const SizedBox(width: 8),
         TextWidget(
           text: title,

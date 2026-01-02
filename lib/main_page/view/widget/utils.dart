@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
+class CustomIconData {
+  final Icon icon;
+  final Color color;
+
+  const CustomIconData({required this.icon, required this.color});
+}
+
 class Utils {
-  static Icon getIcon(final String label) {
+  static CustomIconData getIcon(final String label) {
     IconData? icon;
     Color? color;
     if (label.contains('strength')) {
@@ -29,6 +36,9 @@ class Utils {
       color = Colors.cyan;
     }
 
-    return Icon(icon, color: color, size: 16);
+    return CustomIconData(
+      icon: Icon(icon, color: color, size: 14),
+      color: color,
+    );
   }
 }
