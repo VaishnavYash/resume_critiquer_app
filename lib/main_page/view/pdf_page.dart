@@ -118,11 +118,8 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
 
   Widget _analysisCards() {
     if (response.analysis == null) return SizedBox.shrink();
-
     final data = <Widget>[];
-    // int i = 0;
     for (var entry in response.analysis!.entries) {
-      // i++;
       final list = <CardContent>[];
       for (var entryData in entry.value.entries) {
         list.add(CardContent(title: entryData.key, points: entryData.value));
@@ -144,40 +141,13 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
           child: Padding(
             padding: EdgeInsets.only(bottom: 12),
             child: AnalysisCardWidget(
-              icon: Icons.work_outline,
               title: entry.key,
               cardContent: list,
             ),
           ),
         ),
       );
-      // if (i == 3) break;
     }
     return Column(children: data);
   }
-
-  // Widget _bottomButton() {
-  //   return ElevatedButton(
-  //     onPressed: () {},
-  //     style: ElevatedButton.styleFrom(
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-  //       padding: EdgeInsets.zero,
-  //     ),
-  //     child: Ink(
-  //       decoration: BoxDecoration(
-  //         color: colorScheme.surface,
-  //         borderRadius: BorderRadius.circular(16),
-  //       ),
-  //       child: Padding(
-  //         padding: EdgeInsets.symmetric(horizontal: 18),
-  //         child: TextWidget(
-  //           text: 'View Details',
-  //           style: Theme.of(
-  //             context,
-  //           ).textTheme.bodySmall!.copyWith(color: colorScheme.onSurface),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 }

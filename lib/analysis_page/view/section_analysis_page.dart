@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/analysis_page/view/widget/analysis_card.dart';
 import 'package:resume_critiquer_app/analysis_page/view/widget/glass_tabs.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
+import 'package:resume_critiquer_app/main_page/view/widget/utils.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
 
 class ExperienceAnalysisScreen extends StatefulWidget {
@@ -101,7 +102,7 @@ class _ExperienceAnalysisScreenState extends State<ExperienceAnalysisScreen> {
               color: colorScheme.surfaceTint,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Icon(Icons.layers, color: Colors.white),
+            child: Utils.getHeadingIcon(label: widget.title),
           ),
           const SizedBox(width: 10),
           Flexible(

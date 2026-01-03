@@ -8,7 +8,10 @@ class CustomIconData {
 }
 
 class Utils {
-  static CustomIconData getIcon({required final String label, final double? size}) {
+  static CustomIconData getIcon({
+    required final String label,
+    final double? size,
+  }) {
     IconData? icon;
     Color? color;
     if (label.contains('strength')) {
@@ -40,5 +43,29 @@ class Utils {
       icon: Icon(icon, color: color, size: size ?? 14),
       color: color,
     );
+  }
+
+  static Icon getHeadingIcon({required String label, final double? size}) {
+    label = label.replaceAll(' ', '').toLowerCase();
+    IconData? icon;
+    Color? color;
+
+    if (label.contains('content')) {
+      icon = Icons.visibility_outlined;
+      color = Color(0xFF3B82F6);
+    } else if (label.contains('skill')) {
+      icon = Icons.psychology_alt_outlined;
+      color = Color(0xFF8B5CF6);
+    } else if (label.contains('specific')) {
+      icon = Icons.track_changes_outlined;
+      color = Color(0xFFF59E0B);
+    } else if (label.contains('overall')) {
+      icon = Icons.checklist_outlined;
+      color = Color(0xFF64748B);
+    } else {
+      icon = Icons.work_outline;
+      color = Color(0xFF10B981);
+    }
+    return Icon(icon, color: color, size: size ?? 24);
   }
 }

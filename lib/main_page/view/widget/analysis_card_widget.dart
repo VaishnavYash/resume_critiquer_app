@@ -7,13 +7,11 @@ import 'package:resume_critiquer_app/model/card_content.dart';
 import '../../../framework/widgets/text_widget.dart';
 
 class AnalysisCardWidget extends StatelessWidget {
-  final IconData icon;
   final String title;
   final List<CardContent> cardContent;
 
   const AnalysisCardWidget({
     super.key,
-    required this.icon,
     required this.title,
     required this.cardContent,
   });
@@ -38,19 +36,17 @@ class AnalysisCardWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Left Icon
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: colorScheme.tertiary,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icon, color: colorScheme.onSecondary, size: 20),
+            child: Utils.getHeadingIcon(label: title),
           ),
 
           const SizedBox(width: 12),
 
-          // Title + stats
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,10 +82,7 @@ class AnalysisCardWidget extends StatelessWidget {
             ),
           ),
 
-          const Icon(
-            Icons.chevron_right,
-            //  color: colorScheme.white54
-          ),
+          const Icon(Icons.chevron_right),
         ],
       ),
     );
@@ -103,7 +96,7 @@ class AnalysisCardWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyle = Theme.of(context).textTheme;
     final searchString = text.replaceAll(' ', '').toLowerCase();
-    final iconData = Utils.getIcon(label:searchString);
+    final iconData = Utils.getIcon(label: searchString);
 
     return Row(
       children: [

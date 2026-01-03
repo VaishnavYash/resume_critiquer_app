@@ -76,7 +76,7 @@ class AnalysisCard extends StatelessWidget {
                 : colorScheme.primaryContainer.withAlpha(100),
 
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(blurRadius: 5, offset: const Offset(0, 2))],
+        boxShadow: [BoxShadow(blurRadius: 5)],
       ),
       child: child,
     );
@@ -151,7 +151,7 @@ class AnalysisCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.primaryContainer.withAlpha(100),
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(blurRadius: 5, offset: const Offset(0, 0))],
+        boxShadow: [BoxShadow(blurRadius: 5)],
       ),
 
       child: Column(
