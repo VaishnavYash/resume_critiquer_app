@@ -55,8 +55,8 @@ class TColorScheme {
 
     inversePrimary: Color(0xFF381E72),
 
-    primary: Color(0xFFF6EDFF),
-    onPrimary: Color(0xFF000000),
+    primary: Color(0xFF2A3A63),
+    onPrimary: Color(0xFF3F558B),
 
     // Current Use
     primaryContainer: Color(0xFF2B334C),
@@ -74,7 +74,6 @@ class TColorScheme {
     onSecondary: Color(0xFFF6EDFF),
     onInverseSurface: Color(0xFF1B2A4A), //
     surfaceTint: Color(0xFF0B1220), //
- 
 
     error: Color(0xFFFCEEEE),
     onError: Colors.black,

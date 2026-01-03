@@ -21,7 +21,6 @@ class LandingPage extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: _topStackWidget(context)),
-
             SliverFillRemaining(
               hasScrollBody: false,
               child: _mainContent(context),
@@ -248,6 +247,5 @@ class LandingPage extends StatelessWidget {
         colorScheme.primaryContainer,
       ],
     );
-
   }
 }

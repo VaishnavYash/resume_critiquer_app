@@ -4,7 +4,7 @@ import 'package:resume_critiquer_app/analysis_page/view/widget/glass_tabs.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
 
-class ExperienceAnalysisScreen extends StatelessWidget {
+class ExperienceAnalysisScreen extends StatefulWidget {
   const ExperienceAnalysisScreen({
     super.key,
     required this.title,
@@ -13,6 +13,14 @@ class ExperienceAnalysisScreen extends StatelessWidget {
 
   final String title;
   final List<CardContent> cardContentList;
+
+  @override
+  State<ExperienceAnalysisScreen> createState() =>
+      _ExperienceAnalysisScreenState();
+}
+
+class _ExperienceAnalysisScreenState extends State<ExperienceAnalysisScreen> {
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -35,15 +43,32 @@ class ExperienceAnalysisScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _experienceTitle(context),
-              GlassTabs(cardContent: cardContentList),
+              GlassTabs(
+                cardContent: widget.cardContentList,
+                onTap: (final index) {
+                  setState(() => selectedIndex = index);
+                },
+                selectedIndex: selectedIndex,
+              ),
 
               const SizedBox(height: 16),
               ListView.builder(
-                itemCount: cardContentList.length,
+                itemCount: widget.cardContentList.length,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder:
-                    (final context, final index) => AnalysisCard(cardContent: cardContentList[index]),
+                    (final context, final index) => GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                      child: AnalysisCard(
+                        cardContent: widget.cardContentList[index],
+                        selectedIndex: selectedIndex,
+                        index: index,
+                      ),
+                    ),
               ),
             ],
           ),
@@ -63,7 +88,9 @@ class ExperienceAnalysisScreen extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
         gradient: LinearGradient(
-          colors: [colorScheme.onInverseSurface, colorScheme.secondary],
+          colors: [colorScheme.secondary, colorScheme.onInverseSurface],
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
         ),
       ),
       child: Row(
@@ -71,7 +98,7 @@ class ExperienceAnalysisScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: colorScheme.secondary,
+              color: colorScheme.surfaceTint,
               borderRadius: BorderRadius.circular(10),
             ),
             child: const Icon(Icons.layers, color: Colors.white),
@@ -79,7 +106,7 @@ class ExperienceAnalysisScreen extends StatelessWidget {
           const SizedBox(width: 10),
           Flexible(
             child: TextWidget(
-              text: title,
+              text: widget.title,
               style: textStyle.titleMedium!.copyWith(
                 color: colorScheme.onSecondary,
               ),
@@ -90,42 +117,3 @@ class ExperienceAnalysisScreen extends StatelessWidget {
     );
   }
 }
-
-// Widget _tabs(final List<CardContent> content) {
-//   return SingleChildScrollView(
-//     scrollDirection: Axis.horizontal,
-//     child: Row(
-//       children: List.generate(content.length, (final index) {
-//         return _TabItem(label: content[index], color: Colors.greenAccent);
-//       }),
-//     ),
-//   );
-// }
-
-// class _TabItem extends StatelessWidget {
-//   final CardContent label;
-//   final Color color;
-
-//   const _TabItem({required this.label, required this.color});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final textStyle = Theme.of(context).textTheme;
-//     return Container(
-
-//       child: Row(
-//         children: [
-//           Utils.getIcon(label.title.replaceAll(' ', '').toLowerCase()).icon,
-//           const SizedBox(width: 4),
-//           TextWidget(
-//             text: label.title,
-//             style: textStyle.bodySmall!.copyWith(
-//               color: Colors.white70,
-//               fontSize: 12,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

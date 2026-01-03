@@ -4,23 +4,65 @@ import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
 
 class GlassTabs extends StatefulWidget {
-  const GlassTabs({super.key, required this.cardContent});
+  const GlassTabs({
+    super.key,
+    required this.cardContent,
+    required this.onTap,
+    required this.selectedIndex,
+  });
 
   final List<CardContent> cardContent;
+  final void Function(int value) onTap;
+  final int selectedIndex;
 
   @override
   State<GlassTabs> createState() => _GlassTabsState();
 }
 
 class _GlassTabsState extends State<GlassTabs> {
-  int selectedIndex = 0;
-
   final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollHint();
+    });
+  }
+
+  void _scrollHint() async {
+    if (!_scrollController.hasClients) return;
+
+    const double hintOffset = 40;
+
+    await _scrollController.animateTo(
+      hintOffset,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOut,
+    );
+
+    await Future.delayed(const Duration(milliseconds: 200));
+
+    await _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeIn,
+    );
+  }
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant GlassTabs oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.selectedIndex != widget.selectedIndex) {
+      _scrollToTab(widget.selectedIndex);
+    }
   }
 
   @override
@@ -32,88 +74,67 @@ class _GlassTabsState extends State<GlassTabs> {
           return value.title;
         }).toList();
 
-    return ClipRRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          scrollDirection: Axis.horizontal,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(25),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.white.withAlpha(60)),
-            ),
-            child: Row(
-              children: List.generate(tabs.length, (index) {
-                final isActive = selectedIndex == index;
+    final tabList = List.generate(tabs.length, (index) {
+      final isActive = widget.selectedIndex == index;
 
-                return GestureDetector(
-                  onTap: () {
-                    setState(() => selectedIndex = index);
-                    _scrollToTab(index);
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 250),
-                    curve: Curves.easeOut,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          index == 0
-                              ? BorderRadius.horizontal(
-                                left: Radius.circular(16),
-                              )
-                              : (index == tabs.length - 1
-                                  ? BorderRadius.horizontal(
-                                    right: Radius.circular(16),
-                                  )
-                                  : null),
-                      gradient:
-                          isActive
-                              ? LinearGradient(
-                                colors: [
-                                  colorScheme.primary.withAlpha(180),
-                                  colorScheme.primaryContainer.withAlpha(160),
-                                ],
-                              )
-                              : null,
-                    ),
-                    child: TextWidget(
-                      text: tabs[index],
-                      alignment: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color:
-                            isActive
-                                ? Colors.white
-                                : Colors.white.withAlpha(150),
-                        fontWeight:
-                            isActive ? FontWeight.w600 : FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                );
-              }),
+      return GestureDetector(
+        onTap: () {
+          widget.onTap(index);
+          _scrollToTab(index); // ✅ correct
+        },
+
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            gradient:
+                isActive
+                    ? LinearGradient(
+                      colors: [
+                        colorScheme.primaryContainer.withAlpha(80),
+                        colorScheme.primary.withAlpha(100),
+                        colorScheme.primaryContainer.withAlpha(80),
+                      ],
+                    )
+                    : null,
+          ),
+          child: TextWidget(
+            text: tabs[index],
+            alignment: TextAlign.center,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: isActive ? Colors.white : Colors.white.withAlpha(150),
+              fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
             ),
           ),
         ),
+      );
+    });
+
+    return SingleChildScrollView(
+      controller: _scrollController,
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [SizedBox(width: 16), ...tabList, SizedBox(width: 16)],
       ),
     );
   }
 
   void _scrollToTab(int index) {
-    const double tabPadding = 40; // horizontal padding
-    const double avgTabWidth = 110; // safe average
+    if (!_scrollController.hasClients) return;
 
-    final double targetOffset = (avgTabWidth + tabPadding) * index - 60;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      const double tabPadding = 40;
+      const double avgTabWidth = 110;
 
-    _scrollController.animateTo(
-      targetOffset.clamp(0.0, _scrollController.position.maxScrollExtent),
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
+      final double targetOffset = (avgTabWidth + tabPadding) * index - 60;
+
+      _scrollController.animateTo(
+        targetOffset.clamp(0.0, _scrollController.position.maxScrollExtent),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic,
+      );
+    });
   }
 }

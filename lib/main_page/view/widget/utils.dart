@@ -8,7 +8,7 @@ class CustomIconData {
 }
 
 class Utils {
-  static CustomIconData getIcon(final String label) {
+  static CustomIconData getIcon({required final String label, final double? size}) {
     IconData? icon;
     Color? color;
     if (label.contains('strength')) {
@@ -37,7 +37,7 @@ class Utils {
     }
 
     return CustomIconData(
-      icon: Icon(icon, color: color, size: 14),
+      icon: Icon(icon, color: color, size: size ?? 14),
       color: color,
     );
   }

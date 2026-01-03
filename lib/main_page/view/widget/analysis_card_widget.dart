@@ -103,7 +103,7 @@ class AnalysisCardWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyle = Theme.of(context).textTheme;
     final searchString = text.replaceAll(' ', '').toLowerCase();
-    final iconData = Utils.getIcon(searchString);
+    final iconData = Utils.getIcon(label:searchString);
 
     return Row(
       children: [
