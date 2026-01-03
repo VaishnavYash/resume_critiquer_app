@@ -76,7 +76,7 @@ class AnalysisCardWidget extends StatelessWidget {
                         child: _infoChip(
                           context: context,
                           text: card.title,
-                          count: card.points.length,
+                          count: card.points.data?.length ?? 0,
                         ),
                       );
                     }),

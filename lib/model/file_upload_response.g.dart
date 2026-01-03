@@ -16,7 +16,7 @@ FileUploadResponse _$FileUploadResponseFromJson(Map<String, dynamic> json) =>
           (e as Map<String, dynamic>).map(
             (k, e) => MapEntry(
               k,
-              (e as List<dynamic>).map((e) => e as String).toList(),
+              CardMainContent.fromJson(e as Map<String, dynamic>),
             ),
           ),
         ),
@@ -28,4 +28,16 @@ Map<String, dynamic> _$FileUploadResponseToJson(FileUploadResponse instance) =>
       'ats_score': instance.atsScore,
       'summary': instance.summary,
       'analysis': instance.analysis,
+    };
+
+CardMainContent _$CardMainContentFromJson(Map<String, dynamic> json) =>
+    CardMainContent(
+      data: (json['data'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      whyThisMatter: json['whyThisMatter'] as String?,
+    );
+
+Map<String, dynamic> _$CardMainContentToJson(CardMainContent instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+      'whyThisMatter': instance.whyThisMatter,
     };

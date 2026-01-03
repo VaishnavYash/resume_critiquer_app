@@ -31,8 +31,8 @@ class AnalysisCard extends StatelessWidget {
           ),
           if (selectedIndex == index) const SizedBox(height: 12),
           _showContentList(),
-
-          // _bottomIText( context: context,),
+          if (selectedIndex == index) const SizedBox(height: 10),
+          _bottomIText(context, label: cardContent.points.whyThisMatter),
         ],
       ),
     );
@@ -49,12 +49,14 @@ class AnalysisCard extends StatelessWidget {
           selectedIndex == index
               ? ListView.builder(
                 key: const ValueKey('content'),
-                itemCount: cardContent.points.length,
+                itemCount: cardContent.points.data?.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder:
-                    (context, i) =>
-                        _bullet(cardContent.points[i], context: context),
+                    (context, i) => _bullet(
+                      cardContent.points.data?[i] ?? '',
+                      context: context,
+                    ),
               )
               : const SizedBox.shrink(key: ValueKey('empty')),
     ),
@@ -138,42 +140,38 @@ class AnalysisCard extends StatelessWidget {
       ),
     );
   }
+
+  Widget _bottomIText(BuildContext context, {String? label}) {
+    if (selectedIndex != index || label == null) return SizedBox.shrink();
+    final colorScheme = Theme.of(context).colorScheme;
+    final textStyle = Theme.of(context).textTheme;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: colorScheme.primaryContainer.withAlpha(100),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [BoxShadow(blurRadius: 5, offset: const Offset(0, 0))],
+      ),
+
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextWidget(
+            text: "Why this matters",
+            style: textStyle.labelLarge!.copyWith(
+              color: colorScheme.onSecondary,
+            ),
+          ),
+          SizedBox(height: 6),
+          TextWidget(
+            text: label,
+            style: textStyle.labelMedium!.copyWith(
+              color: colorScheme.onSecondary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
-
-
-
-
-  // Widget _bottomIText({required BuildContext context}) {
-  //   final colorScheme = Theme.of(context).colorScheme;
-  //   final textStyle = Theme.of(context).textTheme;
-
-  //   return Container(
-  //     padding: const EdgeInsets.all(12),
-  //     decoration: BoxDecoration(
-  //       color: colorScheme.onSecondary,
-  //       borderRadius: BorderRadius.circular(12),
-  //     ),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         TextWidget(
-  //           text: "Why this matters",
-  //           style: textStyle.bodySmall!.copyWith(
-  //             color: colorScheme.onSecondary,
-  //             fontWeight: FontWeight.w500,
-  //           ),
-  //         ),
-  //         SizedBox(height: 6),
-  //         TextWidget(
-  //           text:
-  //               "Demonstrates to recruiters your ability to lead and work "
-  //               "in a team environment.",
-  //           style: textStyle.bodySmall!.copyWith(
-  //             color: colorScheme.onSecondary,
-  //             fontSize: 13,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
