@@ -1,10 +1,13 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
+import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
 import 'package:resume_critiquer_app/main_page/view/pdf_page.dart';
 import 'package:resume_critiquer_app/landing_page/widget/glass_button.dart';
+import 'package:resume_critiquer_app/model/file_upload_response.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -19,6 +22,8 @@ class _LandingPageState extends State<LandingPage> {
 
   bool isFileUploaded = false;
   PlatformFile? file;
+  FileUploadResponse? response;
+
   final companyTextField = TextEditingController();
   final jobTextField = TextEditingController();
 
@@ -47,34 +52,24 @@ class _LandingPageState extends State<LandingPage> {
     }
   }
 
-  // void _submitResume() async {
-  //   // if (isFileUploaded) {
-  //   response = await MultipartApi().fileUploadMultipart(
-  //     // file: File(file!.path!),
-  //     jobTtile: 'Sample Job Title',
-  //   );
-  //   _structureResponseData();
-  //   // } else {
-  //   //   ScaffoldMessenger.of(context).showSnackBar(
-  //   //     SnackBar(content: TextWidget(text:'Please upload a PDF file before submitting.')),
-  //   //   );
-  //   // }
-  // }
-
-  // void _structureResponseData() {
-  //   data.clear();
-  //   data.add(
-  //     response.atsScore != null
-  //         ? 'ATS Score: ${response.atsScore}'
-  //         : 'ATS Score: N/A',
-  //   );
-  //   data.add(
-  //     response.summary != null
-  //         ? 'Summary: ${response.summary}'
-  //         : 'Summary: N/A',
-  //   );
-  //   setState(() {});
-  // }
+  void _submitResume() async {
+    if (isFileUploaded) {
+      response = await MultipartApi().fileUploadMultipart(
+        file: File(file!.path!),
+        jobTtile: jobTextField.text,
+        company: companyTextField.text,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: TextWidget(
+            text: 'Please upload a PDF file before submitting.',
+            style: textTheme.bodyMedium!.copyWith(color: Colors.black),
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -260,10 +255,15 @@ class _LandingPageState extends State<LandingPage> {
       ),
     ),
     onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (final context) => PDFUploadPage()),
-      );
+      _submitResume();
+      if (response != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (final context) => PDFUploadPage(response: response!),
+          ),
+        );
+      }
     },
     colorsList: [
       colorScheme.primaryContainer,

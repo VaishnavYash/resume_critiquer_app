@@ -80,7 +80,7 @@ class _GlassTabsState extends State<GlassTabs> {
       return GestureDetector(
         onTap: () {
           widget.onTap(index);
-          _scrollToTab(index); // ✅ correct
+          _scrollToTab(index);
         },
 
         child: AnimatedContainer(
@@ -115,8 +115,9 @@ class _GlassTabsState extends State<GlassTabs> {
     return SingleChildScrollView(
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [SizedBox(width: 16), ...tabList, SizedBox(width: 16)],
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Row(children: tabList),
       ),
     );
   }

@@ -3,7 +3,7 @@ import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/main_page/view/widget/utils.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
 
-class AnalysisCard extends StatelessWidget {
+class AnalysisCard extends StatefulWidget {
   const AnalysisCard({
     super.key,
     required this.cardContent,
@@ -16,6 +16,11 @@ class AnalysisCard extends StatelessWidget {
   final int index;
 
   @override
+  State<AnalysisCard> createState() => _AnalysisCardState();
+}
+
+class _AnalysisCardState extends State<AnalysisCard> {
+  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -25,14 +30,12 @@ class AnalysisCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _sectionTitle(
-            title: cardContent.title,
+            title: widget.cardContent.title,
             color: colorScheme.onSecondary,
             context: context,
           ),
-          if (selectedIndex == index) const SizedBox(height: 12),
+          if (widget.selectedIndex == widget.index) const SizedBox(height: 12),
           _showContentList(),
-          if (selectedIndex == index) const SizedBox(height: 10),
-          _bottomIText(context, label: cardContent.points.whyThisMatter),
         ],
       ),
     );
@@ -46,19 +49,27 @@ class AnalysisCard extends StatelessWidget {
       switchInCurve: Curves.easeOut,
       switchOutCurve: Curves.easeIn,
       child:
-          selectedIndex == index
-              ? ListView.builder(
-                key: const ValueKey('content'),
-                itemCount: cardContent.points.data?.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder:
-                    (context, i) => _bullet(
-                      cardContent.points.data?[i] ?? '',
-                      context: context,
-                    ),
+          widget.selectedIndex == widget.index
+              ? Column(
+                children: [
+                  ListView.builder(
+                    itemCount: widget.cardContent.points.data?.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder:
+                        (context, i) => _bullet(
+                          widget.cardContent.points.data?[i] ?? '',
+                          context: context,
+                        ),
+                  ),
+                  const SizedBox(height: 10),
+                  _bottomIText(
+                    context,
+                    label: widget.cardContent.points.whyThisMatter,
+                  ),
+                ],
               )
-              : const SizedBox.shrink(key: ValueKey('empty')),
+              : const SizedBox.shrink(),
     ),
   );
 
@@ -71,7 +82,7 @@ class AnalysisCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color:
-            selectedIndex == index
+            widget.selectedIndex == widget.index
                 ? colorScheme.secondary
                 : colorScheme.primaryContainer.withAlpha(100),
 
@@ -87,7 +98,7 @@ class AnalysisCard extends StatelessWidget {
     required Color color,
     required BuildContext context,
   }) {
-    bool isSlected = selectedIndex == index;
+    bool isSlected = widget.selectedIndex == widget.index;
     final colorScheme = Theme.of(context).colorScheme;
     final textStyle = Theme.of(context).textTheme;
     final iconData = Utils.getIcon(
@@ -142,7 +153,9 @@ class AnalysisCard extends StatelessWidget {
   }
 
   Widget _bottomIText(BuildContext context, {String? label}) {
-    if (selectedIndex != index || label == null) return SizedBox.shrink();
+    if (widget.selectedIndex != widget.index || label == null) {
+      return SizedBox.shrink();
+    }
     final colorScheme = Theme.of(context).colorScheme;
     final textStyle = Theme.of(context).textTheme;
 

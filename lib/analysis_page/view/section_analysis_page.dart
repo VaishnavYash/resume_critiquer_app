@@ -65,6 +65,7 @@ class _ExperienceAnalysisScreenState extends State<ExperienceAnalysisScreen> {
                         });
                       },
                       child: AnalysisCard(
+                        key: ValueKey(widget.cardContentList[index].title),
                         cardContent: widget.cardContentList[index],
                         selectedIndex: selectedIndex,
                         index: index,
