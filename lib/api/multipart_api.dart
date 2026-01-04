@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path_provider/path_provider.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
 
 class MultipartApi {
@@ -37,9 +40,25 @@ class MultipartApi {
       final Map<String, dynamic> jsonDataLite =
           firstDecode is String ? jsonDecode(firstDecode) : firstDecode;
 
-      return FileUploadResponse. fromJson(jsonDataLite);
+      return FileUploadResponse.fromJson(jsonDataLite);
     } catch (e) {
       throw Exception('File upload failed: $e');
     }
+  }
+
+  Future<File> downloadPdf(String content) async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.Page(
+        build: (_) => pw.Text(content, style: const pw.TextStyle(fontSize: 14)),
+      ),
+    );
+
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/resume_analysis.pdf');
+
+    await file.writeAsBytes(await pdf.save());
+    return file;
   }
 }
