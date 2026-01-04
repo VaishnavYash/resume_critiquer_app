@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/framework/widgets/icon_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/framework/digital/sizer.dart';
 
@@ -71,10 +70,6 @@ class TextFieldWidget extends StatelessWidget {
           decoration: InputDecoration(
             filled: true,
             fillColor: colorScheme.primaryContainer,
-            prefixIcon:
-                (prefixSize != null && prefixIcon != null)
-                    ? IconWidget(path: prefixIcon!, size: prefixSize!)
-                    : null,
             hintText: hintText,
             hintStyle: Theme.of(
               context,

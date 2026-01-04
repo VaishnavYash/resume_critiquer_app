@@ -4,9 +4,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/main_page/api/multipart_api.dart';
-import 'package:resume_critiquer_app/main_page/view/pdf_page.dart';
-import 'package:resume_critiquer_app/landing_page/widget/glass_button.dart';
+import 'package:resume_critiquer_app/api/multipart_api.dart';
+import 'package:resume_critiquer_app/view/pdf_page.dart';
+import 'package:resume_critiquer_app/view/widget/glass_button.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
 
 class LandingPage extends StatefulWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/analysis_page/view/section_analysis_page.dart';
-import 'package:resume_critiquer_app/main_page/view/widget/analysis_card_widget.dart';
+import 'package:resume_critiquer_app/view/section_analysis_page.dart';
+import 'package:resume_critiquer_app/view/widget/analysis_card_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
-import 'package:resume_critiquer_app/main_page/view/widget/ats_score_widget.dart';
+import 'package:resume_critiquer_app/view/widget/ats_score_widget.dart';
 
 class PDFUploadPage extends StatefulWidget {
   const PDFUploadPage({super.key, required this.response});
