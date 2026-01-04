@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/api/multipart_api.dart';
 import 'package:resume_critiquer_app/view/section_analysis_page.dart';
 import 'package:resume_critiquer_app/view/widget/analysis_card_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/card_content.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
 import 'package:resume_critiquer_app/view/widget/ats_score_widget.dart';
+import 'package:resume_critiquer_app/view/widget/utils.dart';
 
 class PDFUploadPage extends StatefulWidget {
   const PDFUploadPage({super.key, required this.response});
@@ -20,17 +22,29 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
   late ColorScheme colorScheme;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     textTheme = Theme.of(context).textTheme;
     colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       backgroundColor: colorScheme.surfaceTint,
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final pdfBytes = await Utils.generatePdfContent(widget.response);
+              await MultipartApi().downloadPdf(pdfBytes);
+
+              if (!mounted) return;
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('PDF saved to Downloads')));
+            },
+            icon: Icon(
+              Icons.file_download_outlined,
+              color: colorScheme.onSecondary,
+            ),
+          ),
+        ],
         backgroundColor: colorScheme.tertiaryContainer,
         title: TextWidget(
           text: 'Resume Analysis',
@@ -43,7 +57,6 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16),
-
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

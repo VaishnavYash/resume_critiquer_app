@@ -1,6 +1,11 @@
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:resume_critiquer_app/model/card_content.dart';
+import 'package:resume_critiquer_app/model/file_upload_response.dart';
 import 'package:resume_critiquer_app/view/widget/error_bottom_sheet.dart';
 
 class CustomIconData {
@@ -76,7 +81,7 @@ class Utils {
     showDialog(
       context: context,
       barrierDismissible: false,
-      barrierColor: Colors.black.withOpacity(0.2),
+      barrierColor: Colors.black.withAlpha(120),
       builder: (_) {
         return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
@@ -119,5 +124,106 @@ class Utils {
             onRetry: onRetry,
           ),
     );
+  }
+
+  static List<pw.Widget> _generateAnalysisPdf(
+    final FileUploadResponse response,
+  ) {
+    textWidget(final String text, final double size, final bool isBold) =>
+        pw.Text(
+          text,
+          style: pw.TextStyle(
+            fontSize: size,
+            fontWeight: isBold ? pw.FontWeight.bold : pw.FontWeight.normal,
+          ),
+        );
+
+    final data = <pw.Widget>[];
+    for (var entry in response.analysis!.entries) {
+      final list = <CardContent>[];
+      data.add(pw.SizedBox(height: 10));
+      data.add(textWidget('${entry.key} :', 25, true));
+      int index = 1;
+
+      for (var entryData in entry.value.entries) {
+        list.add(CardContent(title: entryData.key, points: entryData.value));
+
+        data.add(
+          pw.Padding(
+            padding: pw.EdgeInsets.only(left: 10),
+            child: textWidget('$index ${entryData.key}:', 20, true),
+          ),
+        );
+
+        final widget = pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: List.generate(
+            entryData.value.data?.length ?? 0,
+            (final index) =>
+                textWidget('* ${entryData.value.data?[index]}', 20, false),
+          ),
+        );
+        index++;
+        data.add(
+          pw.Padding(padding: pw.EdgeInsets.only(left: 20), child: widget),
+        );
+        data.add(pw.SizedBox(height: 3));
+      }
+      data.add(pw.SizedBox(height: 5));
+    }
+
+    return data;
+  }
+
+  static Future<Uint8List> generatePdfContent(
+    final FileUploadResponse response,
+  ) async {
+    final pdf = pw.Document();
+
+    textWidget(final String text, final double size, final bool isBold) =>
+        pw.Text(
+          text,
+          style: pw.TextStyle(
+            fontSize: size,
+            fontWeight: isBold ? pw.FontWeight.bold : pw.FontWeight.normal,
+          ),
+        );
+
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.all(24),
+        build:
+            (context) => [
+              textWidget('Resume Insights', 32, true),
+              pw.Divider(),
+
+              pw.Row(
+                children: [
+                  textWidget('ATS Score : ', 25, true),
+                  textWidget('${response.atsScore}', 20, false),
+                ],
+              ),
+
+              pw.SizedBox(height: 10),
+
+              pw.Row(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  textWidget('Summary : ', 25, true),
+                  pw.Expanded(
+                    child: textWidget('${response.summary}', 20, false),
+                  ),
+                ],
+              ),
+
+              pw.SizedBox(height: 20),
+
+              ..._generateAnalysisPdf(response),
+            ],
+      ),
+    );
+
+    return pdf.save();
   }
 }

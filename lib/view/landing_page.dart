@@ -37,8 +37,8 @@ class _LandingPageState extends State<LandingPage> {
     await fileUploaderStore
         .uploadFileApi(jobTextField.text, companyTextField.text)
         .then((final value) {
+          if (!mounted) return;
           Utils().hideBlurLoader(context);
-
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -50,6 +50,7 @@ class _LandingPageState extends State<LandingPage> {
           );
         })
         .onError((final err, final stk) {
+          if (!mounted) return;
           Utils().hideBlurLoader(context);
           Utils.showErrorBottomSheet(
             context,
@@ -130,6 +131,7 @@ class _LandingPageState extends State<LandingPage> {
             onTap: () async {
               Utils().showBlurLoader(context);
               await fileUploaderStore.uploadFile();
+              if (!mounted) return;
               Utils().hideBlurLoader(context);
             },
           ),
@@ -140,7 +142,7 @@ class _LandingPageState extends State<LandingPage> {
             controller: companyTextField,
             validator: (final value) {
               if (value == null || value.isEmpty) {
-                return 'Please Fill the form';
+                return 'This is the required Field';
               }
               return null;
             },
@@ -152,7 +154,7 @@ class _LandingPageState extends State<LandingPage> {
             controller: jobTextField,
             validator: (final value) {
               if (value == null || value.isEmpty) {
-                return 'Please Fill the form';
+                return 'This is the required Field';
               }
               return null;
             },
