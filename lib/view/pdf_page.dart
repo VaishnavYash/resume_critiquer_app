@@ -8,7 +8,7 @@ import 'package:resume_critiquer_app/view/widget/ats_score_widget.dart';
 
 class PDFUploadPage extends StatefulWidget {
   const PDFUploadPage({super.key, required this.response});
-  
+
   final FileUploadResponse response;
 
   @override
@@ -18,22 +18,12 @@ class PDFUploadPage extends StatefulWidget {
 class _PDFUploadPageState extends State<PDFUploadPage> {
   late TextTheme textTheme;
   late ColorScheme colorScheme;
-  // FileUploadResponse response = FileUploadResponse();
 
   @override
   void initState() {
-    // WidgetsBinding.instance.addPostFrameCallback((final _) {
-    //   _submitResume();
-    //   setState(() {});
-    // });
     super.initState();
   }
 
-  // void _submitResume() async {
-  //   response = await MultipartApi().fileUploadMultipart(
-  //     jobTtile: 'Sample Job Title',
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     textTheme = Theme.of(context).textTheme;
@@ -57,13 +47,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _atsScore(),
-                _summaryBlock(widget.response.summary!),
-                _analysisCards(),
-                // _bottomButton(),
-                // SizedBox(height: 20),
-              ],
+              children: [_atsScore(), _summaryBlock(), _analysisCards()],
             ),
           ),
         ),
@@ -95,7 +79,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
     style: textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w600),
   );
 
-  Widget _summaryBlock(final String summary) {
+  Widget _summaryBlock() {
     if (widget.response.summary == null) return SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -105,7 +89,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
           _titleBlock("Professional Summary"),
           const SizedBox(height: 8),
           TextWidget(
-            text: summary,
+            text: widget.response.summary ?? '',
             style: textTheme.labelMedium?.copyWith(height: 1.4),
           ),
           const SizedBox(height: 24),
@@ -138,10 +122,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
           },
           child: Padding(
             padding: EdgeInsets.only(bottom: 12),
-            child: AnalysisCardWidget(
-              title: entry.key,
-              cardContent: list,
-            ),
+            child: AnalysisCardWidget(title: entry.key, cardContent: list),
           ),
         ),
       );

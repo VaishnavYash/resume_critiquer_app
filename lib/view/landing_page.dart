@@ -1,13 +1,12 @@
-import 'dart:io';
 import 'dart:ui';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/api/multipart_api.dart';
+import 'package:resume_critiquer_app/store/file_uploader_store.dart';
 import 'package:resume_critiquer_app/view/pdf_page.dart';
 import 'package:resume_critiquer_app/view/widget/glass_button.dart';
-import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/view/widget/utils.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -19,56 +18,45 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   late ColorScheme colorScheme;
   late TextTheme textTheme;
-
-  bool isFileUploaded = false;
-  PlatformFile? file;
-  FileUploadResponse? response;
+  final fileUploaderStore = FileUploaderStore();
 
   final companyTextField = TextEditingController();
   final jobTextField = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     companyTextField.dispose();
     jobTextField.dispose();
-    file = null;
-    isFileUploaded = false;
     super.dispose();
   }
 
-  void _fileUploader() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf'],
-    );
+  Future<void> _submitResume() async {
+    Utils().showBlurLoader(context);
+    await fileUploaderStore
+        .uploadFileApi(jobTextField.text, companyTextField.text)
+        .then((final value) {
+          Utils().hideBlurLoader(context);
 
-    if (result != null) {
-      isFileUploaded = true;
-      file = result.files.first;
-      setState(() {});
-    }
-    if (file == null) {
-      isFileUploaded = false;
-    }
-  }
-
-  void _submitResume() async {
-    if (isFileUploaded) {
-      response = await MultipartApi().fileUploadMultipart(
-        file: File(file!.path!),
-        jobTtile: jobTextField.text,
-        company: companyTextField.text,
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: TextWidget(
-            text: 'Please upload a PDF file before submitting.',
-            style: textTheme.bodyMedium!.copyWith(color: Colors.black),
-          ),
-        ),
-      );
-    }
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder:
+                  (final context) => PDFUploadPage(
+                    response: fileUploaderStore.uploadedFile!.value!,
+                  ),
+            ),
+          );
+        })
+        .onError((final err, final stk) {
+          Utils().hideBlurLoader(context);
+          Utils.showErrorBottomSheet(
+            context,
+            title: 'title',
+            message: 'message',
+          );
+        });
   }
 
   @override
@@ -132,30 +120,47 @@ class _LandingPageState extends State<LandingPage> {
         end: Alignment.bottomRight,
       ),
     ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        GestureDetector(
-          child: _uploadCard(),
-          onTap: () {
-            _fileUploader();
-          },
-        ),
-        const SizedBox(height: 18),
-        TextFieldWidget(
-          label: 'Company Applying for',
-          hintText: 'Google',
-          controller: companyTextField,
-        ),
-        const SizedBox(height: 18),
-        TextFieldWidget(
-          label: 'Job Appling for',
-          hintText: 'SDE 1',
-          controller: jobTextField,
-        ),
-        const SizedBox(height: 24),
-        _analyzeButton(),
-      ],
+    child: Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            child: _uploadCard(),
+            onTap: () async {
+              Utils().showBlurLoader(context);
+              await fileUploaderStore.uploadFile();
+              Utils().hideBlurLoader(context);
+            },
+          ),
+          const SizedBox(height: 18),
+          TextFieldWidget(
+            label: 'Company Applying for',
+            hintText: 'Google',
+            controller: companyTextField,
+            validator: (final value) {
+              if (value == null || value.isEmpty) {
+                return 'Please Fill the form';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 18),
+          TextFieldWidget(
+            label: 'Job Appling for',
+            hintText: 'SDE 1',
+            controller: jobTextField,
+            validator: (final value) {
+              if (value == null || value.isEmpty) {
+                return 'Please Fill the form';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 24),
+          _analyzeButton(),
+        ],
+      ),
     ),
   );
 
@@ -204,22 +209,27 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
               child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      isFileUploaded ? Icons.upload_file_rounded : Icons.cloud,
-                      size: 32,
-                      color: colorScheme.onPrimaryContainer,
-                    ),
-                    const SizedBox(height: 8),
-                    TextWidget(
-                      text: file?.name ?? 'Browse file',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: colorScheme.surface,
-                      ),
-                    ),
-                  ],
+                child: Observer(
+                  builder: (context) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          fileUploaderStore.isFileUploaded
+                              ? Icons.upload_file_rounded
+                              : Icons.cloud,
+                          size: 32,
+                          color: colorScheme.onPrimaryContainer,
+                        ),
+                        const SizedBox(height: 8),
+                        TextWidget(
+                          text: fileUploaderStore.file?.name ?? 'Browse file',
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(color: colorScheme.surface),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
@@ -254,15 +264,16 @@ class _LandingPageState extends State<LandingPage> {
         ),
       ),
     ),
-    onTap: () {
-      _submitResume();
-      if (response != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (final context) => PDFUploadPage(response: response!),
+    onTap: () async {
+      if (fileUploaderStore.isFileUploaded == false) {
+        SnackBar(
+          content: TextWidget(
+            text: 'Please upload a PDF file before submitting.',
+            style: textTheme.bodyMedium!.copyWith(color: Colors.black),
           ),
         );
+      } else if (_formKey.currentState!.validate()) {
+        await _submitResume();
       }
     },
     colorsList: [

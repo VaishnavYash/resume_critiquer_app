@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/view/widget/error_bottom_sheet.dart';
 
 class CustomIconData {
   final Icon icon;
@@ -67,5 +70,54 @@ class Utils {
       color = Color(0xFF10B981);
     }
     return Icon(icon, color: color, size: size ?? 24);
+  }
+
+  void showBlurLoader(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.2),
+      builder: (_) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const CircularProgressIndicator(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void hideBlurLoader(BuildContext context) {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  static void showErrorBottomSheet(
+    BuildContext context, {
+    required String title,
+    required String message,
+    VoidCallback? onRetry,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder:
+          (_) => ErrorBottomSheet(
+            title: title,
+            message: message,
+            onRetry: onRetry,
+          ),
+    );
   }
 }

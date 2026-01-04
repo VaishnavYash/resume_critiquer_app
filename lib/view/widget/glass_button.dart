@@ -34,7 +34,7 @@ class GlassButton extends StatelessWidget {
             highlightColor: colorScheme.onPrimaryContainer.withAlpha(50),
             onTap: onTap,
             child: Ink(
-              padding: padding ?? EdgeInsets.symmetric(vertical: 16),
+              padding: padding ?? EdgeInsets.symmetric(vertical: 12),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: colorsList,
