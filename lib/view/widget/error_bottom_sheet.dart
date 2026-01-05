@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 
 class ErrorBottomSheet extends StatelessWidget {
   final String title;
@@ -14,14 +15,17 @@ class ErrorBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+      child: Container(
+        color: colorScheme.onInverseSurface,
+        padding: const EdgeInsets.fromLTRB(21, 16, 21, 24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// drag handle
             Center(
               child: Container(
                 height: 4,
@@ -42,22 +46,18 @@ class ErrorBottomSheet extends StatelessWidget {
                   size: 28,
                 ),
                 const SizedBox(width: 12),
-                Text(
-                  title,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                TextWidget(
+                  text: title,
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
 
             const SizedBox(height: 12),
 
-            Text(
-              message,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+            TextWidget(text: message, style: textTheme.bodyMedium),
 
             const SizedBox(height: 20),
 
@@ -66,7 +66,7 @@ class ErrorBottomSheet extends StatelessWidget {
                 Expanded(
                   child: TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text("Dismiss"),
+                    child: const TextWidget(text: "Dismiss"),
                   ),
                 ),
                 if (onRetry != null) ...[
@@ -77,12 +77,12 @@ class ErrorBottomSheet extends StatelessWidget {
                         Navigator.pop(context);
                         onRetry!();
                       },
-                      child: const Text("Retry"),
+                      child: const TextWidget(text: "Retry"),
                     ),
                   ),
-                ]
+                ],
               ],
-            )
+            ),
           ],
         ),
       ),

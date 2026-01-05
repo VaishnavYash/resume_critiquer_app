@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:resume_critiquer_app/api/multipart_api.dart';
+import 'package:resume_critiquer_app/model/file_response_error.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
 
 part 'file_uploader_store.g.dart';
@@ -17,7 +18,7 @@ abstract class FileUploaderBaseStore with Store {
   PlatformFile? file;
 
   @observable
-  ObservableFuture<FileUploadResponse>? uploadedFile;
+  ObservableFuture<FileUploadStatus>? uploadedFileResponse;
 
   @observable
   bool isFileUploaded = false;
@@ -37,12 +38,15 @@ abstract class FileUploaderBaseStore with Store {
   }
 
   @action
-  Future<FileUploadResponse> uploadFileApi(
+  Future<FileUploadStatus> uploadFileApi(
     String jobTextField,
     String companyTextField,
   ) async {
     if (file == null || file!.path == null) {
-      throw Exception("No file selected");
+      throw ApiException(
+        code: 'NO_FILE',
+        message: 'Please select a file first',
+      );
     }
 
     final response = await MultipartApi().fileUploadMultipart(
@@ -51,10 +55,7 @@ abstract class FileUploaderBaseStore with Store {
       company: companyTextField,
     );
 
-    if (response.summary == null) {
-      return ObservableFuture.error(response);
-    } else {
-      return uploadedFile = ObservableFuture.value(response);
-    }
+    uploadedFileResponse = ObservableFuture.value(response);
+    return response;
   }
 }

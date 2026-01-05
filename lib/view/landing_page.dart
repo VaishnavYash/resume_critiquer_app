@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
+import 'package:resume_critiquer_app/model/file_response_error.dart';
+import 'package:resume_critiquer_app/model/file_upload_response.dart';
 import 'package:resume_critiquer_app/store/file_uploader_store.dart';
 import 'package:resume_critiquer_app/view/pdf_page.dart';
 import 'package:resume_critiquer_app/view/widget/glass_button.dart';
@@ -34,30 +36,45 @@ class _LandingPageState extends State<LandingPage> {
 
   Future<void> _submitResume() async {
     Utils().showBlurLoader(context);
-    await fileUploaderStore
-        .uploadFileApi(jobTextField.text, companyTextField.text)
-        .then((final value) {
-          if (!mounted) return;
-          Utils().hideBlurLoader(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder:
-                  (final context) => PDFUploadPage(
-                    response: fileUploaderStore.uploadedFile!.value!,
-                  ),
-            ),
-          );
-        })
-        .onError((final err, final stk) {
-          if (!mounted) return;
-          Utils().hideBlurLoader(context);
-          Utils.showErrorBottomSheet(
-            context,
-            title: 'title',
-            message: 'message',
-          );
-        });
+
+    try {
+      final response = await fileUploaderStore.uploadFileApi(
+        jobTextField.text,
+        companyTextField.text,
+      );
+
+      if (!mounted) return;
+      Utils().hideBlurLoader(context);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder:
+              (_) => PDFUploadPage(
+                response:
+                    response.fileUploadResponse ??
+                    FileUploadResponse(), // 👈 USE DIRECT RESPONSE
+              ),
+        ),
+      );
+    } catch (err) {
+      Utils().hideBlurLoader(context);
+
+      if (err is ApiException) {
+        Utils.showErrorBottomSheet(
+          context,
+          title: err.code.replaceAll('_', ' '),
+          message: err.message,
+        );
+      } else {
+        Utils.showErrorBottomSheet(
+          context,
+          title: 'Error',
+          message: 'Something went wrong',
+          onRetry: _submitResume,
+        );
+      }
+    }
   }
 
   @override
@@ -138,20 +155,16 @@ class _LandingPageState extends State<LandingPage> {
           const SizedBox(height: 18),
           TextFieldWidget(
             label: 'Company Applying for',
-            hintText: 'Google',
+            hintText: 'Google (Optional)',
             controller: companyTextField,
-            validator: (final value) {
-              if (value == null || value.isEmpty) {
-                return 'This is the required Field';
-              }
-              return null;
-            },
           ),
           const SizedBox(height: 18),
           TextFieldWidget(
-            label: 'Job Appling for',
+            label: 'Job Appling for *',
             hintText: 'SDE 1',
             controller: jobTextField,
+            highlightColor: Colors.red,
+            highlightWords: {'*'},
             validator: (final value) {
               if (value == null || value.isEmpty) {
                 return 'This is the required Field';

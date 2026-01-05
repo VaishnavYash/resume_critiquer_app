@@ -3,6 +3,22 @@ import 'package:json_annotation/json_annotation.dart';
 part 'file_upload_response.g.dart';
 
 @JsonSerializable()
+class FileUploadStatus {
+  String? status;
+  @JsonKey(name: 'content')
+  FileUploadResponse? fileUploadResponse;
+
+  FileUploadStatus({
+    this.status,
+    this.fileUploadResponse,
+  });
+
+  factory FileUploadStatus.fromJson(Map<String, dynamic> json) =>
+      _$FileUploadStatusFromJson(json);
+  Map<String, dynamic> toJson() => _$FileUploadStatusToJson(this);
+}
+
+@JsonSerializable()
 class FileUploadResponse {
   @JsonKey(name: 'ats_score')
   int? atsScore;

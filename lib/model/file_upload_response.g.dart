@@ -6,6 +6,23 @@ part of 'file_upload_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+FileUploadStatus _$FileUploadStatusFromJson(Map<String, dynamic> json) =>
+    FileUploadStatus(
+      status: json['status'] as String?,
+      fileUploadResponse:
+          json['content'] == null
+              ? null
+              : FileUploadResponse.fromJson(
+                json['content'] as Map<String, dynamic>,
+              ),
+    );
+
+Map<String, dynamic> _$FileUploadStatusToJson(FileUploadStatus instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+      'content': instance.fileUploadResponse,
+    };
+
 FileUploadResponse _$FileUploadResponseFromJson(Map<String, dynamic> json) =>
     FileUploadResponse(
       atsScore: (json['ats_score'] as num?)?.toInt(),

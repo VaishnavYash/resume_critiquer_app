@@ -45,22 +45,26 @@ mixin _$FileUploaderStore on FileUploaderBaseStore, Store {
     });
   }
 
-  late final _$uploadedFileAtom = Atom(
-    name: 'FileUploaderBaseStore.uploadedFile',
+  late final _$uploadedFileResponseAtom = Atom(
+    name: 'FileUploaderBaseStore.uploadedFileResponse',
     context: context,
   );
 
   @override
-  ObservableFuture<FileUploadResponse>? get uploadedFile {
-    _$uploadedFileAtom.reportRead();
-    return super.uploadedFile;
+  ObservableFuture<FileUploadStatus>? get uploadedFileResponse {
+    _$uploadedFileResponseAtom.reportRead();
+    return super.uploadedFileResponse;
   }
 
   @override
-  set uploadedFile(ObservableFuture<FileUploadResponse>? value) {
-    _$uploadedFileAtom.reportWrite(value, super.uploadedFile, () {
-      super.uploadedFile = value;
-    });
+  set uploadedFileResponse(ObservableFuture<FileUploadStatus>? value) {
+    _$uploadedFileResponseAtom.reportWrite(
+      value,
+      super.uploadedFileResponse,
+      () {
+        super.uploadedFileResponse = value;
+      },
+    );
   }
 
   late final _$isFileUploadedAtom = Atom(
@@ -97,7 +101,7 @@ mixin _$FileUploaderStore on FileUploaderBaseStore, Store {
   );
 
   @override
-  Future<FileUploadResponse> uploadFileApi(
+  Future<FileUploadStatus> uploadFileApi(
     String jobTextField,
     String companyTextField,
   ) {
@@ -111,7 +115,7 @@ mixin _$FileUploaderStore on FileUploaderBaseStore, Store {
     return '''
 isLoading: ${isLoading},
 file: ${file},
-uploadedFile: ${uploadedFile},
+uploadedFileResponse: ${uploadedFileResponse},
 isFileUploaded: ${isFileUploaded}
     ''';
   }
