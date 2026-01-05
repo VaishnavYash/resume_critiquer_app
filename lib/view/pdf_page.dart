@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/api/multipart_api.dart';
+import 'package:resume_critiquer_app/view/in_app_pdf_viewer.dart';
 import 'package:resume_critiquer_app/view/section_analysis_page.dart';
 import 'package:resume_critiquer_app/view/widget/analysis_card_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
@@ -35,9 +36,30 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
               await MultipartApi().downloadPdf(pdfBytes);
 
               if (!mounted) return;
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text('PDF saved to Downloads')));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: colorScheme.primaryContainer,
+                  content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextWidget(
+                        text: 'PDF saved Successfully',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => _openPdf(),
+                        child: TextWidget(
+                          text: 'Open',
+                          style: Theme.of(context).textTheme.bodyMedium!
+                              .copyWith(color: colorScheme.error),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
             },
             icon: Icon(
               Icons.file_download_outlined,
@@ -141,5 +163,12 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
       );
     }
     return Column(children: data);
+  }
+
+  void _openPdf() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (final _) => InAppPdfViewer()),
+    );
   }
 }
