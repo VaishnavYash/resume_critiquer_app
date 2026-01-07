@@ -9,15 +9,22 @@ void main() {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    Device.init(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: TAppTheme.lightTheme, // Light Theme
-      themeMode: ThemeMode.dark, // System Theme
-      darkTheme: TAppTheme.darkTheme, // Dark Theme
-      home: LandingPage(),
+      theme: TAppTheme.lightTheme,
+      darkTheme: TAppTheme.darkTheme,
+
+      themeMode: ThemeMode.system,
+
+      builder: (context, child) {
+        Device.init(context);
+        return child!;
+      },
+
+      home: const LandingPage(),
     );
   }
 }

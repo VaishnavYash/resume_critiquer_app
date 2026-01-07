@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/api/multipart_api.dart';
 import 'package:resume_critiquer_app/view/in_app_pdf_viewer.dart';
@@ -21,6 +23,7 @@ class PDFUploadPage extends StatefulWidget {
 class _PDFUploadPageState extends State<PDFUploadPage> {
   late TextTheme textTheme;
   late ColorScheme colorScheme;
+  File? _savedPdf;
 
   @override
   Widget build(BuildContext context) {
@@ -31,36 +34,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
       appBar: AppBar(
         actions: [
           IconButton(
-            onPressed: () async {
-              final pdfBytes = await Utils.generatePdfContent(widget.response);
-              await MultipartApi().downloadPdf(pdfBytes);
-
-              if (!mounted) return;
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: colorScheme.primaryContainer,
-                  content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextWidget(
-                        text: 'PDF saved Successfully',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: colorScheme.onPrimaryContainer,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () => _openPdf(),
-                        child: TextWidget(
-                          text: 'Open',
-                          style: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(color: colorScheme.error),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
+            onPressed: () => _downloadPdfWithLoader(),
             icon: Icon(
               Icons.file_download_outlined,
               color: colorScheme.onSecondary,
@@ -133,6 +107,62 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
     );
   }
 
+  Future<void> _downloadButtonOnTap() async {
+    final pdfBytes = await Utils.generatePdfContent(widget.response);
+    _savedPdf = await MultipartApi().downloadPdf(pdfBytes);
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: colorScheme.primaryContainer,
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextWidget(
+              text: 'PDF saved successfully',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: colorScheme.onPrimaryContainer,
+              ),
+            ),
+            TextButton(
+              onPressed: () => _openPdf(),
+              child: TextWidget(
+                text: 'Open',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium!.copyWith(color: colorScheme.error),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _downloadPdfWithLoader() async {
+    Utils().showBlurLoader(context);
+
+    try {
+      await _downloadButtonOnTap();
+    } catch (e) {
+      debugPrint('Download error: $e');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: TextWidget(
+            text: 'Failed to download PDF',
+            style: textTheme.bodyMedium!.copyWith(color: Colors.black),
+          ),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        Utils().hideBlurLoader(context);
+      }
+    }
+  }
+
   Widget _analysisCards() {
     if (widget.response.analysis == null) return SizedBox.shrink();
     final data = <Widget>[];
@@ -166,9 +196,11 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
   }
 
   void _openPdf() {
+    if (_savedPdf == null) return;
+
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (final _) => InAppPdfViewer()),
+      MaterialPageRoute(builder: (_) => InAppPdfViewer(file: _savedPdf!)),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/file_response_error.dart';
@@ -51,9 +52,7 @@ class _LandingPageState extends State<LandingPage> {
         MaterialPageRoute(
           builder:
               (_) => PDFUploadPage(
-                response:
-                    response.fileUploadResponse ??
-                    FileUploadResponse(), // 👈 USE DIRECT RESPONSE
+                response: response.fileUploadResponse ?? FileUploadResponse(),
               ),
         ),
       );
@@ -145,12 +144,7 @@ class _LandingPageState extends State<LandingPage> {
         children: [
           GestureDetector(
             child: _uploadCard(),
-            onTap: () async {
-              Utils().showBlurLoader(context);
-              await fileUploaderStore.uploadFile();
-              if (!mounted) return;
-              Utils().hideBlurLoader(context);
-            },
+            onTap: () => _permissionPopUp(),
           ),
           const SizedBox(height: 18),
           TextFieldWidget(
@@ -178,6 +172,35 @@ class _LandingPageState extends State<LandingPage> {
       ),
     ),
   );
+
+  Future<void> _uploadFileOnTap() async {
+    if (!mounted) return;
+    Utils().showBlurLoader(context);
+    await fileUploaderStore.uploadFile();
+    if (!mounted) return;
+    Utils().hideBlurLoader(context);
+    return;
+  }
+
+  Future<void> _permissionPopUp() async {
+    if (await Permission.storage.isGranted) {
+      await _uploadFileOnTap();
+      return;
+    }
+    if (!mounted) return;
+    final status = await Permission.storage.request();
+
+    if (status.isGranted) {
+      await _uploadFileOnTap();
+    } else if (status.isPermanentlyDenied) {
+      openAppSettings();
+    } else {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Storage permission is required')),
+      );
+    }
+  }
 
   Widget _uploadCard() => ClipRRect(
     borderRadius: BorderRadius.circular(20),
@@ -281,10 +304,12 @@ class _LandingPageState extends State<LandingPage> {
     ),
     onTap: () async {
       if (fileUploaderStore.isFileUploaded == false) {
-        SnackBar(
-          content: TextWidget(
-            text: 'Please upload a PDF file before submitting.',
-            style: textTheme.bodyMedium!.copyWith(color: Colors.black),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: TextWidget(
+              text: 'Please upload a PDF file before submitting.',
+              style: textTheme.bodyMedium!.copyWith(color: Colors.black),
+            ),
           ),
         );
       } else if (_formKey.currentState!.validate()) {
