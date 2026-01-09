@@ -56,21 +56,20 @@ class TextFieldWidget extends StatelessWidget {
           controller: controller,
           keyboardType: keyboardType,
           style: Theme.of(context).textTheme.labelLarge!.copyWith(
-            color: fieldTextColor ?? Colors.white,
+            color: fieldTextColor ?? Colors.grey,
           ),
 
           decoration: InputDecoration(
             filled: true,
             fillColor: colorScheme.primaryContainer,
             hintText: hintText,
-            hintStyle: Theme.of(
-              context,
-            ).textTheme.labelLarge!.copyWith(color: hintColor),
+            hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
+              color: hintColor ?? Color(0xFFC4D7FF),
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide.none,
             ),
-            
           ),
           validator: validator,
         ),

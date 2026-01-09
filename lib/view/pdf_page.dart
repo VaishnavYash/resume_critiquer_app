@@ -32,6 +32,16 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
     return Scaffold(
       backgroundColor: colorScheme.surfaceTint,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: colorScheme.onSecondary,
+            size: 20,
+          ),
+        ),
         actions: [
           IconButton(
             onPressed: () => _downloadPdfWithLoader(),
@@ -85,7 +95,10 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
 
   Widget _titleBlock(final String title) => TextWidget(
     text: title,
-    style: textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w600),
+    style: textTheme.displaySmall?.copyWith(
+      fontWeight: FontWeight.w600,
+      color: colorScheme.onPrimary,
+    ),
   );
 
   Widget _summaryBlock() {
@@ -99,7 +112,10 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
           const SizedBox(height: 8),
           TextWidget(
             text: widget.response.summary ?? '',
-            style: textTheme.labelMedium?.copyWith(height: 1.4),
+            style: textTheme.labelMedium?.copyWith(
+              height: 1.4,
+              color: colorScheme.onSecondary,
+            ),
           ),
           const SizedBox(height: 24),
         ],

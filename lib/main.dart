@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/digital/device.dart';
 import 'package:resume_critiquer_app/framework/theme/theme.dart';
+import 'package:resume_critiquer_app/view/history_page.dart';
 import 'package:resume_critiquer_app/view/landing_page.dart';
 
 void main() {
@@ -17,14 +18,14 @@ class MainApp extends StatelessWidget {
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
 
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
 
       builder: (context, child) {
         Device.init(context);
         return child!;
       },
 
-      home: const LandingPage(),
+      home: const HistoryPage(),
     );
   }
 }

@@ -6,48 +6,38 @@ class TColorScheme {
 
     inversePrimary: Color(0xFFD0BCFF),
 
-    primary: Color(0xFF381E72),
-    onPrimary: Color(0xFFFFFFFF),
+    // Current Use
+    onPrimary: Color(0xFF6482AD),
+    primary: Color(0xFFdfe7fb).withAlpha(150),
 
-    primaryContainer: Color(0xFF4F378B),
-    onPrimaryContainer: Color(0xFFFFFFFF),
+    primaryContainer: Color(0xFFfaf9fe),
+    onPrimaryContainer: Color(0xFF578FCA),
 
-    secondary: Color(0xFF332D41),
-    onSecondary: Colors.white,
+    onSurface: Colors.black,
+    surface: Color(0xFF87A2FF),
 
-    secondaryContainer: Color(0xFF4A4458),
-    onSecondaryContainer: Colors.white,
+    tertiary: Color(0xFFF5F5F5),
+    onTertiary: Color(0xFFC4D7FF),
 
-    tertiary: Color(0xFF492532),
-    onTertiary: Colors.white,
+    onSecondaryContainer: Colors.black,
 
-    tertiaryContainer: Color(0xFF633B48),
-    onTertiaryContainer: Colors.white,
+    secondaryContainer: Color(0xFFFBF9F1),
+    tertiaryContainer: Color(0xFFF8F6E3),
+
+    onPrimaryFixedVariant: Color(0xFFdfe7fb),
+    onSecondaryFixed: Color(0xFFdfe7fb),
+
+    secondary: Color(0xFFdfe7fb).withAlpha(180),
+    onSecondary: Color(0xFF3A98B9),
+    onInverseSurface: Color(0xFFdfe7fb),
+
+    surfaceTint: Color(0xFFFFF6F6),
 
     error: Color(0xFF601410),
     onError: Colors.white,
 
     errorContainer: Color(0xFF8C1D18),
     onErrorContainer: Colors.white,
-
-    surface: Colors.white,
-    onSurface: Colors.black,
-
-    surfaceContainerHighest: Color(0xFFE6E0E9),
-    surfaceContainerHigh: Color(0xFFECE6F0),
-    surfaceContainer: Color(0xFFF3EDF7),
-    surfaceContainerLow: Color(0xFFF7F2FA),
-    surfaceContainerLowest: Colors.white,
-    inverseSurface: Color(0xFF322F35),
-    onInverseSurface: Colors.white,
-    surfaceTint: Color(0xFF381E72),
-
-    outline: Color(0xFF322F37),
-    outlineVariant: Color(0xFF49454F),
-
-    primaryFixed: Color(0xFF1E1E1E), // Title Bar
-    onPrimaryFixed: Color(0xFFA8BBA3), // Description Text
-    secondaryFixed: Color(0xFFF7F2FA), // Description Color
   );
 
   static ColorScheme darkColorScheme = const ColorScheme(
@@ -55,10 +45,9 @@ class TColorScheme {
 
     inversePrimary: Color(0xFF381E72),
 
-    primary: Color(0xFF2A3A63),
-    onPrimary: Color(0xFF3F558B),
-
     // Current Use
+    primary: Color(0xFF2B334C),
+    onPrimary: Color(0xFFF6EDFF),
     primaryContainer: Color(0xFF2B334C),
     onPrimaryContainer: Colors.white54,
     onSurface: Colors.white,
@@ -72,27 +61,10 @@ class TColorScheme {
     onSecondaryFixed: Color(0xFF0B1020),
     secondary: Color(0xFF121A2F),
     onSecondary: Color(0xFFF6EDFF),
-    onInverseSurface: Color(0xFF1B2A4A), //
-    surfaceTint: Color(0xFF0B1220), //
+    onInverseSurface: Color(0xFF1B2A4A),
+    surfaceTint: Color(0xFF0B1220),
 
     error: Color(0xFFFCEEEE),
     onError: Colors.black,
-
-    // errorContainer: Color(0xFFF2B8B5),
-    // onErrorContainer: Colors.black,
-
-    // surfaceContainerHighest: Color(0xFF36343B), //
-    // surfaceContainerHigh: Color(0xFF2B2930),
-    // surfaceContainer: Color(0xFF211F26),
-    // surfaceContainerLow: Color(0xFF1D1B20),
-    // surfaceContainerLowest: Color(0xFF0F0D13),
-    // inverseSurface: Color(0xFFE6E0E9),
-    // onInverseSurface: Color(0xFF000000),
-
-    // outline: Color(0xFFF5EEFA),
-    // outlineVariant: Color(0xFFCAC4D0),
-
-    // primaryFixed: Colors.black, // Title Bar
-    // onPrimaryFixed: Color(0xFF94d2bd), // Description Text
   );
 }

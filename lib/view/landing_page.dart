@@ -7,6 +7,7 @@ import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/file_response_error.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
 import 'package:resume_critiquer_app/store/file_uploader_store.dart';
+import 'package:resume_critiquer_app/view/history_page.dart';
 import 'package:resume_critiquer_app/view/pdf_page.dart';
 import 'package:resume_critiquer_app/view/widget/glass_button.dart';
 import 'package:resume_critiquer_app/view/widget/utils.dart';
@@ -84,6 +85,12 @@ class _LandingPageState extends State<LandingPage> {
     return Scaffold(
       appBar: AppBar(
         title: _topBar(),
+        actions: [
+          IconButton(
+            onPressed: () => _onHistoryPress(),
+            icon: Icon(Icons.history, color: colorScheme.onPrimary),
+          ),
+        ],
         backgroundColor: colorScheme.tertiaryContainer,
       ),
       backgroundColor: colorScheme.secondaryContainer,
@@ -95,6 +102,13 @@ class _LandingPageState extends State<LandingPage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _onHistoryPress() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (final context) => HistoryPage()),
     );
   }
 
@@ -116,9 +130,7 @@ class _LandingPageState extends State<LandingPage> {
       child: TextWidget(
         alignment: TextAlign.center,
         text: 'Improve your resume\nwith AI insights',
-        style: Theme.of(
-          context,
-        ).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.w600),
+        style: textTheme.displayMedium?.copyWith(fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -221,9 +233,9 @@ class _LandingPageState extends State<LandingPage> {
                 const SizedBox(width: 8),
                 TextWidget(
                   text: 'Upload Resume',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+                  style: textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 const Spacer(),
                 const Icon(Icons.cloud_upload_outlined),
@@ -232,7 +244,7 @@ class _LandingPageState extends State<LandingPage> {
             const SizedBox(height: 4),
             TextWidget(
               text: "Supported files: PDF",
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              style: textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onPrimaryContainer,
               ),
             ),
@@ -245,6 +257,7 @@ class _LandingPageState extends State<LandingPage> {
                   color: colorScheme.onTertiary,
                   style: BorderStyle.solid,
                 ),
+                color: colorScheme.primary,
               ),
               child: Center(
                 child: Observer(
@@ -262,8 +275,9 @@ class _LandingPageState extends State<LandingPage> {
                         const SizedBox(height: 8),
                         TextWidget(
                           text: fileUploaderStore.file?.name ?? 'Browse file',
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(color: colorScheme.surface),
+                          style: textTheme.bodyLarge?.copyWith(
+                            color: colorScheme.surface,
+                          ),
                         ),
                       ],
                     );
@@ -281,13 +295,11 @@ class _LandingPageState extends State<LandingPage> {
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Icon(Icons.document_scanner, size: 22),
+      Icon(Icons.document_scanner, color: colorScheme.onPrimary),
       SizedBox(width: 20),
       TextWidget(
         text: 'Welcome!',
-        style: textTheme.titleMedium?.copyWith(
-          color: colorScheme.onSecondaryContainer,
-        ),
+        style: textTheme.titleMedium?.copyWith(color: colorScheme.onPrimary),
       ),
     ],
   );
@@ -303,25 +315,25 @@ class _LandingPageState extends State<LandingPage> {
       ),
     ),
     onTap: () async {
-      if (fileUploaderStore.isFileUploaded == false) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: TextWidget(
-              text: 'Please upload a PDF file before submitting.',
-              style: textTheme.bodyMedium!.copyWith(color: Colors.black),
-            ),
-          ),
-        );
-      } else if (_formKey.currentState!.validate()) {
-        await _submitResume();
-      }
+      // if (fileUploaderStore.isFileUploaded == false) {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       content: TextWidget(
+      //         text: 'Please upload a PDF file before submitting.',
+      //         style: textTheme.bodyMedium!.copyWith(color: Colors.black),
+      //       ),
+      //     ),
+      //   );
+      // } else if (_formKey.currentState!.validate()) {
+      await _submitResume();
+      // }
     },
     colorsList: [
-      colorScheme.primaryContainer,
+      // colorScheme.primaryContainer,
       colorScheme.surface,
       colorScheme.surface,
       colorScheme.surface,
-      colorScheme.primaryContainer,
+      // colorScheme.primaryContainer,
     ],
   );
 }
