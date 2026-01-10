@@ -51,67 +51,89 @@ class _HistoryPageState extends State<HistoryPage> {
         child:
             responseList?.isEmpty ?? true
                 ? Center(child: TextWidget(text: 'No History !!!'))
-                : ListView.builder(
-                  itemCount: responseList?.length,
-                  itemBuilder: (final context, final index) {
-                    final response = responseList?[index].uploadResponse;
-                    final atsScore = response?.atsScore ?? (0.0).toDouble();
-                    final resumeName = responseList?[index].uploadName ?? '';
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (final context) => PDFUploadPage(
-                                  response: response ?? FileUploadResponse(),
-                                ),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          left: 21,
-                          right: 21,
-                          top: index == 0 ? 20 : 5,
-                          bottom: 5,
-                        ),
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: colorScheme.secondary,
-                          border: Border.all(color: colorScheme.onTertiary),
-                        ),
-
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                : Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 21),
+                  child: ListView.builder(
+                    itemCount: responseList?.length,
+                    itemBuilder: (final context, final index) {
+                      final response = responseList?[index].uploadResponse;
+                      final atsScore = response?.atsScore ?? (0.0).toDouble();
+                      final resumeName = responseList?[index].uploadName ?? '';
+                      return Dismissible(
+                        key: Key(index.toString()),
+                        onDismissed: (final value) {
+                          HiveCode.deleteByIndex(index);
+                        },
+                        secondaryBackground: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            TextWidget(
-                              text: resumeName,
-                              style: textStyle.bodyMedium!.copyWith(
-                                color: colorScheme.onSecondary,
-                              ),
-                            ),
-
-                            Row(
-                              spacing: 10,
-                              children: [
-                                CircleAvatar(
-                                  child: TextWidget(
-                                    text: atsScore.toString(),
-                                    style: textStyle.bodyLarge!.copyWith(
-                                      color: getColorCode(atsScore.toDouble()),
-                                    ),
-                                  ),
-                                ),
-                                Icon(Icons.arrow_forward_ios),
-                              ],
-                            ),
+                            Icon(Icons.highlight_remove, color: Colors.white),
                           ],
                         ),
-                      ),
-                    );
-                  },
+                        background: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.highlight_remove, color: Colors.white),
+                          ],
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (final context) => PDFUploadPage(
+                                      response:
+                                          response ?? FileUploadResponse(),
+                                    ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(
+                              top: index == 0 ? 20 : 5,
+                              bottom: 5,
+                            ),
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: colorScheme.secondary,
+                              border: Border.all(color: colorScheme.onTertiary),
+                            ),
+
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextWidget(
+                                  text: resumeName,
+                                  style: textStyle.bodyMedium!.copyWith(
+                                    color: colorScheme.onSecondary,
+                                  ),
+                                ),
+
+                                Row(
+                                  spacing: 10,
+                                  children: [
+                                    CircleAvatar(
+                                      child: TextWidget(
+                                        text: atsScore.toString(),
+                                        style: textStyle.bodyLarge!.copyWith(
+                                          color: getColorCode(
+                                            atsScore.toDouble(),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Icon(Icons.arrow_forward_ios),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
       ),
     );

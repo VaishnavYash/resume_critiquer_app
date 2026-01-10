@@ -50,7 +50,7 @@ abstract class FileUploaderBaseStore with Store {
     }
 
     final response = await MultipartApi().fileUploadMultipart(
-      file: File('file!.path!'),
+      file: File(file!.path!),
       jobTtile: jobTextField,
       company: companyTextField,
     );
