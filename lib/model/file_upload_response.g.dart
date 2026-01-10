@@ -9,12 +9,10 @@ part of 'file_upload_response.dart';
 FileUploadStatus _$FileUploadStatusFromJson(Map<String, dynamic> json) =>
     FileUploadStatus(
       status: json['status'] as String?,
-      fileUploadResponse:
-          json['content'] == null
-              ? null
-              : FileUploadResponse.fromJson(
-                json['content'] as Map<String, dynamic>,
-              ),
+      fileUploadResponse: json['content'] == null
+          ? null
+          : FileUploadResponse.fromJson(
+              json['content'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$FileUploadStatusToJson(FileUploadStatus instance) =>
@@ -29,14 +27,11 @@ FileUploadResponse _$FileUploadResponseFromJson(Map<String, dynamic> json) =>
       summary: json['summary'] as String?,
       analysis: (json['analysis'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(
-          k,
-          (e as Map<String, dynamic>).map(
-            (k, e) => MapEntry(
-              k,
-              CardMainContent.fromJson(e as Map<String, dynamic>),
-            ),
-          ),
-        ),
+            k,
+            (e as Map<String, dynamic>).map(
+              (k, e) => MapEntry(
+                  k, CardMainContent.fromJson(e as Map<String, dynamic>)),
+            )),
       ),
     );
 

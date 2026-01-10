@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:resume_critiquer_app/framework/digital/device.dart';
 import 'package:resume_critiquer_app/framework/theme/theme.dart';
-import 'package:resume_critiquer_app/view/history_page.dart';
+import 'package:resume_critiquer_app/model/file_upload_hive.dart';
 import 'package:resume_critiquer_app/view/landing_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(FileUploadHiveAdapter());
+  await Hive.openBox<FileUploadHive>('fileUploadBox');
+
   runApp(const MainApp());
 }
 
@@ -25,7 +32,7 @@ class MainApp extends StatelessWidget {
         return child!;
       },
 
-      home: const HistoryPage(),
+      home: const LandingPage(),
     );
   }
 }

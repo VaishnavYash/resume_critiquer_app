@@ -6,10 +6,12 @@ import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/file_response_error.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/model/save_data_response.dart';
 import 'package:resume_critiquer_app/store/file_uploader_store.dart';
 import 'package:resume_critiquer_app/view/history_page.dart';
 import 'package:resume_critiquer_app/view/pdf_page.dart';
 import 'package:resume_critiquer_app/view/widget/glass_button.dart';
+import 'package:resume_critiquer_app/view/widget/hiev_code.dart';
 import 'package:resume_critiquer_app/view/widget/utils.dart';
 
 class LandingPage extends StatefulWidget {
@@ -22,17 +24,17 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   late ColorScheme colorScheme;
   late TextTheme textTheme;
-  final fileUploaderStore = FileUploaderStore();
+  final _fileUploaderStore = FileUploaderStore();
 
-  final companyTextField = TextEditingController();
-  final jobTextField = TextEditingController();
+  final _companyTextField = TextEditingController();
+  final _jobTextField = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    companyTextField.dispose();
-    jobTextField.dispose();
+    _companyTextField.dispose();
+    _jobTextField.dispose();
     super.dispose();
   }
 
@@ -40,10 +42,22 @@ class _LandingPageState extends State<LandingPage> {
     Utils().showBlurLoader(context);
 
     try {
-      final response = await fileUploaderStore.uploadFileApi(
-        jobTextField.text,
-        companyTextField.text,
+      final response = await _fileUploaderStore.uploadFileApi(
+        _jobTextField.text,
+        _companyTextField.text,
       );
+
+      if (response.fileUploadResponse != null) {
+        final allHiveResponse = HiveCode.getAllResponses();
+
+        await HiveCode.saveResponses([
+          HistoryResponse(
+            uploadName: _fileUploaderStore.file?.name ?? '',
+            uploadResponse: response.fileUploadResponse!,
+          ),
+          ...allHiveResponse,
+        ]);
+      }
 
       if (!mounted) return;
       Utils().hideBlurLoader(context);
@@ -162,13 +176,13 @@ class _LandingPageState extends State<LandingPage> {
           TextFieldWidget(
             label: 'Company Applying for',
             hintText: 'Google (Optional)',
-            controller: companyTextField,
+            controller: _companyTextField,
           ),
           const SizedBox(height: 18),
           TextFieldWidget(
             label: 'Job Appling for *',
             hintText: 'SDE 1',
-            controller: jobTextField,
+            controller: _jobTextField,
             highlightColor: Colors.red,
             highlightWords: {'*'},
             validator: (final value) {
@@ -188,7 +202,7 @@ class _LandingPageState extends State<LandingPage> {
   Future<void> _uploadFileOnTap() async {
     if (!mounted) return;
     Utils().showBlurLoader(context);
-    await fileUploaderStore.uploadFile();
+    await _fileUploaderStore.uploadFile();
     if (!mounted) return;
     Utils().hideBlurLoader(context);
     return;
@@ -266,7 +280,7 @@ class _LandingPageState extends State<LandingPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          fileUploaderStore.isFileUploaded
+                          _fileUploaderStore.isFileUploaded
                               ? Icons.upload_file_rounded
                               : Icons.cloud,
                           size: 32,
@@ -274,7 +288,7 @@ class _LandingPageState extends State<LandingPage> {
                         ),
                         const SizedBox(height: 8),
                         TextWidget(
-                          text: fileUploaderStore.file?.name ?? 'Browse file',
+                          text: _fileUploaderStore.file?.name ?? 'Browse file',
                           style: textTheme.bodyLarge?.copyWith(
                             color: colorScheme.surface,
                           ),
@@ -315,25 +329,19 @@ class _LandingPageState extends State<LandingPage> {
       ),
     ),
     onTap: () async {
-      // if (fileUploaderStore.isFileUploaded == false) {
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(
-      //       content: TextWidget(
-      //         text: 'Please upload a PDF file before submitting.',
-      //         style: textTheme.bodyMedium!.copyWith(color: Colors.black),
-      //       ),
-      //     ),
-      //   );
-      // } else if (_formKey.currentState!.validate()) {
-      await _submitResume();
-      // }
+      if (_fileUploaderStore.isFileUploaded == false) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: TextWidget(
+              text: 'Please upload a PDF file before submitting.',
+              style: textTheme.bodyMedium!.copyWith(color: Colors.black),
+            ),
+          ),
+        );
+      } else if (_formKey.currentState!.validate()) {
+        await _submitResume();
+      }
     },
-    colorsList: [
-      // colorScheme.primaryContainer,
-      colorScheme.surface,
-      colorScheme.surface,
-      colorScheme.surface,
-      // colorScheme.primaryContainer,
-    ],
+    colorsList: [colorScheme.surface, colorScheme.surface, colorScheme.surface],
   );
 }

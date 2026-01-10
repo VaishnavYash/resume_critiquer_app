@@ -42,12 +42,12 @@ abstract class FileUploaderBaseStore with Store {
     String jobTextField,
     String companyTextField,
   ) async {
-    // if (file == null || file!.path == null) {
-    //   throw ApiException(
-    //     code: 'NO_FILE',
-    //     message: 'Please select a file first',
-    //   );
-    // }
+    if (file == null || file!.path == null) {
+      throw ApiException(
+        code: 'NO_FILE',
+        message: 'Please select a file first',
+      );
+    }
 
     final response = await MultipartApi().fileUploadMultipart(
       file: File('file!.path!'),

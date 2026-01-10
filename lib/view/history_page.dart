@@ -1,13 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
+import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/model/save_data_response.dart';
+import 'package:resume_critiquer_app/view/pdf_page.dart';
+import 'package:resume_critiquer_app/view/widget/hiev_code.dart';
 
-class HistoryPage extends StatelessWidget {
+class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
 
   @override
+  State<HistoryPage> createState() => _HistoryPageState();
+}
+
+class _HistoryPageState extends State<HistoryPage> {
+  late ColorScheme colorScheme;
+  late TextTheme textStyle;
+
+  List<HistoryResponse>? responseList;
+
+  Future<void> _loadAllResponse() async {
+    responseList = HiveCode.getAllResponses();
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((final _) {
+      _loadAllResponse();
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textStyle = Theme.of(context).textTheme;
+    colorScheme = Theme.of(context).colorScheme;
+    textStyle = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -21,63 +48,71 @@ class HistoryPage extends StatelessWidget {
       ),
       backgroundColor: colorScheme.surfaceTint,
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (final context, final index) {
-            final atsScore = 65.0;
-            final resumeName = 'Yash_resume';
-            return GestureDetector(
-              onTap: () {},
-              child: Container(
-                margin: EdgeInsets.only(
-                  left: 21,
-                  right: 21,
-                  top: index == 0 ? 20 : 5,
-                  bottom: 5,
-                ),
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: colorScheme.secondary,
-                  boxShadow: [
-                    BoxShadow(
-                      color: colorScheme.onSecondaryFixed,
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextWidget(
-                      text: resumeName,
-                      style: textStyle.bodyMedium!.copyWith(
-                        color: colorScheme.onSecondary,
-                      ),
-                    ),
-
-                    Row(
-                      spacing: 10,
-                      children: [
-                        CircleAvatar(
-                          child: TextWidget(
-                            text: atsScore.toString(),
-                            style: textStyle.bodyLarge!.copyWith(
-                              color: getColorCode(atsScore),
-                            ),
+        child:
+            responseList?.isEmpty ?? true
+                ? Center(child: TextWidget(text: 'No History !!!'))
+                : ListView.builder(
+                  itemCount: responseList?.length,
+                  itemBuilder: (final context, final index) {
+                    final response = responseList?[index].uploadResponse;
+                    final atsScore = response?.atsScore ?? (0.0).toDouble();
+                    final resumeName = responseList?[index].uploadName ?? '';
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (final context) => PDFUploadPage(
+                                  response: response ?? FileUploadResponse(),
+                                ),
                           ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          left: 21,
+                          right: 21,
+                          top: index == 0 ? 20 : 5,
+                          bottom: 5,
                         ),
-                        Icon(Icons.arrow_forward_ios),
-                      ],
-                    ),
-                  ],
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: colorScheme.secondary,
+                          border: Border.all(color: colorScheme.onTertiary),
+                        ),
+
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextWidget(
+                              text: resumeName,
+                              style: textStyle.bodyMedium!.copyWith(
+                                color: colorScheme.onSecondary,
+                              ),
+                            ),
+
+                            Row(
+                              spacing: 10,
+                              children: [
+                                CircleAvatar(
+                                  child: TextWidget(
+                                    text: atsScore.toString(),
+                                    style: textStyle.bodyLarge!.copyWith(
+                                      color: getColorCode(atsScore.toDouble()),
+                                    ),
+                                  ),
+                                ),
+                                Icon(Icons.arrow_forward_ios),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              ),
-            );
-          },
-        ),
       ),
     );
   }
