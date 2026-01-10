@@ -10,7 +10,7 @@
     
     <application
         android:usesCleartextTraffic="true"
-        android:label="resume_critiquer_app"
+        android:label="Resume Critique"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
