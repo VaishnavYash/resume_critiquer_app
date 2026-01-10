@@ -51,31 +51,65 @@ class _HistoryPageState extends State<HistoryPage> {
         child:
             responseList?.isEmpty ?? true
                 ? Center(child: TextWidget(text: 'No History !!!'))
-                : Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 21),
-                  child: ListView.builder(
-                    itemCount: responseList?.length,
-                    itemBuilder: (final context, final index) {
-                      final response = responseList?[index].uploadResponse;
-                      final atsScore = response?.atsScore ?? (0.0).toDouble();
-                      final resumeName = responseList?[index].uploadName ?? '';
-                      return Dismissible(
-                        key: Key(index.toString()),
-                        onDismissed: (final value) {
-                          HiveCode.deleteByIndex(index);
-                        },
-                        secondaryBackground: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(Icons.highlight_remove, color: Colors.white),
-                          ],
-                        ),
-                        background: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.highlight_remove, color: Colors.white),
-                          ],
-                        ),
+                : ListView.builder(
+                  itemCount: responseList?.length,
+                  itemBuilder: (final context, final index) {
+                    final response = responseList?[index].uploadResponse;
+                    final atsScore = response?.atsScore ?? (0.0).toDouble();
+                    final resumeName = responseList?[index].uploadName ?? '';
+                    return Dismissible(
+                      key: ValueKey(responseList![index]), // stable key
+
+                      onDismissed: (_) {
+                        final removedItem = responseList![index];
+                        final removedIndex = index;
+
+                        setState(() {
+                          responseList!.removeAt(index);
+                        });
+
+                        HiveCode.deleteByIndex(removedIndex);
+
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Item removed'),
+                            action: SnackBarAction(
+                              label: 'Undo',
+                              onPressed: () {
+                                setState(() {
+                                  responseList!.insert(
+                                    removedIndex,
+                                    removedItem,
+                                  );
+                                });
+
+                                HiveCode.insertAtIndex(
+                                  removedIndex,
+                                  removedItem,
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: const Icon(Icons.delete, color: Colors.white),
+                      ),
+
+                      secondaryBackground: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: const Icon(Icons.delete, color: Colors.white),
+                      ),
+
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 21),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -89,55 +123,58 @@ class _HistoryPageState extends State<HistoryPage> {
                               ),
                             );
                           },
-                          child: Container(
-                            margin: EdgeInsets.only(
-                              top: index == 0 ? 20 : 5,
-                              bottom: 5,
-                            ),
-                            padding: const EdgeInsets.all(14),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: colorScheme.secondary,
-                              border: Border.all(color: colorScheme.onTertiary),
-                            ),
-
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                TextWidget(
-                                  text: resumeName,
-                                  style: textStyle.bodyMedium!.copyWith(
-                                    color: colorScheme.onSecondary,
-                                  ),
-                                ),
-
-                                Row(
-                                  spacing: 10,
-                                  children: [
-                                    CircleAvatar(
-                                      child: TextWidget(
-                                        text: atsScore.toString(),
-                                        style: textStyle.bodyLarge!.copyWith(
-                                          color: getColorCode(
-                                            atsScore.toDouble(),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Icon(Icons.arrow_forward_ios),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                          child: _cardUI(index, resumeName, atsScore),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
       ),
     );
   }
+
+  Widget _cardUI(
+    final int index,
+    final String resumeName,
+    final num atsScore,
+  ) => Container(
+    margin: EdgeInsets.only(top: index == 0 ? 20 : 5, bottom: 5),
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      color: colorScheme.secondary,
+      border: Border.all(color: colorScheme.onTertiary),
+    ),
+
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+          child: TextWidget(
+            text: resumeName,
+            style: textStyle.bodyMedium!.copyWith(
+              color: colorScheme.onSecondary,
+            ),
+          ),
+        ),
+
+        Row(
+          spacing: 10,
+          children: [
+            CircleAvatar(
+              child: TextWidget(
+                text: atsScore.toString(),
+                style: textStyle.bodyLarge!.copyWith(
+                  color: getColorCode(atsScore.toDouble()),
+                ),
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios),
+          ],
+        ),
+      ],
+    ),
+  );
 
   Color getColorCode(double atsScore) {
     var colorCode = Colors.red;

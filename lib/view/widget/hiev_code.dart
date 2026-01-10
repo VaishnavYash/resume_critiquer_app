@@ -5,6 +5,23 @@ import 'package:resume_critiquer_app/model/file_upload_hive.dart';
 import 'package:resume_critiquer_app/model/save_data_response.dart';
 
 class HiveCode {
+  // Save Only One Response
+  static Future<void> saveOneResponses(HistoryResponse response) async {
+    final box = Hive.box<FileUploadHive>('fileUploadBox');
+    box.add(FileUploadHive(jsonEncode(response.toJson())));
+  }
+
+  // Insert at a Index
+  static Future<void> insertAtIndex(int index, HistoryResponse response) async {
+    final box = Hive.box<FileUploadHive>('fileUploadBox');
+
+    if (index >= box.length) {
+      await box.add(FileUploadHive(jsonEncode(response.toJson())));
+    } else {
+      await box.putAt(index, FileUploadHive(jsonEncode(response.toJson())));
+    }
+  }
+
   // Save Response
   static Future<void> saveResponses(List<HistoryResponse> responses) async {
     final box = Hive.box<FileUploadHive>('fileUploadBox');
