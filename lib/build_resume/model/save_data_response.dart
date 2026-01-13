@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/build_resume/model/file_upload_response.dart';
 
 part 'save_data_response.g.dart';
 

@@ -4,8 +4,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:resume_critiquer_app/model/card_content.dart';
-import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/build_resume/model/card_content.dart';
+import 'package:resume_critiquer_app/build_resume/model/file_upload_response.dart';
 import 'package:resume_critiquer_app/ats_score/view/widget/error_bottom_sheet.dart';
 
 class CustomIconData {

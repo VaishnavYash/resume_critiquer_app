@@ -2,12 +2,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:resume_critiquer_app/build_resume/view/build_resume.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_button_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/model/file_response_error.dart';
-import 'package:resume_critiquer_app/model/file_upload_response.dart';
-import 'package:resume_critiquer_app/model/save_data_response.dart';
+import 'package:resume_critiquer_app/build_resume/model/file_response_error.dart';
+import 'package:resume_critiquer_app/build_resume/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/build_resume/model/save_data_response.dart';
 import 'package:resume_critiquer_app/ats_score/store/file_uploader_store.dart';
 import 'package:resume_critiquer_app/ats_score/view/history_page.dart';
 import 'package:resume_critiquer_app/ats_score/view/pdf_page.dart';
@@ -346,9 +347,22 @@ class _LandingPageState extends State<LandingPage> {
     padding: EdgeInsets.fromLTRB(21, 10, 21, 24),
     child: Column(
       spacing: 15,
-      children: [_analyzeButton(), TextButtonWidget(onPress: () {
+      children: [
+        _analyzeButton(),
+        TextButtonWidget(
+          onPress: () async {
+            final pdfBytes = await Utils.generatePdfContent(widget.response);
+            _savedPdf = await MultipartApi().downloadPdf(pdfBytes);
 
-      })],
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => BuildResume()),
+            );
+          },
+        ),
+      ],
     ),
   );
 }
+
+

@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:resume_critiquer_app/ats_score/api/multipart_api.dart';
-import 'package:resume_critiquer_app/model/file_response_error.dart';
-import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/build_resume/model/file_response_error.dart';
+import 'package:resume_critiquer_app/build_resume/model/file_upload_response.dart';
 
 part 'file_uploader_store.g.dart';
 

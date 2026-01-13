@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/ats_score/view/widget/utils.dart';
-import 'package:resume_critiquer_app/model/card_content.dart';
+import 'package:resume_critiquer_app/build_resume/model/card_content.dart';
 
 import '../../../framework/widgets/text_widget.dart';
 
