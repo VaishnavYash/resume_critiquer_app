@@ -8,11 +8,11 @@ import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/file_response_error.dart';
 import 'package:resume_critiquer_app/model/file_upload_response.dart';
 import 'package:resume_critiquer_app/model/save_data_response.dart';
-import 'package:resume_critiquer_app/store/file_uploader_store.dart';
-import 'package:resume_critiquer_app/view/history_page.dart';
-import 'package:resume_critiquer_app/view/pdf_page.dart';
-import 'package:resume_critiquer_app/view/widget/hiev_code.dart';
-import 'package:resume_critiquer_app/view/widget/utils.dart';
+import 'package:resume_critiquer_app/ats_score/store/file_uploader_store.dart';
+import 'package:resume_critiquer_app/ats_score/view/history_page.dart';
+import 'package:resume_critiquer_app/ats_score/view/pdf_page.dart';
+import 'package:resume_critiquer_app/ats_score/view/widget/hiev_code.dart';
+import 'package:resume_critiquer_app/ats_score/view/widget/utils.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -347,7 +347,7 @@ class _LandingPageState extends State<LandingPage> {
     child: Column(
       spacing: 15,
       children: [_analyzeButton(), TextButtonWidget(onPress: () {
-        
+
       })],
     ),
   );
