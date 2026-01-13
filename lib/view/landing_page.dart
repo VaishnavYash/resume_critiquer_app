@@ -11,7 +11,6 @@ import 'package:resume_critiquer_app/model/save_data_response.dart';
 import 'package:resume_critiquer_app/store/file_uploader_store.dart';
 import 'package:resume_critiquer_app/view/history_page.dart';
 import 'package:resume_critiquer_app/view/pdf_page.dart';
-import 'package:resume_critiquer_app/view/widget/glass_button.dart';
 import 'package:resume_critiquer_app/view/widget/hiev_code.dart';
 import 'package:resume_critiquer_app/view/widget/utils.dart';
 
@@ -106,16 +105,13 @@ class _LandingPageState extends State<LandingPage> {
         ],
         backgroundColor: colorScheme.tertiaryContainer,
       ),
-
-      // bottomNavigationBar: Column(
-      //   children: [_analyzeButton(), TextButtonWidget(onPress: () {})],
-      // ),
       backgroundColor: colorScheme.secondaryContainer,
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(child: _topStackWidget()),
-            SliverFillRemaining(hasScrollBody: false, child: _mainContent()),
+        child: Column(
+          children: [
+            _topStackWidget(),
+            Expanded(child: _mainContent()),
+            _bottomBar(),
           ],
         ),
       ),
@@ -154,7 +150,7 @@ class _LandingPageState extends State<LandingPage> {
 
   Widget _mainContent() => Container(
     width: MediaQuery.sizeOf(context).width,
-    padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
+    padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       gradient: LinearGradient(
@@ -178,7 +174,8 @@ class _LandingPageState extends State<LandingPage> {
           const SizedBox(height: 18),
           TextFieldWidget(
             label: 'Job Description',
-            hintText: 'SDE 1',
+            hintText:
+                'e.g. • Lead a team of developers • Manage product lifecycles • Required: 3+ years of Flutter experience',
             controller: _jobTextField,
             validator: (final value) {
               if (value == null || value.isEmpty) {
@@ -187,9 +184,6 @@ class _LandingPageState extends State<LandingPage> {
               return null;
             },
           ),
-          SizedBox(height: 24),
-          _analyzeButton(),
-          TextButtonWidget(onPress: () {}),
         ],
       ),
     ),
@@ -314,30 +308,47 @@ class _LandingPageState extends State<LandingPage> {
     ],
   );
 
-  Widget _analyzeButton() => GlassButton(
-    textWidget: Center(
-      child: TextWidget(
-        text: 'Get ATS Score',
-        style: textStyle.bodyLarge?.copyWith(
-          color: colorScheme.onSurface,
-          letterSpacing: 0.5,
+  Widget _analyzeButton() => SizedBox(
+    height: 45,
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: colorScheme.surface,
+        foregroundColor: colorScheme.surface,
+      ),
+      child: Center(
+        child: TextWidget(
+          text: 'Get ATS Score',
+          style: textStyle.bodyLarge?.copyWith(
+            color: colorScheme.onSurface,
+            letterSpacing: 0.5,
+          ),
         ),
       ),
-    ),
-    onTap: () async {
-      if (_fileUploaderStore.isFileUploaded == false) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: TextWidget(
-              text: 'Please upload a PDF file before submitting.',
-              style: textStyle.bodyMedium!.copyWith(color: Colors.black),
+      onPressed: () async {
+        if (_fileUploaderStore.isFileUploaded == false) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: TextWidget(
+                text: 'Please upload a PDF file before submitting.',
+                style: textStyle.bodyMedium!.copyWith(color: Colors.black),
+              ),
             ),
-          ),
-        );
-      } else if (_formKey.currentState!.validate()) {
-        await _submitResume();
-      }
-    },
-    colorsList: [colorScheme.surface, colorScheme.surface, colorScheme.surface],
+          );
+        } else if (_formKey.currentState!.validate()) {
+          await _submitResume();
+        }
+      },
+    ),
+  );
+
+  Widget _bottomBar() => Container(
+    color: colorScheme.onSecondaryFixed,
+    padding: EdgeInsets.fromLTRB(21, 10, 21, 24),
+    child: Column(
+      spacing: 15,
+      children: [_analyzeButton(), TextButtonWidget(onPress: () {
+        
+      })],
+    ),
   );
 }
