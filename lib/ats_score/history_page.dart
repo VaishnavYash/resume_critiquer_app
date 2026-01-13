@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/build_resume/model/file_upload_response.dart';
-import 'package:resume_critiquer_app/build_resume/model/save_data_response.dart';
-import 'package:resume_critiquer_app/ats_score/view/pdf_page.dart';
-import 'package:resume_critiquer_app/ats_score/view/widget/hiev_code.dart';
+import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/model/save_data_response.dart';
+import 'package:resume_critiquer_app/ats_score/pdf_page.dart';
+import 'package:resume_critiquer_app/ats_score/widget/hiev_code.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});

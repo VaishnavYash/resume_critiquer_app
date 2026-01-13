@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:mobx/mobx.dart';
-import 'package:resume_critiquer_app/ats_score/api/multipart_api.dart';
-import 'package:resume_critiquer_app/build_resume/model/file_response_error.dart';
-import 'package:resume_critiquer_app/build_resume/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/api/multipart_api.dart';
+import 'package:resume_critiquer_app/model/file_response_error.dart';
+import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/api/build_resume_api.dart';
+import 'package:resume_critiquer_app/model/build_resume_model.dart';
 
 part 'file_uploader_store.g.dart';
 
@@ -19,6 +21,9 @@ abstract class FileUploaderBaseStore with Store {
 
   @observable
   ObservableFuture<FileUploadStatus>? uploadedFileResponse;
+
+  @observable
+  ObservableFuture<BuildResumeModelResponse>? buildResponseResponse;
 
   @observable
   bool isFileUploaded = false;
@@ -38,9 +43,7 @@ abstract class FileUploaderBaseStore with Store {
   }
 
   @action
-  Future<FileUploadStatus> uploadFileApi(
-    String jobTextField,
-  ) async {
+  Future<FileUploadStatus> uploadFileApi(String jobTextField) async {
     if (file == null || file!.path == null) {
       throw ApiException(
         code: 'NO_FILE',
@@ -54,6 +57,26 @@ abstract class FileUploaderBaseStore with Store {
     );
 
     uploadedFileResponse = ObservableFuture.value(response);
+    return response;
+  }
+
+  @action
+  Future<BuildResumeModelResponse> buildResumeData(
+    String jobDescription,
+  ) async {
+    // if (file == null || file!.path == null) {
+    //   throw ApiException(
+    //     code: 'NO_FILE',
+    //     message: 'Please select a file first',
+    //   );
+    // }
+
+    final response = await BuildResumeApi().fileUploadMultipart(
+      file: File('file!.path!'),
+      jobTtile: jobDescription,
+    );
+
+    buildResponseResponse = ObservableFuture.value(response);
     return response;
   }
 }

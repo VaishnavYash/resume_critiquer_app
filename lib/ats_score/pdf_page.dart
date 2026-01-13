@@ -1,15 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/ats_score/api/multipart_api.dart';
-import 'package:resume_critiquer_app/ats_score/view/in_app_pdf_viewer.dart';
-import 'package:resume_critiquer_app/ats_score/view/section_analysis_page.dart';
-import 'package:resume_critiquer_app/ats_score/view/widget/analysis_card_widget.dart';
+import 'package:resume_critiquer_app/api/multipart_api.dart';
+import 'package:resume_critiquer_app/ats_score/in_app_pdf_viewer.dart';
+import 'package:resume_critiquer_app/ats_score/section_analysis_page.dart';
+import 'package:resume_critiquer_app/ats_score/widget/analysis_card_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/build_resume/model/card_content.dart';
-import 'package:resume_critiquer_app/build_resume/model/file_upload_response.dart';
-import 'package:resume_critiquer_app/ats_score/view/widget/ats_score_widget.dart';
-import 'package:resume_critiquer_app/ats_score/view/widget/utils.dart';
+import 'package:resume_critiquer_app/model/card_content.dart';
+import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/ats_score/widget/ats_score_widget.dart';
+import 'package:resume_critiquer_app/ats_score/widget/utils.dart';
 
 class PDFUploadPage extends StatefulWidget {
   const PDFUploadPage({super.key, required this.response});

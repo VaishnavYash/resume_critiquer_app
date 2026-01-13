@@ -4,9 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-import 'package:resume_critiquer_app/build_resume/model/file_response_error.dart';
+import 'package:resume_critiquer_app/model/file_response_error.dart';
 
-import 'package:resume_critiquer_app/build_resume/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/model/file_upload_response.dart';
 
 class MultipartApi {
   Future<FileUploadStatus> fileUploadMultipart({

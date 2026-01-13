@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:resume_critiquer_app/ats_score/view/widget/analysis_card.dart';
-import 'package:resume_critiquer_app/ats_score/view/widget/glass_tabs.dart';
+import 'package:resume_critiquer_app/ats_score/widget/analysis_card.dart';
+import 'package:resume_critiquer_app/ats_score/widget/glass_tabs.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/ats_score/view/widget/utils.dart';
-import 'package:resume_critiquer_app/build_resume/model/card_content.dart';
+import 'package:resume_critiquer_app/ats_score/widget/utils.dart';
+import 'package:resume_critiquer_app/model/card_content.dart';
 
 class ExperienceAnalysisScreen extends StatefulWidget {
   const ExperienceAnalysisScreen({

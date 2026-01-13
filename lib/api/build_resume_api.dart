@@ -1,5 +1,35 @@
-class Utils {
-  static String data = '''{
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:resume_critiquer_app/model/file_response_error.dart';
+import 'package:resume_critiquer_app/model/build_resume_model.dart';
+
+class BuildResumeApi {
+  Future<BuildResumeModelResponse> fileUploadMultipart({
+    required final File file,
+    required final String jobTtile,
+  }) async {
+    // var uri = Uri.parse(
+    //   'https://resume-critique-backend-513240140256.asia-south1.run.app/analyze_resume_pdf',
+    // );
+    // 'http://192.168.1.6:8080/analyze_resume_pdf',
+    // 'http://localhost:8080/analyze_resume_pdf',
+
+    // var request =
+    //     http.MultipartRequest('POST', uri)
+    //       ..fields['job_role'] = jobTtile
+    //       ..files.add(await http.MultipartFile.fromPath('resume', file.path));
+
+    // var response = await request.send();
+    // var responseBody = await response.stream.bytesToString();
+
+    // debugPrint('Response status: ${response.statusCode}');
+    // debugPrint('Response body: $responseBody');
+
+    final data = '''{
+"status":"success",
+"content" :
+{
   "summary": "Results-driven Mobile Application Developer with expertise in Kotlin, Java, and Flutter. Experienced in developing consumer-facing apps, building secure and scalable solutions using RESTful services and APIs. Proven track record in improving performance, fixing bugs, and collaborating with designers, product managers, and backend engineers to enhance mobile application features.",
   "education": [
     {
@@ -111,5 +141,49 @@ class Utils {
     "PostgreSQL"
   ],
   "achievement": []
-}''';
+}}''';
+
+    Map<String, dynamic> jsonData;
+    // try {
+    jsonData = jsonDecode(data) as Map<String, dynamic>;
+    // } catch (e) {
+    //   throw ApiException(
+    //     code: 'INVALID_RESPONSE',
+    //     message: 'Server returned an invalid response',
+    //   );
+    // }
+
+    // if (response.statusCode >= 200 && response.statusCode < 300) {
+    final content = jsonData['content'];
+
+    final decodedContent = content is String ? jsonDecode(content) : content;
+
+    return BuildResumeModelResponse(
+      status: jsonData['status'],
+      content: BuildResumeContent.fromJson(decodedContent),
+    );
+    // } else {
+    //   final detail = jsonData['detail'];
+
+    //   if (detail is Map<String, dynamic>) {
+    //     throw ApiException(
+    //       code: detail['code'] ?? 'UNKNOWN_ERROR',
+    //       message: detail['message'] ?? 'Something went wrong',
+    //     );
+    //   } else {
+    //     throw ApiException(
+    //       code: 'UNKNOWN_ERROR',
+    //       message: detail?.toString() ?? 'Something went wrong',
+    //     );
+    //   }
+    // }
+  }
+
+  // Future<File> downloadPdf(Uint8List pdfContent) async {
+  //   final dir = await getApplicationDocumentsDirectory();
+  //   final file = File('${dir.path}/resume_analysis.pdf');
+
+  //   await file.writeAsBytes(pdfContent, flush: true);
+  //   return file;
+  // }
 }

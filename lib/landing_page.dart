@@ -2,18 +2,19 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:resume_critiquer_app/build_resume/view/build_resume.dart';
+import 'package:resume_critiquer_app/build_resume/build_resume.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_button_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/build_resume/model/file_response_error.dart';
-import 'package:resume_critiquer_app/build_resume/model/file_upload_response.dart';
-import 'package:resume_critiquer_app/build_resume/model/save_data_response.dart';
-import 'package:resume_critiquer_app/ats_score/store/file_uploader_store.dart';
-import 'package:resume_critiquer_app/ats_score/view/history_page.dart';
-import 'package:resume_critiquer_app/ats_score/view/pdf_page.dart';
-import 'package:resume_critiquer_app/ats_score/view/widget/hiev_code.dart';
-import 'package:resume_critiquer_app/ats_score/view/widget/utils.dart';
+import 'package:resume_critiquer_app/model/build_resume_model.dart';
+import 'package:resume_critiquer_app/model/file_response_error.dart';
+import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/model/save_data_response.dart';
+import 'package:resume_critiquer_app/store/file_uploader_store.dart';
+import 'package:resume_critiquer_app/ats_score/history_page.dart';
+import 'package:resume_critiquer_app/ats_score/pdf_page.dart';
+import 'package:resume_critiquer_app/ats_score/widget/hiev_code.dart';
+import 'package:resume_critiquer_app/ats_score/widget/utils.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -67,6 +68,59 @@ class _LandingPageState extends State<LandingPage> {
           builder:
               (_) => PDFUploadPage(
                 response: response.fileUploadResponse ?? FileUploadResponse(),
+              ),
+        ),
+      );
+    } catch (err) {
+      Utils().hideBlurLoader(context);
+
+      if (err is ApiException) {
+        Utils.showErrorBottomSheet(
+          context,
+          title: err.code.replaceAll('_', ' '),
+          message: err.message,
+        );
+      } else {
+        Utils.showErrorBottomSheet(
+          context,
+          title: 'Error',
+          message: 'Something went wrong',
+          onRetry: _submitResume,
+        );
+      }
+    }
+  }
+
+  Future<void> _getNewResumeData() async {
+    Utils().showBlurLoader(context);
+
+    try {
+      final response = await _fileUploaderStore.buildResumeData(
+        _jobTextField.text,
+      );
+
+      // if (response.content != null) {
+      // final allHiveResponse = HiveCode.getAllResponses();
+
+      // await HiveCode.saveResponses([
+      //   HistoryResponse(
+      //     uploadName: _fileUploaderStore.file?.name ?? '',
+      //     uploadResponse: response.fileUploadResponse!,
+      //   ),
+      //   ...allHiveResponse,
+      // ]);
+      // }
+      print(response.content?.summary.toString());
+
+      if (!mounted) return;
+      Utils().hideBlurLoader(context);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder:
+              (_) => BuildResume(
+                buildResumeContent: response.content ?? BuildResumeContent(),
               ),
         ),
       );
@@ -351,18 +405,12 @@ class _LandingPageState extends State<LandingPage> {
         _analyzeButton(),
         TextButtonWidget(
           onPress: () async {
-            final pdfBytes = await Utils.generatePdfContent(widget.response);
-            _savedPdf = await MultipartApi().downloadPdf(pdfBytes);
-
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => BuildResume()),
-            );
+            // final pdfBytes = await Utils.generatePdfContent(widget.response);
+            // _savedPdf = await MultipartApi().downloadPdf(pdfBytes);
+            _getNewResumeData();
           },
         ),
       ],
     ),
   );
 }
-
-
