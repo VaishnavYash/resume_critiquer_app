@@ -24,7 +24,7 @@ class TextFieldWidget extends StatelessWidget {
     this.labelColor,
     this.labelSize,
     this.controller,
-    this.keyboardType = TextInputType.text,
+    this.keyboardType = TextInputType.multiline,
     this.fieldTextColor,
     this.maxLength,
     this.highlightWords = const {},
@@ -44,34 +44,47 @@ class TextFieldWidget extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             fontSize: labelSize,
             fontWeight: FontWeight.bold,
-            color: labelColor,
+            color: labelColor ?? Colors.white54,
           ),
           highlightColor: highlightColor,
           highlightWords: highlightWords,
           highlightFontWeight: highlightFontWeight,
         ),
         SizedBox(height: 10),
-        TextFormField(
-          maxLength: maxLength,
-          controller: controller,
-          keyboardType: keyboardType,
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(
-            color: fieldTextColor ?? Colors.grey,
-          ),
-
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: colorScheme.primaryContainer,
-            hintText: hintText,
-            hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
-              color: hintColor ?? Color(0xFFC4D7FF),
+        SizedBox(
+          height: 150,
+          child: TextFormField(
+            textAlignVertical: TextAlignVertical.top,
+            maxLength: maxLength,
+            controller: controller,
+            keyboardType: keyboardType,
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(
+              color: fieldTextColor ?? Colors.white,
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none,
+            textAlign: TextAlign.start,
+            maxLines: null,
+            minLines: null,
+            expands: true,
+            decoration: InputDecoration(
+              alignLabelWithHint: true,
+              filled: true,
+              fillColor: colorScheme.primaryContainer,
+              hintText: hintText,
+              hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
+                color: hintColor ?? Colors.white30,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+                borderSide: const BorderSide(color: Colors.blue, width: 1.5),
+              ),
+              contentPadding: const EdgeInsets.all(16),
             ),
+            validator: validator,
           ),
-          validator: validator,
         ),
       ],
     );

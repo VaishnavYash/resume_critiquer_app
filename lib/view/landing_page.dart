@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:resume_critiquer_app/framework/widgets/text_button_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/file_response_error.dart';
@@ -23,17 +24,16 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   late ColorScheme colorScheme;
-  late TextTheme textTheme;
+  late TextTheme textStyle;
   final _fileUploaderStore = FileUploaderStore();
 
-  final _companyTextField = TextEditingController();
   final _jobTextField = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  var showUnderLine = false;
 
   @override
   void dispose() {
-    _companyTextField.dispose();
     _jobTextField.dispose();
     super.dispose();
   }
@@ -44,7 +44,6 @@ class _LandingPageState extends State<LandingPage> {
     try {
       final response = await _fileUploaderStore.uploadFileApi(
         _jobTextField.text,
-        _companyTextField.text,
       );
 
       if (response.fileUploadResponse != null) {
@@ -94,7 +93,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     colorScheme = Theme.of(context).colorScheme;
-    textTheme = Theme.of(context).textTheme;
+    textStyle = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -107,6 +106,10 @@ class _LandingPageState extends State<LandingPage> {
         ],
         backgroundColor: colorScheme.tertiaryContainer,
       ),
+
+      // bottomNavigationBar: Column(
+      //   children: [_analyzeButton(), TextButtonWidget(onPress: () {})],
+      // ),
       backgroundColor: colorScheme.secondaryContainer,
       body: SafeArea(
         child: CustomScrollView(
@@ -144,7 +147,7 @@ class _LandingPageState extends State<LandingPage> {
       child: TextWidget(
         alignment: TextAlign.center,
         text: 'Improve your resume\nwith AI insights',
-        style: textTheme.displayMedium?.copyWith(fontWeight: FontWeight.w600),
+        style: textStyle.displayMedium?.copyWith(fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -174,17 +177,9 @@ class _LandingPageState extends State<LandingPage> {
           ),
           const SizedBox(height: 18),
           TextFieldWidget(
-            label: 'Company Applying for',
-            hintText: 'Google (Optional)',
-            controller: _companyTextField,
-          ),
-          const SizedBox(height: 18),
-          TextFieldWidget(
-            label: 'Job Appling for *',
+            label: 'Job Description',
             hintText: 'SDE 1',
             controller: _jobTextField,
-            highlightColor: Colors.red,
-            highlightWords: {'*'},
             validator: (final value) {
               if (value == null || value.isEmpty) {
                 return 'This is the required Field';
@@ -192,8 +187,9 @@ class _LandingPageState extends State<LandingPage> {
               return null;
             },
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
           _analyzeButton(),
+          TextButtonWidget(onPress: () {}),
         ],
       ),
     ),
@@ -247,7 +243,7 @@ class _LandingPageState extends State<LandingPage> {
                 const SizedBox(width: 8),
                 TextWidget(
                   text: 'Upload Resume',
-                  style: textTheme.bodyLarge?.copyWith(
+                  style: textStyle.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -258,7 +254,7 @@ class _LandingPageState extends State<LandingPage> {
             const SizedBox(height: 4),
             TextWidget(
               text: "Supported files: PDF",
-              style: textTheme.bodyMedium?.copyWith(
+              style: textStyle.bodyMedium?.copyWith(
                 color: colorScheme.onPrimaryContainer,
               ),
             ),
@@ -289,7 +285,7 @@ class _LandingPageState extends State<LandingPage> {
                         const SizedBox(height: 8),
                         TextWidget(
                           text: _fileUploaderStore.file?.name ?? 'Browse file',
-                          style: textTheme.bodyLarge?.copyWith(
+                          style: textStyle.bodyLarge?.copyWith(
                             color: colorScheme.surface,
                           ),
                         ),
@@ -313,7 +309,7 @@ class _LandingPageState extends State<LandingPage> {
       SizedBox(width: 20),
       TextWidget(
         text: 'Welcome!',
-        style: textTheme.titleMedium?.copyWith(color: colorScheme.onPrimary),
+        style: textStyle.titleMedium?.copyWith(color: colorScheme.onPrimary),
       ),
     ],
   );
@@ -321,8 +317,8 @@ class _LandingPageState extends State<LandingPage> {
   Widget _analyzeButton() => GlassButton(
     textWidget: Center(
       child: TextWidget(
-        text: 'Analyze Resume',
-        style: textTheme.bodyLarge?.copyWith(
+        text: 'Get ATS Score',
+        style: textStyle.bodyLarge?.copyWith(
           color: colorScheme.onSurface,
           letterSpacing: 0.5,
         ),
@@ -334,7 +330,7 @@ class _LandingPageState extends State<LandingPage> {
           SnackBar(
             content: TextWidget(
               text: 'Please upload a PDF file before submitting.',
-              style: textTheme.bodyMedium!.copyWith(color: Colors.black),
+              style: textStyle.bodyMedium!.copyWith(color: Colors.black),
             ),
           ),
         );

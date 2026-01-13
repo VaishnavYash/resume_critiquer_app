@@ -87,9 +87,9 @@ mixin _$FileUploaderStore on FileUploaderBaseStore, Store {
 
   @override
   Future<FileUploadStatus> uploadFileApi(
-      String jobTextField, String companyTextField) {
+      String jobTextField) {
     return _$uploadFileApiAsyncAction
-        .run(() => super.uploadFileApi(jobTextField, companyTextField));
+        .run(() => super.uploadFileApi(jobTextField));
   }
 
   @override

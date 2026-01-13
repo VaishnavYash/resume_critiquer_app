@@ -11,7 +11,6 @@ import 'package:resume_critiquer_app/model/file_upload_response.dart';
 class MultipartApi {
   Future<FileUploadStatus> fileUploadMultipart({
     required final File file,
-    required final String company,
     required final String jobTtile,
   }) async {
     var uri = Uri.parse(
@@ -23,7 +22,6 @@ class MultipartApi {
     var request =
         http.MultipartRequest('POST', uri)
           ..fields['job_role'] = jobTtile
-          ..fields['company'] = company
           ..files.add(await http.MultipartFile.fromPath('resume', file.path));
 
     var response = await request.send();

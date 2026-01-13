@@ -40,7 +40,6 @@ abstract class FileUploaderBaseStore with Store {
   @action
   Future<FileUploadStatus> uploadFileApi(
     String jobTextField,
-    String companyTextField,
   ) async {
     if (file == null || file!.path == null) {
       throw ApiException(
@@ -52,7 +51,6 @@ abstract class FileUploaderBaseStore with Store {
     final response = await MultipartApi().fileUploadMultipart(
       file: File(file!.path!),
       jobTtile: jobTextField,
-      company: companyTextField,
     );
 
     uploadedFileResponse = ObservableFuture.value(response);
