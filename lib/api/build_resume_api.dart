@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:resume_critiquer_app/model/file_response_error.dart';
 import 'package:resume_critiquer_app/model/build_resume_model.dart';
 
 class BuildResumeApi {

@@ -110,7 +110,6 @@ class _LandingPageState extends State<LandingPage> {
       //   ...allHiveResponse,
       // ]);
       // }
-      print(response.content?.summary.toString());
 
       if (!mounted) return;
       Utils().hideBlurLoader(context);
@@ -165,7 +164,21 @@ class _LandingPageState extends State<LandingPage> {
         child: Column(
           children: [
             _topStackWidget(),
-            Expanded(child: _mainContent()),
+            Expanded(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                      ),
+                      child: _mainContent(),
+                    ),
+                  );
+                },
+              ),
+            ),
             _bottomBar(),
           ],
         ),
