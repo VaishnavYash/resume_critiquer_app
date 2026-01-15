@@ -58,6 +58,23 @@ mixin _$FileUploaderStore on FileUploaderBaseStore, Store {
     });
   }
 
+  late final _$buildResponseResponseAtom = Atom(
+      name: 'FileUploaderBaseStore.buildResponseResponse', context: context);
+
+  @override
+  ObservableFuture<BuildResumeModelResponse>? get buildResponseResponse {
+    _$buildResponseResponseAtom.reportRead();
+    return super.buildResponseResponse;
+  }
+
+  @override
+  set buildResponseResponse(ObservableFuture<BuildResumeModelResponse>? value) {
+    _$buildResponseResponseAtom.reportWrite(value, super.buildResponseResponse,
+        () {
+      super.buildResponseResponse = value;
+    });
+  }
+
   late final _$isFileUploadedAtom =
       Atom(name: 'FileUploaderBaseStore.isFileUploaded', context: context);
 
@@ -91,12 +108,22 @@ mixin _$FileUploaderStore on FileUploaderBaseStore, Store {
         .run(() => super.uploadFileApi(jobTextField));
   }
 
+  late final _$buildResumeDataAsyncAction =
+      AsyncAction('FileUploaderBaseStore.buildResumeData', context: context);
+
+  @override
+  Future<BuildResumeModelResponse> buildResumeData(String jobDescription) {
+    return _$buildResumeDataAsyncAction
+        .run(() => super.buildResumeData(jobDescription));
+  }
+
   @override
   String toString() {
     return '''
 isLoading: ${isLoading},
 file: ${file},
 uploadedFileResponse: ${uploadedFileResponse},
+buildResponseResponse: ${buildResponseResponse},
 isFileUploaded: ${isFileUploaded}
     ''';
   }

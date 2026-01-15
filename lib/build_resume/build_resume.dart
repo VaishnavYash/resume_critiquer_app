@@ -19,14 +19,15 @@ class _BuildResumeState extends State<BuildResume> {
   Uint8List? pdfBytes;
   @override
   void initState() {
-    // WidgetsBinding.instance.addPostFrameCallback((final _) {
-    //   _buildResume();
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((final _) {
+      _buildResume();
+    });
     super.initState();
   }
 
   void _buildResume() async {
     pdfBytes = await NewResumePdf.generatePdfContent(widget.buildResumeContent);
+    setState(() {});
     // _generatedPdf = await MultipartApi().downloadPdf(pdfBytes);
   }
 
@@ -34,7 +35,8 @@ class _BuildResumeState extends State<BuildResume> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyle = Theme.of(context).textTheme;
-    _buildResume();
+    // return SizedBox.shrink();
+    // _buildResume();
     return Scaffold(
       appBar: AppBar(
         title: TextWidget(

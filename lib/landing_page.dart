@@ -94,53 +94,53 @@ class _LandingPageState extends State<LandingPage> {
   Future<void> _getNewResumeData() async {
     Utils().showBlurLoader(context);
 
-    try {
-      final response = await _fileUploaderStore.buildResumeData(
-        _jobTextField.text,
-      );
+    // try {
+    final response = await _fileUploaderStore.buildResumeData(
+      _jobTextField.text,
+    );
 
-      // if (response.content != null) {
-      // final allHiveResponse = HiveCode.getAllResponses();
+    // if (response.content != null) {
+    // final allHiveResponse = HiveCode.getAllResponses();
 
-      // await HiveCode.saveResponses([
-      //   HistoryResponse(
-      //     uploadName: _fileUploaderStore.file?.name ?? '',
-      //     uploadResponse: response.fileUploadResponse!,
-      //   ),
-      //   ...allHiveResponse,
-      // ]);
-      // }
+    // await HiveCode.saveResponses([
+    //   HistoryResponse(
+    //     uploadName: _fileUploaderStore.file?.name ?? '',
+    //     uploadResponse: response.fileUploadResponse!,
+    //   ),
+    //   ...allHiveResponse,
+    // ]);
+    // }
 
-      if (!mounted) return;
-      Utils().hideBlurLoader(context);
+    if (!mounted) return;
+    Utils().hideBlurLoader(context);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder:
-              (_) => BuildResume(
-                buildResumeContent: response.content ?? BuildResumeContent(),
-              ),
-        ),
-      );
-    } catch (err) {
-      Utils().hideBlurLoader(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder:
+            (_) => BuildResume(
+              buildResumeContent: response.content ?? BuildResumeContent(),
+            ),
+      ),
+    );
+    // } catch (err) {
+    //   Utils().hideBlurLoader(context);
 
-      if (err is ApiException) {
-        Utils.showErrorBottomSheet(
-          context,
-          title: err.code.replaceAll('_', ' '),
-          message: err.message,
-        );
-      } else {
-        Utils.showErrorBottomSheet(
-          context,
-          title: 'Error',
-          message: 'Something went wrong',
-          onRetry: _submitResume,
-        );
-      }
-    }
+    //   if (err is ApiException) {
+    //     Utils.showErrorBottomSheet(
+    //       context,
+    //       title: err.code.replaceAll('_', ' '),
+    //       message: err.message,
+    //     );
+    //   } else {
+    //     Utils.showErrorBottomSheet(
+    //       context,
+    //       title: 'Error',
+    //       message: 'Something went wrong',
+    //       onRetry: _submitResume,
+    //     );
+    //   }
+    // }
   }
 
   @override

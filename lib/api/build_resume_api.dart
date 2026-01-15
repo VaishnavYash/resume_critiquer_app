@@ -26,121 +26,124 @@ class BuildResumeApi {
     // debugPrint('Response body: $responseBody');
 
     final data = '''{
-"status":"success",
-"content" :
-{
-  "summary": "Results-driven Mobile Application Developer with expertise in Kotlin, Java, and Flutter. Experienced in developing consumer-facing apps, building secure and scalable solutions using RESTful services and APIs. Proven track record in improving performance, fixing bugs, and collaborating with designers, product managers, and backend engineers to enhance mobile application features.",
-  "education": [
-    {
-      "institution": "indian institute of technology (iit) ropar",
-      "degree": "b.tech.",
-      "domain": "electrical engineering",
-      "from": "december 2020",
-      "to": "june 2024",
-      "cgpa": ""
-    }
-  ],
-  "experience": [
-    {
-      "company": "Tata Consultancy Services (TCS)",
-      "role": "System Engineer (Innovator)",
-      "from": "August 2024",
-      "to": "Present",
-      "topic": "",
-      "bullets": [
-        "Developed and improved consumer-facing features for the SBI YONO mobile app (10M+ users), enhancing performance and user experience.",
-        "Built reusable UI components adhering to Material Design 3, reducing UI development time by 30%.",
-        "Achieved 80% unit test coverage across service layers and state management, enhancing system reliability and stability.",
-        "Optimized API consumption using Retrofit and Coroutines, reducing load time and improving error resiliency.",
-        "Performed in-depth debugging with ADB, Android Profiler, and LeakCanary, identifying and resolving memory leaks and performance bottlenecks.",
-        "Collaborated with cross-functional teams, including designers and product managers, to streamline deployment and feature rollout in an Agile environment."
-      ]
-    },
-    {
-      "company": "Indian Institute of Technology Indore",
-      "role": "Guide - Dr. Nagendra Kumar",
-      "from": "May 2023",
-      "to": "July 2023",
-      "topic": "Disaster Management Using Deep Learning Techniques",
-      "bullets": [
-        "Processed 10,000+ tweets for real-time disaster classification using NLP.",
-        "Developed models using BERT and RoBERTa, improving classification accuracy by 15%.",
-        "Trained and evaluated models over 1,000+ epochs, optimizing performance and retrieval time."
-      ]
-    }
-  ],
-  "projects": [
-    {
-      "name": "Resume Critiquer App",
-      "description": [
-        "Engineered an AI-powered resume analysis platform using Python and OpenAI APIs for ATS-optimized feedback.",
-        "Implemented NLP-based evaluation to assess resume structure, keyword relevance, and content clarity, improving performance.",
-        "Developed a cross-platform Flutter frontend enabling resume upload and real-time feedback delivery, enhancing user experience.",
-        "Containerized backend services using Docker for consistent deployment and environment isolation.",
-        "Deployed and scaled the application on Google Cloud Platform (GCP) with secure API integration, ensuring scalable solutions."
-      ],
-      "tools": [
-        "Python",
-        "OpenAI API",
-        "Flutter",
-        "Docker",
-        "Google Cloud Platform",
-        "Git"
-      ]
-    },
-    {
-      "name": "Weather Forecast App",
-      "description": [
-        "Built a full-featured weather app with dynamic UI updates and real-time API integration, focusing on consumer-facing apps.",
-        "Supported 250,000+ city locations using Geocoder and WeatherAPI, enhancing functionality.",
-        "Reduced crash rates by 80% through state management improvements, optimizing performance.",
-        "Implemented dependency injection and clean architecture for maintainability and reusable UI components."
-      ],
-      "tools": [
+  "status": "success",
+  "content": {
+    "summary": "Mobile Application Developer with expertise in Flutter and Dart, specializing in developing consumer-facing apps and enhancing user experiences. Proven track record in building reusable UI components, optimizing performance through clean architecture, and collaborating effectively with cross-functional teams to deliver scalable solutions. Skilled in integrating RESTful APIs and ensuring application reliability through comprehensive testing and debugging.",
+    "education": [
+      {
+        "institution": "Indian Institute of Technology (IIT) Ropar",
+        "degree": "B.Tech.",
+        "domain": "Electrical Engineering",
+        "from": "December 2020",
+        "to": "June 2024",
+        "cgpa": ""
+      }
+    ],
+    "experience": [
+      {
+        "company": "Tata Consultancy Services (TCS)",
+        "role": "System Engineer (Innovator)",
+        "from": "August 2024",
+        "to": "Present",
+        "topic": "",
+        "bullets": [
+          "Developed and enhanced features for the consumer-facing SBI YONO mobile app, serving over 10 million users, with a focus on improving performance and user experience.",
+          "Implemented reusable UI components adhering to Material Design 3 principles, resulting in a 30% reduction in UI development time.",
+          "Achieved 80% unit test coverage across service layers and state management, significantly enhancing system reliability and stability.",
+          "Optimized API consumption using Retrofit and Coroutines, leading to reduced load times and improved error resiliency.",
+          "Conducted thorough debugging using ADB, Android Profiler, and LeakCanary, successfully identifying and resolving memory leaks and performance bottlenecks.",
+          "Collaborated with cross-functional teams, including designers, product managers, and backend engineers, to streamline deployment and feature rollout in an agile environment."
+        ],
+        "location": "Pune"
+      },
+      {
+        "company": "Indian Institute of Technology Indore",
+        "role": "Guide - Dr. Nagendra Kumar",
+        "from": "May 2023",
+        "to": "July 2023",
+        "topic": "Disaster Management Using Deep Learning Techniques",
+        "bullets": [
+          "Processed over 10,000 tweets for real-time disaster classification using NLP techniques.",
+          "Developed and fine-tuned models utilizing BERT and RoBERTa, achieving a 15% improvement in classification accuracy.",
+          "Trained and evaluated models over 1,000 epochs, optimizing performance and retrieval times."
+        ],
+        "location": ""
+      }
+    ],
+    "projects": [
+      {
+        "name": "Resume Critiquer App",
+        "description": [
+          "Developed an AI-powered resume analysis platform utilizing Python and OpenAI APIs to deliver ATS-optimized feedback.",
+          "Implemented NLP-based evaluation techniques to enhance resume structure, keyword relevance, and content clarity.",
+          "Created a cross-platform Flutter frontend for seamless resume uploads and real-time feedback delivery.",
+          "Containerized backend services with Docker to ensure consistent deployment and environment isolation.",
+          "Deployed and scaled the application on Google Cloud Platform (GCP), ensuring secure API integration and performance optimization.",
+          "Aligned recommendations with ATS parsing rules to improve resume screening accuracy."
+        ],
+        "tools": [
+          "Python",
+          "OpenAI API",
+          "Flutter",
+          "Docker",
+          "Google Cloud Platform",
+          "GitHub"
+        ],
+        "location": ""
+      },
+      {
+        "name": "Weather Forecast App",
+        "description": [
+          "Engineered a full-featured weather application with dynamic UI updates and real-time API integration.",
+          "Supported over 250,000 city locations through effective use of geocoding and weather APIs.",
+          "Reduced crash rates by 80% through performance optimization and state management improvements.",
+          "Implemented clean architecture and dependency injection to enhance maintainability and facilitate collaboration with backend engineers."
+        ],
+        "tools": [
+          "Dart",
+          "Flutter",
+          "REST APIs",
+          "JSON Syntax",
+          "MobX",
+          "SQLite",
+          "GitHub"
+        ],
+        "location": ""
+      }
+    ],
+    "skills": {
+      "technical_skills": [
+        "Kotlin",
+        "Java",
         "Dart",
+        "C++",
+        "Python",
+        "SQL",
+        "Android SDK",
+        "Retrofit",
+        "Gson",
+        "SQLite"
+      ],
+      "tools_technologies": [
+        "Android Studio",
         "Flutter",
-        "REST APIs",
-        "JSON Syntax",
-        "MobX",
-        "SQLite",
-        "Git"
+        "Git",
+        "GitLab",
+        "Postman"
+      ],
+      "databases": [
+        "Room",
+        "PostgreSQL"
       ]
-    }
-  ],
-  "skills": [
-    "Kotlin",
-    "Java",
-    "Dart",
-    "C++",
-    "Python",
-    "SQL",
-    "Android SDK",
-    "Fragments",
-    "Retrofit",
-    "HTTP",
-    "Gson",
-    "RecyclerView",
-    "Material Design",
-    "MVVM",
-    "Navigation Component",
-    "Git",
-    "CI/CD",
-    "MobX",
-    "Get-It",
-    "GoRouter",
-    "Provider",
-    "Block",
-    "Android Studio",
-    "Flutter",
-    "GitHub",
-    "GitLab",
-    "Postman",
-    "SQLite",
-    "Room",
-    "PostgreSQL"
-  ],
-  "achievement": []
-}}''';
+    },
+    "achievement": [
+      "Elected member of the Students’ Legislative Council 2024, demonstrating leadership and responsibility.",
+      "Successfully solved over 1200 coding challenges across platforms including LeetCode (610), GeeksforGeeks (600), Codeforces, and CodeChef, showcasing strong problem-solving skills.",    
+      "Achieved a global rank of 4500 in Google Kick Start 2022, reflecting competitive programming proficiency.",
+      "Completed certifications in Android Development, Data Structures and Algorithms, Power BI, and SQL, enhancing technical expertise relevant to mobile application development."
+    ]
+  }
+}''';
 
     Map<String, dynamic> jsonData;
     // try {

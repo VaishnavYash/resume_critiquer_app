@@ -28,9 +28,9 @@ class BuildResumeContent {
   @JsonKey(name: "projects")
   List<Project>? projects;
   @JsonKey(name: "skills")
-  List<String>? skills;
+  Skills? skills;
   @JsonKey(name: "achievement")
-  List<dynamic>? achievement;
+  List<String>? achievement;
 
   BuildResumeContent({
     this.summary,
@@ -91,6 +91,8 @@ class Experience {
   String? topic;
   @JsonKey(name: "bullets")
   List<String>? bullets;
+  @JsonKey(name: "location")
+  String? location;
 
   Experience({
     this.company,
@@ -99,6 +101,7 @@ class Experience {
     this.to,
     this.topic,
     this.bullets,
+    this.location,
   });
 
   factory Experience.fromJson(Map<String, dynamic> json) =>
@@ -115,11 +118,30 @@ class Project {
   List<String>? description;
   @JsonKey(name: "tools")
   List<String>? tools;
+  @JsonKey(name: "location")
+  String? location;
 
-  Project({this.name, this.description, this.tools});
+  Project({this.name, this.description, this.tools, this.location});
 
   factory Project.fromJson(Map<String, dynamic> json) =>
       _$ProjectFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProjectToJson(this);
+}
+
+@JsonSerializable()
+class Skills {
+  @JsonKey(name: "technical_skills")
+  List<String>? technicalSkills;
+  @JsonKey(name: "tools_technologies")
+  List<String>? toolsTechnologies;
+  @JsonKey(name: "databases")
+  List<String>? databases;
+
+  Skills({this.technicalSkills, this.databases, this.toolsTechnologies});
+
+  factory Skills.fromJson(Map<String, dynamic> json) =>
+      _$SkillsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SkillsToJson(this);
 }
