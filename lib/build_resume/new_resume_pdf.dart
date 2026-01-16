@@ -1,10 +1,12 @@
-import 'dart:typed_data';
-
+import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:resume_critiquer_app/build_resume/utils.dart';
 import 'package:resume_critiquer_app/model/build_resume_model.dart';
 
 class NewResumePdf {
+  static String unicode = '\u26AB';
+
   static pw.Widget textWidget(
     final String? text, {
     final double size = 10,
@@ -29,7 +31,7 @@ class NewResumePdf {
       if (showBullet)
         pw.Row(
           children: [
-            pw.Text('\u2022 ', style: pw.TextStyle(fontSize: size)),
+            textWidget('$unicode ', size: size),
             textWidget(title ?? '', size: size, isBold: bold),
           ],
         ),
@@ -38,13 +40,31 @@ class NewResumePdf {
     ],
   );
 
-  static pw.Widget sectionTitle(final String title) => pw.Column(
-    mainAxisAlignment: pw.MainAxisAlignment.start,
-    crossAxisAlignment: pw.CrossAxisAlignment.start,
-    children: [
-      textWidget(title.toUpperCase(), size: 12, isBold: true),
-      pw.Divider(),
-    ],
+  static pw.Widget sectionTitle(final String title) => pw.Container(
+    padding: const pw.EdgeInsets.only(top: 5, bottom: 4),
+    decoration: pw.BoxDecoration(
+      border: pw.Border(bottom: pw.BorderSide(color: PdfColors.grey, width: 1)),
+    ),
+    child: pw.Row(
+      mainAxisAlignment: pw.MainAxisAlignment.start,
+      crossAxisAlignment: pw.CrossAxisAlignment.end,
+      children: [
+        pw.Expanded(
+          child: pw.Row(
+            // mainAxisAlignment: pw.MainAxisAlignment.start,
+            crossAxisAlignment: pw.CrossAxisAlignment.end,
+            children: [
+              textWidget(title[0].toUpperCase(), size: 12, isBold: true),
+              textWidget(
+                title.substring(1).toUpperCase(),
+                size: 10,
+                isBold: true,
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
   );
 
   static pw.Widget firstSectionTitle(final Education? education) => pw.Column(
@@ -71,6 +91,7 @@ class NewResumePdf {
           (edu) => pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
+              pw.SizedBox(height: 4),
               rowWidget(
                 edu.institution,
                 '${edu.from ?? ''} - ${edu.to ?? ''}',
@@ -101,6 +122,7 @@ class NewResumePdf {
           (exp) => pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
+              pw.SizedBox(height: 4),
               rowWidget(
                 exp.company,
                 '${exp.from ?? ''} - ${exp.to ?? ''}',
@@ -111,12 +133,11 @@ class NewResumePdf {
                 exp.topic != null
                     ? '${exp.role} | Topic: ${exp.topic} '
                     : exp.role,
-                'Location',
+                exp.location,
               ),
               ...(exp.bullets ?? []).map(
                 (final value) => textWidget('- $value'),
               ),
-              pw.SizedBox(height: 8),
             ],
           ),
         ),
@@ -135,6 +156,7 @@ class NewResumePdf {
           (proj) => pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
+              pw.SizedBox(height: 4),
               rowWidget(
                 proj.name,
                 'from - to',
@@ -148,8 +170,49 @@ class NewResumePdf {
               ...(proj.description ?? []).map(
                 (final value) => textWidget('- $value'),
               ),
-              pw.SizedBox(height: 8),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  static pw.Widget skillBlock(final Map<String, List<String>>? skills) {
+    if (skills == null) {
+      return pw.SizedBox.shrink();
+    }
+
+    final list = <pw.Widget>[];
+    skills.forEach((final key, final value) {
+      final String skill = value.join(', ');
+      list.add(
+        pw.Row(
+          children: [
+            textWidget(
+              '$unicode ${BuildResumeUtils.firstCapitalAfterSpace(key)}: ',
+              isBold: true,
+            ),
+            textWidget(skill),
+          ],
+        ),
+      );
+    });
+
+    return pw.Column(children: [sectionTitle('Skills'), ...list]);
+  }
+
+  static pw.Widget achievementBlock(final List<String>? achievements) {
+    if (achievements == null || achievements.isEmpty) {
+      return pw.SizedBox.shrink();
+    }
+    return pw.Column(
+      mainAxisAlignment: pw.MainAxisAlignment.start,
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        sectionTitle('Achievements'),
+        ...achievements.map(
+          (achieve) => textWidget(
+            '- ${BuildResumeUtils.removeSpecialCharacters(achieve)}',
           ),
         ),
       ],
@@ -159,7 +222,17 @@ class NewResumePdf {
   static Future<Uint8List> generatePdfContent(
     final BuildResumeContent response,
   ) async {
-    final pdf = pw.Document();
+    final regularFont = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/Roboto/static/Roboto-Regular.ttf'),
+    );
+
+    final boldFont = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/Roboto/static/Roboto-Bold.ttf'),
+    );
+
+    final pdf = pw.Document(
+      theme: pw.ThemeData.withFont(base: regularFont, bold: boldFont),
+    );
 
     final summary = response.summary ?? '';
     final education = response.education;
@@ -175,10 +248,12 @@ class NewResumePdf {
         build:
             (context) => [
               firstSectionTitle(education?[0]),
-              summaryBlock(summary),
+              summaryBlock(BuildResumeUtils.removeSpecialCharacters(summary)),
               educationBlock(education),
               experienceBlock(experience),
               projectBlock(projects),
+              skillBlock(skills),
+              achievementBlock(achievement),
             ],
       ),
     );
