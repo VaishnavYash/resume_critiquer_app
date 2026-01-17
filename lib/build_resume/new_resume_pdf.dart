@@ -5,17 +5,33 @@ import 'package:resume_critiquer_app/build_resume/utils.dart';
 import 'package:resume_critiquer_app/model/build_resume/build_resume_model.dart';
 
 class NewResumePdf {
-  static String unicode = '\u26AB';
+  static pw.Widget unicodeWidget() {
+    return pw.Container(
+      width: 10, // ✅ define a box
+      height: 10,
+      alignment: pw.Alignment.center, // ✅ center inside box
+      child: pw.Container(
+        width: 4,
+        height: 4,
+        decoration: const pw.BoxDecoration(
+          color: PdfColors.black,
+          shape: pw.BoxShape.circle,
+        ),
+      ),
+    );
+  }
 
   static pw.Widget textWidget(
     final String? text, {
     final double size = 10,
     bool isBold = false,
+    final PdfColor color = PdfColors.black,
   }) => pw.Text(
     text ?? '',
     style: pw.TextStyle(
       fontSize: size,
       fontWeight: isBold ? pw.FontWeight.bold : pw.FontWeight.normal,
+      color: color,
     ),
   );
 
@@ -25,18 +41,30 @@ class NewResumePdf {
     final double size = 10,
     final bool bold = false,
     final bool showBullet = false,
+    final bool isUrl = false,
+    final bool isValueBold = false,
+    final String? url = '',
   }) => pw.Row(
     mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
     children: [
       if (showBullet)
         pw.Row(
           children: [
-            textWidget('$unicode ', size: size),
+            unicodeWidget(),
+            pw.SizedBox(width: 2),
             textWidget(title ?? '', size: size, isBold: bold),
           ],
         ),
       if (!showBullet) textWidget(title ?? '', size: size, isBold: bold),
-      textWidget(value ?? '', size: 10),
+      pw.UrlLink(
+        child: textWidget(
+          value ?? '',
+          size: 10,
+          isBold: isValueBold,
+          color: isUrl ? PdfColors.blue : PdfColors.black,
+        ),
+        destination: isUrl ? (url ?? '') : '',
+      ),
     ],
   );
 
@@ -68,8 +96,19 @@ class NewResumePdf {
 
   static pw.Widget firstSectionTitle(final PersonalInfo? info) => pw.Column(
     children: [
-      rowWidget(info?.name, info?.phone, size: 16),
-      rowWidget(info?.designation, info?.email),
+      rowWidget(
+        info?.name,
+        info?.phone,
+        size: 16,
+        url: 'tel:${info?.phone}',
+        isUrl: info?.phone != null && info!.phone!.isNotEmpty,
+      ),
+      rowWidget(
+        info?.designation,
+        info?.email,
+        url: 'mailto:${info?.email}',
+        isUrl: info?.email != null && info!.email!.isNotEmpty,
+      ),
       rowWidget(info?.location, info?.website),
       // rowWidget(info?.institution, 'LinkedIn Profile'),
     ],
@@ -94,7 +133,6 @@ class NewResumePdf {
               rowWidget(
                 edu.institution,
                 '${edu.from ?? ''} - ${edu.to ?? ''}',
-                size: 12,
                 bold: true,
                 showBullet: education.length == 1 ? false : true,
               ),
@@ -164,7 +202,13 @@ class NewResumePdf {
                 bold: true,
                 showBullet: project.length == 1 ? false : true,
               ),
-              rowWidget(proj.tools?.map((tool) => tool).join(' | '), proj.url),
+              rowWidget(
+                proj.tools?.map((tool) => tool).join(' | '),
+                'Github Link',
+                url: BuildResumeUtils.safeUrl(proj.url),
+                isValueBold: true,
+                isUrl: proj.url != null && proj.url!.isNotEmpty,
+              ),
               ...(proj.description ?? []).map(
                 (final value) => textWidget('- $value'),
               ),
@@ -183,14 +227,23 @@ class NewResumePdf {
     final list = <pw.Widget>[];
     skills.forEach((final key, final value) {
       final String skill = value.join(', ');
+      list.add(pw.SizedBox(height: 2));
       list.add(
         pw.Row(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          mainAxisAlignment: pw.MainAxisAlignment.start,
           children: [
-            textWidget(
-              '$unicode ${BuildResumeUtils.firstCapitalAfterSpace(key)}: ',
-              isBold: true,
+            pw.Row(
+              children: [
+                unicodeWidget(),
+                pw.SizedBox(width: 2),
+                textWidget(
+                  '${BuildResumeUtils.firstCapitalAfterSpace(key)}: ',
+                  isBold: true,
+                ),
+              ],
             ),
-            textWidget(skill),
+            pw.Flexible(child: textWidget(skill)),
           ],
         ),
       );

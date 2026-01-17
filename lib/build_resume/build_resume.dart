@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:resume_critiquer_app/api/build_resume_api.dart';
 import 'package:resume_critiquer_app/build_resume/new_resume_pdf.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/build_resume/build_resume_model.dart';
@@ -27,7 +28,6 @@ class _BuildResumeState extends State<BuildResume> {
 
   void _buildResume() async {
     pdfBytes = await NewResumePdf.generatePdfContent(widget.buildResumeContent);
-    // setState(() {});
   }
 
   @override
@@ -43,6 +43,14 @@ class _BuildResumeState extends State<BuildResume> {
             color: colorScheme.onSecondary,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await BuildResumeApi().savePdfToDownloads(pdfBytes!);
+            },
+            icon: Icon(Icons.download),
+          ),
+        ],
         backgroundColor: colorScheme.tertiaryContainer,
       ),
       body: SafeArea(

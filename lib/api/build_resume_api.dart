@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/services.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:resume_critiquer_app/model/build_resume/build_resume_model.dart';
 
 class BuildResumeApi {
@@ -127,16 +129,8 @@ class BuildResumeApi {
     ],
     "skills": {
       "technical_skills": [
-        "Kotlin",
-        "Java",
-        "Dart",
-        "C++",
-        "Python",
-        "SQL",
-        "Android SDK",
-        "Fragments",
-        "Retrofit",
-        "Http"
+        "Kotlin", "Java", "Dart", "C++", "Python", "SQL", "Android SDK", "Fragments", "Retrofit", "Http", "Kotlin", "Java", "Dart",
+        "C++", "Python", "SQL", "Android SDK", "Fragments", "Retrofit"
       ],
       "tools_technologies": [
         "Android Studio",
@@ -196,4 +190,17 @@ class BuildResumeApi {
   //   await file.writeAsBytes(pdfContent, flush: true);
   //   return file;
   // }
+
+  Future<void> savePdfToDownloads(Uint8List pdfBytes) async {
+    final fileName = 'resume_${DateTime.now().millisecondsSinceEpoch}.pdf';
+
+    const platform = MethodChannel('pdf_download');
+
+    await platform.invokeMethod('savePdf', {
+      'bytes': pdfBytes,
+      'fileName': fileName,
+    });
+
+    OpenFilex.open('/storage/emulated/0/Download/$fileName');
+  }
 }
