@@ -3,7 +3,7 @@ import 'package:resume_critiquer_app/ats_score/widget/analysis_card.dart';
 import 'package:resume_critiquer_app/ats_score/widget/glass_tabs.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/ats_score/widget/utils.dart';
-import 'package:resume_critiquer_app/model/card_content.dart';
+import 'package:resume_critiquer_app/model/other/card_content.dart';
 
 class ExperienceAnalysisScreen extends StatefulWidget {
   const ExperienceAnalysisScreen({
