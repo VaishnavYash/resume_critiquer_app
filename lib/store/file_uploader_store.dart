@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:resume_critiquer_app/api/multipart_api.dart';
-import 'package:resume_critiquer_app/model/file_response_error.dart';
-import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/model/other/file_response_error.dart';
+import 'package:resume_critiquer_app/model/file_upload/file_upload_response.dart';
 import 'package:resume_critiquer_app/api/build_resume_api.dart';
-import 'package:resume_critiquer_app/model/build_resume_model.dart';
+import 'package:resume_critiquer_app/model/build_resume/build_resume_model.dart';
 
 part 'file_uploader_store.g.dart';
 

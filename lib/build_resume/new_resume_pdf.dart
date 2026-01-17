@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:resume_critiquer_app/build_resume/utils.dart';
-import 'package:resume_critiquer_app/model/build_resume_model.dart';
+import 'package:resume_critiquer_app/model/build_resume/build_resume_model.dart';
 
 class NewResumePdf {
   static String unicode = '\u26AB';
@@ -51,7 +51,6 @@ class NewResumePdf {
       children: [
         pw.Expanded(
           child: pw.Row(
-            // mainAxisAlignment: pw.MainAxisAlignment.start,
             crossAxisAlignment: pw.CrossAxisAlignment.end,
             children: [
               textWidget(title[0].toUpperCase(), size: 12, isBold: true),

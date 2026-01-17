@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:hive/hive.dart';
-import 'package:resume_critiquer_app/model/file_upload_hive.dart';
-import 'package:resume_critiquer_app/model/save_data_response.dart';
+import 'package:resume_critiquer_app/model/file_upload/file_upload_hive.dart';
+import 'package:resume_critiquer_app/model/other/save_data_response.dart';
 
 class HiveCode {
   // Save Only One Response

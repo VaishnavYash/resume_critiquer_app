@@ -6,8 +6,8 @@ import 'package:resume_critiquer_app/ats_score/in_app_pdf_viewer.dart';
 import 'package:resume_critiquer_app/ats_score/section_analysis_page.dart';
 import 'package:resume_critiquer_app/ats_score/widget/analysis_card_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/model/card_content.dart';
-import 'package:resume_critiquer_app/model/file_upload_response.dart';
+import 'package:resume_critiquer_app/model/other/card_content.dart';
+import 'package:resume_critiquer_app/model/file_upload/file_upload_response.dart';
 import 'package:resume_critiquer_app/ats_score/widget/ats_score_widget.dart';
 import 'package:resume_critiquer_app/ats_score/widget/utils.dart';
 

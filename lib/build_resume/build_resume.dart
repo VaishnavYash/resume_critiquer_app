@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/build_resume/new_resume_pdf.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/model/build_resume_model.dart';
+import 'package:resume_critiquer_app/model/build_resume/build_resume_model.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class BuildResume extends StatefulWidget {

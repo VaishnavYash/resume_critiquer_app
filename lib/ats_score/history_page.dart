@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
-import 'package:resume_critiquer_app/model/file_upload_response.dart';
-import 'package:resume_critiquer_app/model/save_data_response.dart';
+import 'package:resume_critiquer_app/model/file_upload/file_upload_response.dart';
+import 'package:resume_critiquer_app/model/other/save_data_response.dart';
 import 'package:resume_critiquer_app/ats_score/pdf_page.dart';
 import 'package:resume_critiquer_app/ats_score/widget/hiev_code.dart';
 
