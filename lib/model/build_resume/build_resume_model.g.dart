@@ -20,11 +20,14 @@ Map<String, dynamic> _$BuildResumeModelResponseToJson(
         BuildResumeModelResponse instance) =>
     <String, dynamic>{
       'status': instance.status,
-      'content': instance.content?.toJson(),
+      'content': instance.content,
     };
 
 BuildResumeContent _$BuildResumeContentFromJson(Map<String, dynamic> json) =>
     BuildResumeContent(
+      personal: json['personal'] == null
+          ? null
+          : PersonalInfo.fromJson(json['personal'] as Map<String, dynamic>),
       summary: json['summary'] as String?,
       education: (json['education'] as List<dynamic>?)
           ?.map((e) => Education.fromJson(e as Map<String, dynamic>))
@@ -36,23 +39,21 @@ BuildResumeContent _$BuildResumeContentFromJson(Map<String, dynamic> json) =>
           ?.map((e) => Project.fromJson(e as Map<String, dynamic>))
           .toList(),
       skills: (json['skills'] as Map<String, dynamic>?)?.map(
-        (key, value) => MapEntry(
-          key,
-          (value as List<dynamic>).map((e) => e as String).toList(),
-        ),
+        (k, e) =>
+            MapEntry(k, (e as List<dynamic>).map((e) => e as String).toList()),
       ),
       achievement: (json['achievement'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
     );
 
-Map<String, dynamic> _$BuildResumeContentToJson(
-        BuildResumeContent instance) =>
+Map<String, dynamic> _$BuildResumeContentToJson(BuildResumeContent instance) =>
     <String, dynamic>{
+      'personal': instance.personal,
       'summary': instance.summary,
-      'education': instance.education?.map((e) => e.toJson()).toList(),
-      'experience': instance.experience?.map((e) => e.toJson()).toList(),
-      'projects': instance.projects?.map((e) => e.toJson()).toList(),
+      'education': instance.education,
+      'experience': instance.experience,
+      'projects': instance.projects,
       'skills': instance.skills,
       'achievement': instance.achievement,
     };
@@ -66,8 +67,7 @@ Education _$EducationFromJson(Map<String, dynamic> json) => Education(
       cgpa: json['cgpa'] as String?,
     );
 
-Map<String, dynamic> _$EducationToJson(Education instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$EducationToJson(Education instance) => <String, dynamic>{
       'institution': instance.institution,
       'degree': instance.degree,
       'domain': instance.domain,
@@ -82,9 +82,8 @@ Experience _$ExperienceFromJson(Map<String, dynamic> json) => Experience(
       from: json['from'] as String?,
       to: json['to'] as String?,
       topic: json['topic'] as String?,
-      bullets: (json['bullets'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      bullets:
+          (json['bullets'] as List<dynamic>?)?.map((e) => e as String).toList(),
       location: json['location'] as String?,
     );
 
@@ -104,10 +103,12 @@ Project _$ProjectFromJson(Map<String, dynamic> json) => Project(
       description: (json['description'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      tools: (json['tools'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      tools:
+          (json['tools'] as List<dynamic>?)?.map((e) => e as String).toList(),
       location: json['location'] as String?,
+      url: json['url'] as String?,
+      from: json['from'] as String?,
+      to: json['to'] as String?,
     );
 
 Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
@@ -115,4 +116,30 @@ Map<String, dynamic> _$ProjectToJson(Project instance) => <String, dynamic>{
       'description': instance.description,
       'tools': instance.tools,
       'location': instance.location,
+      'url': instance.url,
+      'from': instance.from,
+      'to': instance.to,
+    };
+
+PersonalInfo _$PersonalInfoFromJson(Map<String, dynamic> json) => PersonalInfo(
+      name: json['name'] as String?,
+      email: json['email'] as String?,
+      phone: json['phone'] as String?,
+      linkedinUrl: json['linkedin_url'] as String?,
+      githubUrl: json['github_url'] as String?,
+      website: json['website'] as String?,
+      location: json['location'] as String?,
+      designation: json['designation'] as String?,
+    );
+
+Map<String, dynamic> _$PersonalInfoToJson(PersonalInfo instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'email': instance.email,
+      'phone': instance.phone,
+      'linkedin_url': instance.linkedinUrl,
+      'github_url': instance.githubUrl,
+      'website': instance.website,
+      'location': instance.location,
+      'designation': instance.designation,
     };

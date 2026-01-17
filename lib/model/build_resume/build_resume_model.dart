@@ -4,9 +4,7 @@ part 'build_resume_model.g.dart';
 
 @JsonSerializable()
 class BuildResumeModelResponse {
-  @JsonKey(name: 'status')
   String? status;
-  @JsonKey(name: 'content')
   BuildResumeContent? content;
 
   BuildResumeModelResponse({this.status, this.content});
@@ -19,20 +17,16 @@ class BuildResumeModelResponse {
 
 @JsonSerializable()
 class BuildResumeContent {
-  @JsonKey(name: "summary")
+  PersonalInfo? personal;
   String? summary;
-  @JsonKey(name: "education")
   List<Education>? education;
-  @JsonKey(name: "experience")
   List<Experience>? experience;
-  @JsonKey(name: "projects")
   List<Project>? projects;
-  @JsonKey(name: "skills")
   Map<String, List<String>>? skills;
-  @JsonKey(name: "achievement")
   List<String>? achievement;
 
   BuildResumeContent({
+    this.personal,
     this.summary,
     this.education,
     this.experience,
@@ -49,17 +43,11 @@ class BuildResumeContent {
 
 @JsonSerializable()
 class Education {
-  @JsonKey(name: "institution")
   String? institution;
-  @JsonKey(name: "degree")
   String? degree;
-  @JsonKey(name: "domain")
   String? domain;
-  @JsonKey(name: "from")
   String? from;
-  @JsonKey(name: "to")
   String? to;
-  @JsonKey(name: "cgpa")
   String? cgpa;
 
   Education({
@@ -79,19 +67,12 @@ class Education {
 
 @JsonSerializable()
 class Experience {
-  @JsonKey(name: "company")
   String? company;
-  @JsonKey(name: "role")
   String? role;
-  @JsonKey(name: "from")
   String? from;
-  @JsonKey(name: "to")
   String? to;
-  @JsonKey(name: "topic")
   String? topic;
-  @JsonKey(name: "bullets")
   List<String>? bullets;
-  @JsonKey(name: "location")
   String? location;
 
   Experience({
@@ -112,19 +93,56 @@ class Experience {
 
 @JsonSerializable()
 class Project {
-  @JsonKey(name: "name")
   String? name;
-  @JsonKey(name: "description")
   List<String>? description;
-  @JsonKey(name: "tools")
   List<String>? tools;
-  @JsonKey(name: "location")
   String? location;
+  String? url;
+  String? from;
+  String? to;
 
-  Project({this.name, this.description, this.tools, this.location});
+  Project({
+    this.name,
+    this.description,
+    this.tools,
+    this.location,
+    this.url,
+    this.from,
+    this.to,
+  });
 
   factory Project.fromJson(Map<String, dynamic> json) =>
       _$ProjectFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProjectToJson(this);
+}
+
+@JsonSerializable()
+class PersonalInfo {
+  String? name;
+  String? email;
+  String? phone;
+  @JsonKey(name: "linkedin_url")
+  String? linkedinUrl;
+  @JsonKey(name: "github_url")
+  String? githubUrl;
+  String? website;
+  String? location;
+  String? designation;
+
+  PersonalInfo({
+    this.name,
+    this.email,
+    this.phone,
+    this.linkedinUrl,
+    this.githubUrl,
+    this.website,
+    this.location,
+    this.designation,
+  });
+
+  factory PersonalInfo.fromJson(Map<String, dynamic> json) =>
+      _$PersonalInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PersonalInfoToJson(this);
 }

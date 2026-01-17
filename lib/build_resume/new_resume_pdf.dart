@@ -66,12 +66,12 @@ class NewResumePdf {
     ),
   );
 
-  static pw.Widget firstSectionTitle(final Education? education) => pw.Column(
+  static pw.Widget firstSectionTitle(final PersonalInfo? info) => pw.Column(
     children: [
-      rowWidget('User Name', 'Mobile Number', size: 16),
-      rowWidget(education?.degree, 'email Id'),
-      rowWidget(education?.domain, 'Github Link'),
-      rowWidget(education?.institution, 'LinkedIn Profile'),
+      rowWidget(info?.name, info?.phone, size: 16),
+      rowWidget(info?.designation, info?.email),
+      rowWidget(info?.location, info?.website),
+      // rowWidget(info?.institution, 'LinkedIn Profile'),
     ],
   );
 
@@ -158,14 +158,13 @@ class NewResumePdf {
               pw.SizedBox(height: 4),
               rowWidget(
                 proj.name,
-                'from - to',
+                proj.from != null && proj.to != null
+                    ? '${proj.from} - ${proj.to}'
+                    : proj.from,
                 bold: true,
                 showBullet: project.length == 1 ? false : true,
               ),
-              rowWidget(
-                proj.tools?.map((tool) => tool).join(' | '),
-                'Gitub Link',
-              ),
+              rowWidget(proj.tools?.map((tool) => tool).join(' | '), proj.url),
               ...(proj.description ?? []).map(
                 (final value) => textWidget('- $value'),
               ),
@@ -233,6 +232,7 @@ class NewResumePdf {
       theme: pw.ThemeData.withFont(base: regularFont, bold: boldFont),
     );
 
+    final personal = response.personal;
     final summary = response.summary ?? '';
     final education = response.education;
     final experience = response.experience;
@@ -246,7 +246,7 @@ class NewResumePdf {
         margin: const pw.EdgeInsets.all(24),
         build:
             (context) => [
-              firstSectionTitle(education?[0]),
+              firstSectionTitle(personal),
               summaryBlock(BuildResumeUtils.removeSpecialCharacters(summary)),
               educationBlock(education),
               experienceBlock(experience),
