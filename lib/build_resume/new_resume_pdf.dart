@@ -7,9 +7,9 @@ import 'package:resume_critiquer_app/model/build_resume/build_resume_model.dart'
 class NewResumePdf {
   static pw.Widget unicodeWidget() {
     return pw.Container(
-      width: 10, // ✅ define a box
+      width: 10,
       height: 10,
-      alignment: pw.Alignment.center, // ✅ center inside box
+      alignment: pw.Alignment.center,
       child: pw.Container(
         width: 4,
         height: 4,
@@ -94,6 +94,40 @@ class NewResumePdf {
     ),
   );
 
+  static List<pw.Widget> getUrlList(List<String>? urls) {
+    if (urls == null || urls.isEmpty) {
+      return [];
+    }
+
+    final list = <pw.Widget>[];
+    for (int index = 0, len = urls.length; index < len; index++) {
+      final url = urls[index];
+      final name =
+          urls[index]
+              .replaceAll('https://', '')
+              .replaceAll('www.', '')
+              .replaceAll('.com', ' ')
+              .split(' ')
+              .first;
+      list.add(
+        pw.UrlLink(
+          child: textWidget(
+            BuildResumeUtils.firstCapitalAfterSpace(name),
+            size: 10,
+            color: PdfColors.blue,
+          ),
+          destination: BuildResumeUtils.safeUrl(url),
+        ),
+      );
+
+      if (index != len - 1) {
+        list.add(pw.Text(' |'));
+      }
+    }
+
+    return list;
+  }
+
   static pw.Widget firstSectionTitle(final PersonalInfo? info) => pw.Column(
     children: [
       rowWidget(
@@ -109,8 +143,32 @@ class NewResumePdf {
         url: 'mailto:${info?.email}',
         isUrl: info?.email != null && info!.email!.isNotEmpty,
       ),
-      rowWidget(info?.location, info?.website),
-      // rowWidget(info?.institution, 'LinkedIn Profile'),
+      pw.Row(
+        children: [
+          pw.Expanded(child: textWidget(info?.designation, size: 10)),
+          ...getUrlList(
+            [
+            if (info?.linkedinUrl != null && info!.linkedinUrl!.isNotEmpty)
+              info.linkedinUrl!,
+            if (info?.githubUrl != null && info!.githubUrl!.isNotEmpty)
+              info.linkedinUrl!,
+            if (info?.website != null && info!.website!.isNotEmpty)
+              info.website!,
+          ]),
+        ],
+      ),
+      // rowWidget(
+      //   info?.designation,
+      //   'Github Profile',
+      //   url: BuildResumeUtils.safeUrl(info?.githubUrl),
+      //   isUrl: info?.githubUrl != null && info!.githubUrl!.isNotEmpty,
+      // ),
+      // rowWidget(
+      //   '',
+      //   'LinkedIn Profile',
+      //   url: BuildResumeUtils.safeUrl(info?.linkedinUrl),
+      //   isUrl: info?.linkedinUrl != null && info!.linkedinUrl!.isNotEmpty,
+      // ),
     ],
   );
 
