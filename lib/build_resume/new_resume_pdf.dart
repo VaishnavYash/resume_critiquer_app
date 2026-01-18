@@ -102,6 +102,7 @@ class NewResumePdf {
     final list = <pw.Widget>[];
     for (int index = 0, len = urls.length; index < len; index++) {
       final url = urls[index];
+      if (url.contains('mailto')) continue;
       final name =
           urls[index]
               .replaceAll('https://', '')

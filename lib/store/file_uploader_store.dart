@@ -64,15 +64,15 @@ abstract class FileUploaderBaseStore with Store {
   Future<BuildResumeModelResponse> buildResumeData(
     String jobDescription,
   ) async {
-    // if (file == null || file!.path == null) {
-    //   throw ApiException(
-    //     code: 'NO_FILE',
-    //     message: 'Please select a file first',
-    //   );
-    // }
+    if (file == null || file!.path == null) {
+      throw ApiException(
+        code: 'NO_FILE',
+        message: 'Please select a file first',
+      );
+    }
 
     final response = await BuildResumeApi().fileUploadMultipart(
-      file: File('file!.path!'),
+      file: File(file!.path!),
       jobTtile: jobDescription,
     );
 

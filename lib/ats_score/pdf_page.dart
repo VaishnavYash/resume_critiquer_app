@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:resume_critiquer_app/api/multipart_api.dart';
-import 'package:resume_critiquer_app/ats_score/in_app_pdf_viewer.dart';
 import 'package:resume_critiquer_app/ats_score/section_analysis_page.dart';
 import 'package:resume_critiquer_app/ats_score/widget/analysis_card_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
@@ -23,7 +20,6 @@ class PDFUploadPage extends StatefulWidget {
 class _PDFUploadPageState extends State<PDFUploadPage> {
   late TextTheme textTheme;
   late ColorScheme colorScheme;
-  File? _savedPdf;
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +121,7 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
 
   Future<void> _downloadButtonOnTap() async {
     final pdfBytes = await Utils.generatePdfContent(widget.response);
-    _savedPdf = await MultipartApi().downloadPdf(pdfBytes);
+    await MultipartApi().downloadPdf(pdfBytes);
 
     if (!mounted) return;
 
@@ -139,15 +135,6 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
               text: 'PDF saved successfully',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: colorScheme.onPrimaryContainer,
-              ),
-            ),
-            TextButton(
-              onPressed: () => _openPdf(),
-              child: TextWidget(
-                text: 'Open',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium!.copyWith(color: colorScheme.error),
               ),
             ),
           ],
@@ -211,12 +198,12 @@ class _PDFUploadPageState extends State<PDFUploadPage> {
     return Column(children: data);
   }
 
-  void _openPdf() {
-    if (_savedPdf == null) return;
+  // void _openPdf() {
+  //   if (_savedPdf == null) return;
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => InAppPdfViewer(file: _savedPdf!)),
-    );
-  }
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (_) => InAppPdfViewer(file: _savedPdf!)),
+  //   );
+  // }
 }

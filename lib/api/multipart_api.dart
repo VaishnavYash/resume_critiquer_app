@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:resume_critiquer_app/model/other/file_response_error.dart';
 
 import 'package:resume_critiquer_app/model/file_upload/file_upload_response.dart';
@@ -14,21 +13,18 @@ class MultipartApi {
     required final String jobTtile,
   }) async {
     var uri = Uri.parse(
-      'https://resume-critique-backend-513240140256.asia-south1.run.app/analyze_resume_pdf',
+      // 'https://resume-critique-backend-513240140256.asia-south1.run.app/analyze_resume_pdf',
+      'http://192.168.1.6:8000/analyze_resume_pdf',
+      // 'http://localhost:8080/analyze_resume_pdf',
     );
-    // 'http://192.168.1.6:8080/analyze_resume_pdf',
-    // 'http://localhost:8080/analyze_resume_pdf',
 
     var request =
         http.MultipartRequest('POST', uri)
-          ..fields['job_role'] = jobTtile
+          ..fields['job_description'] = jobTtile
           ..files.add(await http.MultipartFile.fromPath('resume', file.path));
 
     var response = await request.send();
     var responseBody = await response.stream.bytesToString();
-
-    debugPrint('Response status: ${response.statusCode}');
-    debugPrint('Response body: $responseBody');
 
     Map<String, dynamic> jsonData;
     try {
@@ -66,15 +62,20 @@ class MultipartApi {
     }
   }
 
-  Future<File> downloadPdf(Uint8List pdfContent) async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File('${dir.path}/resume_analysis.pdf');
+  Future<void> downloadPdf(Uint8List pdfBytes) async {
+    final fileName =
+        'ats_score_data_${DateTime.now().millisecondsSinceEpoch}.pdf';
 
-    await file.writeAsBytes(pdfContent, flush: true);
-    return file;
+    const platform = MethodChannel('pdf_download');
+
+    await platform.invokeMethod('savePdf', {
+      'bytes': pdfBytes,
+      'fileName': fileName,
+    });
+
+    OpenFilex.open('/storage/emulated/0/Download/$fileName');
   }
 }
-
-
-    // final responseBody =
-    //     '''{"status":"success","content":{   "ats_score": 78,   "summary":"Skilled Android Developer with a strong foundation in Kotlin, Java, and Flutter, specializing in high-performance applications. Demonstrated ability in UI development and backend integration, contributing to major improvements in a top banking app.",   "analysis": {     "Content Clarity and Impact": {       "Strengths": {         "data": [           "Clear focus on relevant technologies and frameworks.",           "Quantifiable achievements highlight effectiveness.",           "Professional summary succinctly outlines key skills."         ],         "whyThisMatter": "Clarity and impact in content enhance the resume's ability to grab attention and demonstrate value quickly."       },       "Areas of Improvement": {         "data": [           "Include more specific metrics related to individual contributions.",           "Avoid redundancy in skills mentioned across sections.",           "Add a brief introductory sentence to the Experience section for context."         ],         "whyThisMatter": "Specific metrics and diverse language improve the uniqueness and persuasive power of the resume."       }     },     "Skills Presentation": {       "Strengths": {         "data": [           "Well-structured skills section highlighting relevant programming languages.",           "Inclusion of both hard and soft skills.",           "Use of industry-standard terminology."         ],         "whyThisMatter": "A well-presented skills section ensures compatibility with ATS and allows hiring managers to quickly assess qualifications."       },       "Areas of Improvement": {         "data": [           "Group similar skills together for easier reading.",           "Consider adding proficiency levels for each skill.",           "Remove any outdated or irrelevant technologies."         ],         "whyThisMatter": "Improving readability and relevance increases the likelihood of passing ATS filters."       }     },     "Experience Descriptions": {       "Strengths": {         "data": [           "Specific roles and responsibilities are clearly defined.",           "Use of action verbs to describe achievements.",           "Projects are detailed with technologies used."         ],         "whyThisMatter": "Well-defined experience descriptions convey the candidate's hands-on skills and contributions effectively."       },       "Areas of Improvement": {         "data": [           "Combine similar points to reduce redundancy.",           "Highlight leadership roles or initiatives taken.",           "Add context on the tools used in collaboration."         ],         "whyThisMatter": "Reducing redundancy and emphasizing leadership can make the candidate stand out more effectively."       }     },     "Specific Improvements for Sde at ": {       "Technical Depth": {         "data": [           "Emphasize advanced concepts in Kotlin or Java.",           "Include contributions to open-source or community projects.",           "Detail experience with cloud services or DevOps practices."         ],         "whyThisMatter": "Demonstrating technical depth aligns with SDE roles that often require comprehensive software engineering knowledge."       },       "Project Descriptions": {         "data": [           "Provide links to deployed applications or live demos.",           "Explain the impact of projects on end-users or stakeholders.",           "Include any collaborative aspects of projects."         ],         "whyThisMatter": "Detailed project descriptions showcase practical application of skills and the candidate's ability to contribute to team goals."       },       "Achievements": {         "data": [           "Quantify achievements related to team projects.",           "Highlight any awards or recognitions received.",           "Add any relevant hackathon or coding competition results."         ],         "whyThisMatter": "Quantifying achievements enhances credibility and shows a track record of success."       },       "Certifications": {         "data": [           "Consider listing the issuing organizations.",           "Prioritize certifications relevant to the SDE role.",           "Add completion dates for certifications."         ],         "whyThisMatter": "Relevant certifications provide additional validation of skills and commitment to professional development."       }     },     "Overall Recommendations": {       "Formatting": {         "data": [           "Use consistent bullet points and spacing.",           "Ensure uniform font sizes and styles.",           "Consider using headings for each section for clarity."         ],         "whyThisMatter": "Consistent formatting improves readability and professionalism of the resume."       },       "Tailoring": {         "data": [           "Customize the summary to reflect the specific SDE role.",           "Align project descriptions with the job's key responsibilities.",           "Incorporate keywords from the job description."         ],         "whyThisMatter": "Tailoring enhances the application's relevance to the specific role, increasing the chances of passing ATS."       },       "Proofreading": {         "data": [           "Check for any grammatical errors or typos.",           "Ensure consistency in tense throughout the resume.",           "Verify all technical terms are correctly spelled."         ],         "whyThisMatter": "A well-proofread resume reflects attention to detail, a critical skill for software development."       }     }   } }}''';
+// final responseBody =
+//         '''{ "status": "success", "content": { "ats_score": 85, "summary": "Results-driven Android Developer with expertise in Kotlin, Java, and Flutter, experienced in building secure, scalable mobile applications using MVVM and REST APIs, with a focus on performance and reliability.", "analysis": { "Content Clarity and Impact": { "Strengths": { "data": [ "Professional summary clearly highlights key skills and experiences.", "Specific achievements in previous roles demonstrate measurable impact.", "Use of industry-relevant terminology enhances credibility." ], "whyThisMatter": "Clear and impactful content helps in quickly capturing the attention of hiring managers and ATS." }, "Areas of Improvement": { "data": [ "Consider restructuring education section to highlight relevant coursework.", "Eliminate minor typos for a more polished presentation.", "Reduce redundancy in descriptions to enhance clarity." ], "whyThisMatter": "Improving clarity and conciseness can enhance ATS readability and overall impression." } }, "Skills Presentation": { "Strengths": { "data": [ "Technical skills are categorized effectively for easy scanning.", "Inclusion of both programming languages and frameworks is beneficial.", "Skills relevant to the target role are prominently featured." ], "whyThisMatter": "A well-presented skills section improves ATS matching and highlights qualifications effectively." }, "Areas of Improvement": { "data": [ "Add specific skills related to required technologies like Firebase and MongoDB.", "Ensure all skills align with the job description to enhance relevance.", "Consider using a visual format (e.g., bullet points) for easier readability." ], "whyThisMatter": "Tailoring the skills section to match job requirements increases chances of passing ATS filters." } }, "Experience Descriptions": { "Strengths": { "data": [ "Experience section uses action verbs that convey impact.", "Quantifiable achievements provide evidence of skills and contributions.", "Relevant project experience aligns well with job requirements." ], "whyThisMatter": "Strong experience descriptions enhance credibility and demonstrate capability." }, "Areas of Improvement": { "data": [ "Incorporate specific mentions of analytics and business logic in project descriptions.", "Expand on collaboration with cross-functional teams to showcase teamwork.", "Clarify the impact of your contributions on business outcomes." ], "whyThisMatter": "Adding relevant details can strengthen the narrative and match the job's key responsibilities." } }, "Specific Improvements for Developer": { "Technical Depth": { "data": [ "Enhance descriptions of technical projects to include Firebase and MongoDB usage.", "Detail your understanding of REST API design and implementation.", "Showcase any experience with app maintenance or stability improvements." ], "whyThisMatter": "Demonstrating technical depth in required areas increases alignment with job expectations." }, "Project Descriptions": { "data": [ "Highlight key challenges faced and how they were overcome in project descriptions.", "Include metrics related to performance improvements achieved in projects.", "Mention any user feedback or results that validate project success." ], "whyThisMatter": "Effective project descriptions can illustrate problem-solving skills and technical ownership." }, "Achievements": { "data": [ "Consider adding specific metrics related to your coding challenges achievements.", "Highlight any leadership roles or initiatives taken in projects.", "Mention any awards or recognition received for contributions." ], "whyThisMatter": "Achievements provide concrete evidence of capabilities and dedication." }, "Certifications": { "data": [ "Add completion dates for certifications to show ongoing learning.", "Include any relevant online courses or training related to required skills.", "Prioritize certifications that directly align with the Developer role." ], "whyThisMatter": "Relevant certifications enhance credibility and showcase commitment to professional development." } }, "Overall Recommendations": { "Formatting": { "data": [ "Ensure consistent formatting throughout the resume for a professional appearance.", "Use headers and subheaders to break up sections clearly.", "Avoid excessive use of punctuation to maintain clarity." ], "whyThisMatter": "Professional formatting can enhance readability and maintain ATS compliance." }, "Tailoring": { "data": [ "Customize the resume for each application to highlight relevant experiences.", "Use keywords from the job description to improve ATS matching.", "Focus on skills and experiences that align closely with the job role." ], "whyThisMatter": "Tailoring resumes for specific roles increases the likelihood of attracting hiring manager attention." }, "Proofreading": { "data": [ "Review the resume for grammatical errors and typos.", "Ensure all information is up-to-date and accurately reflects experiences.", "Consider seeking feedback from peers for additional insights." ], "whyThisMatter": "A polished resume reflects attention to detail and professionalism." } } } } }''';
+    

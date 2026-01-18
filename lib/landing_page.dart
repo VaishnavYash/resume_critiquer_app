@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:resume_critiquer_app/build_resume/build_resume.dart';
+import 'package:resume_critiquer_app/build_resume/new_resume_pdf.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_button_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
@@ -94,53 +95,51 @@ class _LandingPageState extends State<LandingPage> {
   Future<void> _getNewResumeData() async {
     Utils().showBlurLoader(context);
 
-    // try {
-    final response = await _fileUploaderStore.buildResumeData(
-      _jobTextField.text,
-    );
+    try {
+      final response = await _fileUploaderStore.buildResumeData(
+        _jobTextField.text,
+      );
 
-    // if (response.content != null) {
-    // final allHiveResponse = HiveCode.getAllResponses();
+      // if (response.content != null) {
+      // final allHiveResponse = HiveCode.getAllResponses();
 
-    // await HiveCode.saveResponses([
-    //   HistoryResponse(
-    //     uploadName: _fileUploaderStore.file?.name ?? '',
-    //     uploadResponse: response.fileUploadResponse!,
-    //   ),
-    //   ...allHiveResponse,
-    // ]);
-    // }
+      // await HiveCode.saveResponses([
+      //   HistoryResponse(
+      //     uploadName: _fileUploaderStore.file?.name ?? '',
+      //     uploadResponse: response.fileUploadResponse!,
+      //   ),
+      //   ...allHiveResponse,
+      // ]);
+      // }
+      final pdfBytes = await NewResumePdf.generatePdfContent(
+        response.content ?? BuildResumeContent(),
+      );
 
-    if (!mounted) return;
-    Utils().hideBlurLoader(context);
+      if (!mounted) return;
+      Utils().hideBlurLoader(context);
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder:
-            (_) => BuildResume(
-              buildResumeContent: response.content ?? BuildResumeContent(),
-            ),
-      ),
-    );
-    // } catch (err) {
-    //   Utils().hideBlurLoader(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => BuildResume(pdfBytes: pdfBytes)),
+      );
+    } catch (err) {
+      Utils().hideBlurLoader(context);
 
-    //   if (err is ApiException) {
-    //     Utils.showErrorBottomSheet(
-    //       context,
-    //       title: err.code.replaceAll('_', ' '),
-    //       message: err.message,
-    //     );
-    //   } else {
-    //     Utils.showErrorBottomSheet(
-    //       context,
-    //       title: 'Error',
-    //       message: 'Something went wrong',
-    //       onRetry: _submitResume,
-    //     );
-    //   }
-    // }
+      if (err is ApiException) {
+        Utils.showErrorBottomSheet(
+          context,
+          title: err.code.replaceAll('_', ' '),
+          message: err.message,
+        );
+      } else {
+        Utils.showErrorBottomSheet(
+          context,
+          title: 'Error',
+          message: 'Something went wrong',
+          onRetry: _getNewResumeData,
+        );
+      }
+    }
   }
 
   @override
