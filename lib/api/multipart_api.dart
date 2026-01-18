@@ -13,10 +13,9 @@ class MultipartApi {
     required final String jobTtile,
   }) async {
     var uri = Uri.parse(
-      // 'https://resume-critique-backend-513240140256.asia-south1.run.app/analyze_resume_pdf',
-      'http://192.168.1.6:8000/analyze_resume_pdf',
-      // 'http://localhost:8080/analyze_resume_pdf',
+      'https://resume-critique-backend-513240140256.asia-south1.run.app/analyze_resume_pdf',
     );
+    // 'http://192.168.1.6:8000/analyze_resume_pdf',
 
     var request =
         http.MultipartRequest('POST', uri)

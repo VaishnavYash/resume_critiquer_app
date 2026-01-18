@@ -13,10 +13,9 @@ class BuildResumeApi {
     required final String jobTtile,
   }) async {
     var uri = Uri.parse(
-      // 'https://resume-critique-backend-513240140256.asia-south1.run.app/analyze_resume_pdf',
-      'http://192.168.1.6:8000/get_pdf_data',
+      'https://resume-critique-backend-513240140256.asia-south1.run.app/get_pdf_data',
     );
-    // 'http://localhost:8080/analyze_resume_pdf',
+      // 'http://192.168.1.6:8000/get_pdf_data',
 
     var request =
         http.MultipartRequest('POST', uri)

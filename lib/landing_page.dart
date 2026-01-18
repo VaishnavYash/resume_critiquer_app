@@ -419,9 +419,18 @@ class _LandingPageState extends State<LandingPage> {
         _analyzeButton(),
         TextButtonWidget(
           onPress: () async {
-            // final pdfBytes = await Utils.generatePdfContent(widget.response);
-            // _savedPdf = await MultipartApi().downloadPdf(pdfBytes);
-            _getNewResumeData();
+            if (_fileUploaderStore.isFileUploaded == false) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: TextWidget(
+                    text: 'Please upload a PDF file before submitting.',
+                    style: textStyle.bodyMedium!.copyWith(color: Colors.black),
+                  ),
+                ),
+              );
+            } else if (_formKey.currentState!.validate()) {
+              await _getNewResumeData();
+            }
           },
         ),
       ],
