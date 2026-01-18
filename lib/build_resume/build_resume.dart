@@ -15,20 +15,6 @@ class BuildResume extends StatefulWidget {
 }
 
 class _BuildResumeState extends State<BuildResume> {
-  // Uint8List? pdfBytes;
-  // @override
-  // void initState() {
-  //   Utils().showBlurLoader(context);
-  //   WidgetsBinding.instance.addPostFrameCallback((final _) {
-  //     _buildResume();
-  //   });
-  //   super.initState();
-  // }
-
-  // void _buildResume() async {
-  //   if (mounted) Utils().hideBlurLoader(context);
-  //   setState(() {});
-  // }
 
   @override
   Widget build(BuildContext context) {
