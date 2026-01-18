@@ -34,13 +34,13 @@ class BuildResumeApi {
       "name": "Yash Vaishnav",
       "email": "yvaishnava.vaishnava@gmail.com",
       "phone": "+91-9413042232",
-      "linkedin_url": "https://github.com/VaishnavYash",
-      "github_url": "",
-      "website": "",
+      "urls": [
+        "https://github.com/VaishnavYash"
+      ],
       "location": "",
       "designation": "Bachelor of Technology in Electrical Engineering"
     },
-    "summary": "Detail-oriented Mobile Application Developer with expertise in Flutter and Dart, focused on developing consumer-facing apps and improving performance through reusable UI components and clean architecture. Proven ability to optimize API integrations and collaborate effectively with cross-functional teams to deliver scalable solutions.",
+    "summary": "Detail-oriented Mobile Application Developer with a strong focus on building consumer-facing apps. Proficient in developing new features, optimizing performance, and collaborating effectively with cross-functional teams to deliver scalable solutions. Experienced in creating reusable UI components and implementing clean architecture principles.",
     "education": [
       {
         "institution": "Indian Institute of Technology (IIT) Ropar",
@@ -62,9 +62,9 @@ class BuildResumeApi {
           "Developed and enhanced consumer-facing features for the SBI YONO mobile app, serving over 10M users, with a focus on performance optimization and user experience.",
           "Implemented reusable UI components adhering to Material Design 3 principles, accelerating UI development by 30%.",
           "Achieved 80% unit test coverage across service layers and state management, significantly improving system reliability and stability.",
-          "Optimized API consumption using Retrofit and Coroutines, enhancing load times and error resiliency.",
-          "Conducted comprehensive debugging with ADB, Android Profiler, and LeakCanary, effectively identifying and resolving memory leaks and performance bottlenecks.",
-          "Collaborated with cross-functional teams, including designers and product managers, to streamline deployment and feature rollout in an Agile environment."
+          "Optimized API consumption through Retrofit and Coroutines, enhancing load times and error resiliency.",
+          "Executed in-depth debugging using ADB, Android Profiler, and LeakCanary, effectively identifying and resolving memory leaks and performance bottlenecks.",
+          "Collaborated with cross-functional teams, including designers, product managers, and backend engineers, to streamline deployment and feature rollout in an Agile environment."
         ],
         "location": "Pune"
       },
@@ -76,8 +76,8 @@ class BuildResumeApi {
         "topic": "Disaster Management using Deep Learning Techniques",
         "bullets": [
           "Processed over 10,000 tweets for real-time disaster classification using NLP techniques.",
-          "Developed and fine-tuned models with BERT and RoBERTa, achieving a 15% improvement in classification accuracy.",
-          "Trained and evaluated models across 1,000+ epochs, optimizing performance and retrieval time."
+          "Developed and trained models utilizing BERT and RoBERTa, achieving a 15% improvement in classification accuracy.",
+          "Conducted training and evaluation of models over 1,000+ epochs, optimizing performance and retrieval time."
         ],
         "location": ""
       }
@@ -86,12 +86,12 @@ class BuildResumeApi {
       {
         "name": "Resume Critiquer App",
         "description": [
-          "Developed an AI-driven resume analysis platform utilizing Python and OpenAI APIs to deliver ATS-optimized feedback.",
+          "Developed an AI-powered resume analysis platform leveraging Python and OpenAI APIs to deliver ATS-optimized feedback.",
           "Implemented NLP techniques to evaluate resume structure, keyword relevance, and content clarity, enhancing user experience.",
-          "Created a cross-platform Flutter frontend for seamless resume uploads and real-time feedback, improving consumer engagement.",
-          "Containerized backend services with Docker to ensure consistent deployment and scalability across environments.",
-          "Deployed and optimized the application on Google Cloud Platform (GCP), ensuring secure API integration and robust performance.",
-          "Aligned recommendations with ATS parsing rules to significantly improve resume screening accuracy."
+          "Created a cross-platform Flutter frontend for seamless resume uploads and real-time feedback, improving consumer-facing app functionality.",
+          "Containerized backend services with Docker for consistent deployment and environment isolation, ensuring scalable solutions.",
+          "Deployed and scaled the application on Google Cloud Platform (GCP) with secure API integration, optimizing performance.",
+          "Aligned recommendations with ATS parsing rules to improve resume screening accuracy and user satisfaction."
         ],
         "url": "https://github.com/VaishnavYash/resume_critiquer_app",
         "tools": [
@@ -108,16 +108,16 @@ class BuildResumeApi {
       {
         "name": "Weather Forecast App",
         "description": [
-          "Engineered a consumer-facing weather application with dynamic UI updates and real-time API integration using Dart and Flutter.",
+          "Engineered a full-featured weather app utilizing Dart and Flutter with dynamic UI updates and real-time API integration.",
           "Supported over 250,000 city locations through Geocoder and WeatherAPI, enhancing user accessibility.",
-          "Achieved an 80% reduction in crash rates by optimizing state management and implementing clean architecture for maintainability.",
-          "Utilized dependency injection to create reusable UI components, improving overall application performance and scalability."
+          "Reduced crash rates by 80% through performance optimization and state management improvements.",
+          "Implemented clean architecture and reusable UI components for maintainability and scalability."
         ],
         "url": "https://github.com/VaishnavYash/weather_forecast_flutter",
         "tools": [
           "Dart",
           "Flutter",
-          "Rest API’s",
+          "Rest APIs",
           "JSON Syntax",
           "Mobx",
           "SQLite"
@@ -128,22 +128,36 @@ class BuildResumeApi {
       }
     ],
     "skills": {
-      "technical_skills": [
-        "Kotlin", "Java", "Dart", "C++", "Python", "SQL", "Android SDK", "Fragments", "Retrofit", "Http", "Kotlin", "Java", "Dart",
-        "C++", "Python", "SQL", "Android SDK", "Fragments", "Retrofit"
+      "languages": [
+        "Kotlin",
+        "Java",
+        "Dart",
+        "Python"
+      ],
+      "android_skills": [
+        "Android SDK",
+        "Retrofit",
+        "Material Design",
+        "MVVM",
+        "Git",
+        "CI/CD"
       ],
       "tools_technologies": [
         "Android Studio",
         "Flutter",
         "GitHub",
-        "GitLab",
-        "Postman",
-        "SQLite",
-        "Room",
-        "PostgreSQL"
+        "Postman"
+      ],
+      "databases": [
+        "SQLite"
       ]
     },
-    "achievement": []
+    "achievement": [
+      "Elected Member of Students’ Legislative Council, demonstrating leadership and responsibility.",
+      "Solved over 1200 coding challenges across platforms including Leetcode (610), GeeksforGeeks (600), Codeforces, and Codechef.",
+      "Achieved a global rank of 4500 in Google Kick Start 2022.",
+      "Completed certifications in Android Development, Data Structures and Algorithms, Power-BI, and SQL."
+    ]
   }
 }''';
 

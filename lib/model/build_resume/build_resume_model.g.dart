@@ -125,9 +125,7 @@ PersonalInfo _$PersonalInfoFromJson(Map<String, dynamic> json) => PersonalInfo(
       name: json['name'] as String?,
       email: json['email'] as String?,
       phone: json['phone'] as String?,
-      linkedinUrl: json['linkedin_url'] as String?,
-      githubUrl: json['github_url'] as String?,
-      website: json['website'] as String?,
+      urls: (json['urls'] as List<dynamic>?)?.map((e) => e as String).toList(),
       location: json['location'] as String?,
       designation: json['designation'] as String?,
     );
@@ -137,9 +135,7 @@ Map<String, dynamic> _$PersonalInfoToJson(PersonalInfo instance) =>
       'name': instance.name,
       'email': instance.email,
       'phone': instance.phone,
-      'linkedin_url': instance.linkedinUrl,
-      'github_url': instance.githubUrl,
-      'website': instance.website,
+      'urls': instance.urls,
       'location': instance.location,
       'designation': instance.designation,
     };

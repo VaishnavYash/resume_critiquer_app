@@ -146,15 +146,7 @@ class NewResumePdf {
       pw.Row(
         children: [
           pw.Expanded(child: textWidget(info?.designation, size: 10)),
-          ...getUrlList(
-            [
-            if (info?.linkedinUrl != null && info!.linkedinUrl!.isNotEmpty)
-              info.linkedinUrl!,
-            if (info?.githubUrl != null && info!.githubUrl!.isNotEmpty)
-              info.linkedinUrl!,
-            if (info?.website != null && info!.website!.isNotEmpty)
-              info.website!,
-          ]),
+          ...getUrlList(info?.urls),
         ],
       ),
       // rowWidget(

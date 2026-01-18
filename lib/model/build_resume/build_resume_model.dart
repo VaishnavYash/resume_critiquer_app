@@ -122,11 +122,7 @@ class PersonalInfo {
   String? name;
   String? email;
   String? phone;
-  @JsonKey(name: "linkedin_url")
-  String? linkedinUrl;
-  @JsonKey(name: "github_url")
-  String? githubUrl;
-  String? website;
+  List<String>? urls;
   String? location;
   String? designation;
 
@@ -134,9 +130,7 @@ class PersonalInfo {
     this.name,
     this.email,
     this.phone,
-    this.linkedinUrl,
-    this.githubUrl,
-    this.website,
+    this.urls,
     this.location,
     this.designation,
   });
