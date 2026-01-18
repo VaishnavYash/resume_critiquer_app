@@ -128,40 +128,48 @@ class NewResumePdf {
     return list;
   }
 
-  static pw.Widget firstSectionTitle(final PersonalInfo? info) => pw.Column(
-    children: [
-      rowWidget(
-        info?.name,
-        info?.phone,
-        size: 16,
-        url: 'tel:${info?.phone}',
-        isUrl: info?.phone != null && info!.phone!.isNotEmpty,
-      ),
-      rowWidget(
-        info?.designation,
-        info?.email,
-        url: 'mailto:${info?.email}',
-        isUrl: info?.email != null && info!.email!.isNotEmpty,
-      ),
-      pw.Row(
-        children: [
-          pw.Expanded(child: textWidget(info?.designation, size: 10)),
-          ...getUrlList(info?.urls),
-        ],
-      ),
-      // rowWidget(
-      //   info?.designation,
-      //   'Github Profile',
-      //   url: BuildResumeUtils.safeUrl(info?.githubUrl),
-      //   isUrl: info?.githubUrl != null && info!.githubUrl!.isNotEmpty,
-      // ),
-      // rowWidget(
-      //   '',
-      //   'LinkedIn Profile',
-      //   url: BuildResumeUtils.safeUrl(info?.linkedinUrl),
-      //   isUrl: info?.linkedinUrl != null && info!.linkedinUrl!.isNotEmpty,
-      // ),
-    ],
+  static List<pw.Widget> generateList(List<pw.Widget> widgets) {
+    final list = <pw.Widget>[];
+    for (int index = 0, len = widgets.length; index < len; index++) {
+      list.add(widgets[index]);
+      if (index != len - 1) {
+        list.add(pw.Text(' | '));
+      }
+    }
+    return list;
+  }
+
+  static pw.Widget firstSectionTitle(final PersonalInfo? info) => pw.Center(
+    child: pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.center,
+      mainAxisAlignment: pw.MainAxisAlignment.center,
+      children: [
+        textWidget(info?.name, size: 18, isBold: true),
+        pw.Row(
+          crossAxisAlignment: pw.CrossAxisAlignment.center,
+          mainAxisAlignment: pw.MainAxisAlignment.center,
+          children: generateList([
+            if (info?.designation != null && info!.designation!.isNotEmpty)
+              textWidget(info.designation, size: 10),
+
+            if (info?.location != null && info!.location!.isNotEmpty)
+              textWidget(info.location, size: 10),
+
+            if (info?.email != null && info!.email!.isNotEmpty)
+              pw.UrlLink(
+                child: textWidget(info.email ?? '', size: 10),
+                destination: 'mailto:${info.email}',
+              ),
+            if (info?.phone != null && info!.phone!.isNotEmpty)
+              pw.UrlLink(
+                child: textWidget(info.phone ?? '', size: 10),
+                destination: 'tel:${info.phone}',
+              ),
+          ]),
+        ),
+        ...getUrlList(info?.urls),
+      ],
+    ),
   );
 
   static pw.Widget summaryBlock(final String summary) => pw.Column(
@@ -217,7 +225,7 @@ class NewResumePdf {
                 showBullet: experience.length == 1 ? false : true,
               ),
               rowWidget(
-                exp.topic != null
+                (exp.topic != null && exp.topic!.isNotEmpty)
                     ? '${exp.role} | Topic: ${exp.topic} '
                     : exp.role,
                 exp.location,
