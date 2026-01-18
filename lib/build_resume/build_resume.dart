@@ -5,22 +5,16 @@ import 'package:resume_critiquer_app/api/build_resume_api.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-class BuildResume extends StatefulWidget {
+class BuildResume extends StatelessWidget {
   const BuildResume({super.key, required this.pdfBytes});
 
   final Uint8List pdfBytes;
 
   @override
-  State<BuildResume> createState() => _BuildResumeState();
-}
-
-class _BuildResumeState extends State<BuildResume> {
-
-  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textStyle = Theme.of(context).textTheme;
-    // _buildResume();
+    
     return Scaffold(
       appBar: AppBar(
         title: TextWidget(
@@ -32,14 +26,14 @@ class _BuildResumeState extends State<BuildResume> {
         actions: [
           IconButton(
             onPressed: () async {
-              await BuildResumeApi().savePdfToDownloads(widget.pdfBytes);
+              await BuildResumeApi().savePdfToDownloads(pdfBytes);
             },
             icon: Icon(Icons.download),
           ),
         ],
         backgroundColor: colorScheme.tertiaryContainer,
       ),
-      body: SafeArea(child: SfPdfViewer.memory(widget.pdfBytes)),
+      body: SafeArea(child: SfPdfViewer.memory(pdfBytes)),
     );
   }
 }

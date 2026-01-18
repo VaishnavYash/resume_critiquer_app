@@ -1,21 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'save_data_response.dart';
+part of 'build_resume_save.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-HistoryATSResponse _$HistoryATSResponseFromJson(Map<String, dynamic> json) =>
-    HistoryATSResponse(
+HistoryResumeResponse _$HistoryResumeResponseFromJson(
+        Map<String, dynamic> json) =>
+    HistoryResumeResponse(
       uploadName: json['uploadName'] as String?,
       uploadResponse: json['uploadResponse'] == null
           ? null
-          : FileUploadResponse.fromJson(
+          : BuildResumeContent.fromJson(
               json['uploadResponse'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$HistoryATSResponseToJson(HistoryATSResponse instance) =>
+Map<String, dynamic> _$HistoryResumeResponseToJson(
+        HistoryResumeResponse instance) =>
     <String, dynamic>{
       'uploadName': instance.uploadName,
       'uploadResponse': instance.uploadResponse,

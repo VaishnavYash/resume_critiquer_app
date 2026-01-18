@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:resume_critiquer_app/build_resume/build_resume.dart';
+import 'package:resume_critiquer_app/build_resume/hive_code_build_resume.dart';
 import 'package:resume_critiquer_app/build_resume/new_resume_pdf.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_button_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_field_widget.dart';
 import 'package:resume_critiquer_app/framework/widgets/text_widget.dart';
 import 'package:resume_critiquer_app/model/build_resume/build_resume_model.dart';
+import 'package:resume_critiquer_app/model/other/build_resume_save.dart';
 import 'package:resume_critiquer_app/model/other/file_response_error.dart';
 import 'package:resume_critiquer_app/model/file_upload/file_upload_response.dart';
 import 'package:resume_critiquer_app/model/other/save_data_response.dart';
@@ -52,7 +54,7 @@ class _LandingPageState extends State<LandingPage> {
         final allHiveResponse = HiveCode.getAllResponses();
 
         await HiveCode.saveResponses([
-          HistoryResponse(
+          HistoryATSResponse(
             uploadName: _fileUploaderStore.file?.name ?? '',
             uploadResponse: response.fileUploadResponse!,
           ),
@@ -100,17 +102,17 @@ class _LandingPageState extends State<LandingPage> {
         _jobTextField.text,
       );
 
-      // if (response.content != null) {
-      // final allHiveResponse = HiveCode.getAllResponses();
+      if (response.content != null) {
+        final allHiveResponse = HiveBuildResume.getAllResponses();
 
-      // await HiveCode.saveResponses([
-      //   HistoryResponse(
-      //     uploadName: _fileUploaderStore.file?.name ?? '',
-      //     uploadResponse: response.fileUploadResponse!,
-      //   ),
-      //   ...allHiveResponse,
-      // ]);
-      // }
+        await HiveBuildResume.saveResponses([
+          HistoryResumeResponse(
+            uploadName: _fileUploaderStore.file?.name ?? '',
+            uploadResponse: response.content!,
+          ),
+          ...allHiveResponse,
+        ]);
+      }
       final pdfBytes = await NewResumePdf.generatePdfContent(
         response.content ?? BuildResumeContent(),
       );

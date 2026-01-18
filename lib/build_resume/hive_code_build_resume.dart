@@ -2,21 +2,21 @@ import 'dart:convert';
 
 import 'package:hive/hive.dart';
 import 'package:resume_critiquer_app/model/file_upload/file_upload_hive.dart';
-import 'package:resume_critiquer_app/model/other/save_data_response.dart';
+import 'package:resume_critiquer_app/model/other/build_resume_save.dart';
 
-class HiveCode {
+class HiveBuildResume {
   // Save Only One Response
-  static Future<void> saveOneResponses(HistoryATSResponse response) async {
-    final box = Hive.box<FileUploadATSHive>('fileUploadBox');
+  static Future<void> saveOneResponses(HistoryResumeResponse response) async {
+    final box = Hive.box<FileUploadATSHive>('newResumeBox');
     box.add(FileUploadATSHive(jsonEncode(response.toJson())));
   }
 
   // Insert at a Index
   static Future<void> insertAtIndex(
     int index,
-    HistoryATSResponse response,
+    HistoryResumeResponse response,
   ) async {
-    final box = Hive.box<FileUploadATSHive>('fileUploadBox');
+    final box = Hive.box<FileUploadATSHive>('newResumeBox');
 
     if (index >= box.length) {
       await box.add(FileUploadATSHive(jsonEncode(response.toJson())));
@@ -26,8 +26,10 @@ class HiveCode {
   }
 
   // Save Response
-  static Future<void> saveResponses(List<HistoryATSResponse> responses) async {
-    final box = Hive.box<FileUploadATSHive>('fileUploadBox');
+  static Future<void> saveResponses(
+    List<HistoryResumeResponse> responses,
+  ) async {
+    final box = Hive.box<FileUploadATSHive>('newResumeBox');
 
     await box.clear();
 
@@ -37,33 +39,33 @@ class HiveCode {
   }
 
   // Read Index-Wise
-  static HistoryATSResponse getResponseAt(int index) {
-    final box = Hive.box<FileUploadATSHive>('fileUploadBox');
+  static HistoryResumeResponse getResponseAt(int index) {
+    final box = Hive.box<FileUploadATSHive>('newResumeBox');
 
     final jsonString = box.getAt(index)!.json;
 
-    return HistoryATSResponse.fromJson(jsonDecode(jsonString));
+    return HistoryResumeResponse.fromJson(jsonDecode(jsonString));
   }
 
   // Get ALL Response
-  static List<HistoryATSResponse> getAllResponses() {
-    final box = Hive.box<FileUploadATSHive>('fileUploadBox');
+  static List<HistoryResumeResponse> getAllResponses() {
+    final box = Hive.box<FileUploadATSHive>('newResumeBox');
 
     return box.values.map((e) {
-      return HistoryATSResponse.fromJson(jsonDecode(e.json));
+      return HistoryResumeResponse.fromJson(jsonDecode(e.json));
     }).toList();
   }
 
   // Delete by Index
   static void deleteByIndex(final index) {
-    final box = Hive.box<FileUploadATSHive>('fileUploadBox');
+    final box = Hive.box<FileUploadATSHive>('newResumeBox');
     box.deleteAt(index);
     return;
   }
 
   // Update by Index
   static void updateByIndex(final index, final updatedResponse) {
-    final box = Hive.box<FileUploadATSHive>('fileUploadBox');
+    final box = Hive.box<FileUploadATSHive>('newResumeBox');
     box.putAt(index, FileUploadATSHive(jsonEncode(updatedResponse.toJson())));
 
     return;

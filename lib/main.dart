@@ -10,7 +10,8 @@ void main() async {
   await Hive.initFlutter();
 
   Hive.registerAdapter(FileUploadHiveAdapter());
-  await Hive.openBox<FileUploadHive>('fileUploadBox');
+  await Hive.openBox<FileUploadATSHive>('fileUploadBox');
+  await Hive.openBox<FileUploadATSHive>('newResumeBox');
 
   runApp(const MainApp());
 }

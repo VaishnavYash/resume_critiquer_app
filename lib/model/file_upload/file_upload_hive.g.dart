@@ -6,23 +6,21 @@ part of 'file_upload_hive.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class FileUploadHiveAdapter extends TypeAdapter<FileUploadHive> {
+class FileUploadHiveAdapter extends TypeAdapter<FileUploadATSHive> {
   @override
   final int typeId = 2;
 
   @override
-  FileUploadHive read(BinaryReader reader) {
+  FileUploadATSHive read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return FileUploadHive(
-      fields[0] as String,
-    );
+    return FileUploadATSHive(fields[0] as String);
   }
 
   @override
-  void write(BinaryWriter writer, FileUploadHive obj) {
+  void write(BinaryWriter writer, FileUploadATSHive obj) {
     writer
       ..writeByte(1)
       ..writeByte(0)
